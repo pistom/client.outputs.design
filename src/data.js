@@ -7,11 +7,11 @@ const data = {
       devices: {
         Small: {
           designs: {
-            0: {
-              fileName: '0h1.jpg'
+            A: {
+              fileName: 'A_h1.jpg'
             },
-            1: {
-              fileName: '1h1.jpg'
+            B: {
+              fileName: 'B_h1.jpg'
             }
           },
           cWidth: 360,
@@ -22,11 +22,11 @@ const data = {
         },
         Medium: {
           designs: {
-            0: {
-              fileName: '0h2.jpg'
+            A: {
+              fileName: 'A_h2.jpg'
             },
-            1: {
-              fileName: '1h2.jpg'
+            B: {
+              fileName: 'B_h2.jpg'
             }
           },
           cWidth: 720,
@@ -37,11 +37,11 @@ const data = {
         },
         Large: {
           designs: {
-            0: {
-              fileName: '0h3.jpg'
+            A: {
+              fileName: 'A_h3.jpg'
             },
-            1: {
-              fileName: '1h3.jpg'
+            B: {
+              fileName: 'B_h3.jpg'
             }
           },
           bWidth: 1200,
@@ -54,8 +54,8 @@ const data = {
                 page: 'Homepage',
                 box: [0, 0, 230, 55]
               },
-              'About Us': {
-                page: 'About Us',
+              AboutUs: {
+                page: 'AboutUs',
                 box: [610, 10, 80, 30]
               },
               Blog: {
@@ -71,15 +71,15 @@ const data = {
         }
       }
     },
-    'About Us': {
+    AboutUs: {
       devices: {
         Small: {
           designs: {
-            0: {
-              fileName: '0a1.jpg'
+            A: {
+              fileName: 'A_a1.jpg'
             },
-            1: {
-              fileName: '1a1.jpg'
+            B: {
+              fileName: 'B_a1.jpg'
             }
           },
           cWidth: 360,
@@ -90,11 +90,11 @@ const data = {
         },
         Medium: {
           designs: {
-            0: {
-              fileName: '0a2.jpg'
+            A: {
+              fileName: 'A_a2.jpg'
             },
-            1: {
-              fileName: '1a2.jpg'
+            B: {
+              fileName: 'B_a2.jpg'
             }
           },
           cWidth: 720,
@@ -105,11 +105,11 @@ const data = {
         },
         Large: {
           designs: {
-            0: {
-              fileName: '0a3.jpg'
+            A: {
+              fileName: 'A_a3.jpg'
             },
-            1: {
-              fileName: '1a3.jpg'
+            B: {
+              fileName: 'B_a3.jpg'
             }
           },
           cWidth: 1140,
@@ -123,8 +123,8 @@ const data = {
                 page: 'Homepage',
                 box: [0, 0, 230, 55]
               },
-              'About Us': {
-                page: 'About Us',
+              AboutUs: {
+                page: 'AboutUs',
                 box: [610, 10, 80, 30]
               },
               Blog: {
@@ -144,11 +144,11 @@ const data = {
       devices: {
         Small: {
           designs: {
-            0: {
-              fileName: '0b1.jpg'
+            A: {
+              fileName: 'A_b1.jpg'
             },
-            1: {
-              fileName: '1b1.jpg'
+            B: {
+              fileName: 'B_b1.jpg'
             }
           },
           cWidth: 360,
@@ -159,11 +159,11 @@ const data = {
         },
         Medium: {
           designs: {
-            0: {
-              fileName: '0b2.jpg'
+            A: {
+              fileName: 'A_b2.jpg'
             },
-            1: {
-              fileName: '1b2.jpg'
+            B: {
+              fileName: 'B_b2.jpg'
             }
           },
           cWidth: 720,
@@ -174,11 +174,11 @@ const data = {
         },
         Large: {
           designs: {
-            0: {
-              fileName: '0b3.jpg'
+            A: {
+              fileName: 'A_b3.jpg'
             },
-            1: {
-              fileName: '1b3.jpg'
+            B: {
+              fileName: 'B_b3.jpg'
             }
           },
           cWidth: 1140,
@@ -192,8 +192,8 @@ const data = {
                 page: 'Homepage',
                 box: [0, 0, 230, 55]
               },
-              'About Us': {
-                page: 'About Us',
+              AboutUs: {
+                page: 'AboutUs',
                 box: [610, 10, 80, 30]
               },
               Blog: {
@@ -213,11 +213,11 @@ const data = {
       devices: {
         Small: {
           designs: {
-            0: {
-              fileName: '0c1.jpg'
+            A: {
+              fileName: 'A_c1.jpg'
             },
-            1: {
-              fileName: '1c1.jpg'
+            B: {
+              fileName: 'B_c1.jpg'
             }
           },
           cWidth: 360,
@@ -228,11 +228,11 @@ const data = {
         },
         Medium: {
           designs: {
-            0: {
-              fileName: '0c2.jpg'
+            A: {
+              fileName: 'A_c2.jpg'
             },
-            1: {
-              fileName: '1c2.jpg'
+            B: {
+              fileName: 'B_c2.jpg'
             }
           },
           cWidth: 720,
@@ -243,11 +243,11 @@ const data = {
         },
         Large: {
           designs: {
-            0: {
-              fileName: '0c3.jpg'
+            A: {
+              fileName: 'A_c3.jpg'
             },
-            1: {
-              fileName: '1c3.jpg'
+            B: {
+              fileName: 'B_c3.jpg'
             }
           },
           cWidth: 1140,
@@ -261,8 +261,8 @@ const data = {
                 page: 'Homepage',
                 box: [0, 0, 230, 55]
               },
-              'About Us': {
-                page: 'About Us',
+              AboutUs: {
+                page: 'AboutUs',
                 box: [610, 10, 80, 30]
               },
               Blog: {

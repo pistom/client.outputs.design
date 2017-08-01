@@ -1,8 +1,8 @@
 {
-  "name": "Crayon.design",
+  "name": "outputs.design",
   "private": true,
   "version": "0.0.1",
-  "description": "Crayon Design",
+  "description": "outputs.design",
   "main": "src/index.js",
   "scripts": {
     "clean": "rimraf dist/*",
@@ -68,12 +68,14 @@
   },
   "dependencies": {
     "cross-env": "^5.0.1",
+    "query-string": "^5.0.0",
     "react": "^15.0.1",
     "react-css-modules": "^4.5.2",
     "react-dom": "^15.0.1",
     "react-hot-loader": "^3.0.0-beta.6",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.2",
+    "react-router-redux": "^4.0.8",
     "redux": "^3.7.2",
     "webpack": "^3.3.0"
   }

@@ -1,7 +1,7 @@
 {
   "generator-react-webpack": {
-    "appName": "Crayon Design",
-    "style": "sass",
+    "appName": "outputs.design",
+    "style": "scss",
     "cssmodules": true,
     "postcss": false,
     "generatedWithVersion": 4

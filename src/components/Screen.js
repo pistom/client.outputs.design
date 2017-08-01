@@ -2,12 +2,17 @@ import React from 'react';
 import cssmodules from 'react-css-modules';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 import styles from './screen.cssmodule.sass';
 import Frame from './Frame';
 
 import {
   updateFrameDimensions,
-  setCurrentDevice
+  updateScreenDimensions,
+  setCurrentDevice,
+  setCurrentPageName,
+  setCurrentDesignVersion,
+  setSplitScreen
 } from '../actions/';
 
 class Screen extends React.Component {
@@ -18,13 +23,27 @@ class Screen extends React.Component {
   }
 
   componentDidMount() {
-    this.updateFrame();
-    window.addEventListener('resize', this.updateFrame.bind(this));
+    this.updateFrames();
+    const splitScreenUrlParam = queryString.parse(this.props.location.search).splitScreen;
+    this.props.actions.setSplitScreen(parseInt(splitScreenUrlParam, 10));
+    this.props.actions.setCurrentPageName(this.props.match.params.page);
+    this.props.actions.setCurrentDesignVersion(this.props.match.params.version);
+    window.addEventListener('resize', this.updateFrames.bind(this));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.page !== nextProps.match.params.page) {
+      this.props.actions.setCurrentPageName(nextProps.match.params.page);
+    }
+    if (this.props.match.params.version !== nextProps.match.params.version) {
+      this.props.actions.setCurrentDesignVersion(nextProps.match.params.version);
+    }
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateFrame.bind(this));
+    window.removeEventListener('resize', this.updateFrames.bind(this));
   }
+
   getPageDevices() {
     const pageName = this.props.match.params.page;
     const pageDevices = this.props.data.pages[pageName].devices;
@@ -50,14 +69,14 @@ class Screen extends React.Component {
     if (pageDevicesList.length === 0) {
       pageDevicesList.push({deviceName: null});
     }
-    const windowWidth = this.props.screen.frameWidth;
+    const frameWidth = this.props.screen.frames[this.props.screen.currentDesignVersion].frameWidth;
 
     /*
      * Filter all devices who have image width > window width and
      * breakpoint width <= window width
      */
     const matchedResults = pageDevicesList.filter((device) => {
-      if (windowWidth < device.imageWidth && windowWidth >= device.breakpointWidth) {
+      if (frameWidth < device.imageWidth && frameWidth >= device.breakpointWidth) {
         return device;
       }
     });
@@ -66,7 +85,7 @@ class Screen extends React.Component {
       bestResult = matchedResults.pop();
     } else {
       for (let i = pageDevicesList.length - 1; i >= 0; i -= 1) {
-        if (pageDevicesList[i].breakpointWidth <= windowWidth) {
+        if (pageDevicesList[i].breakpointWidth <= frameWidth) {
           bestResult = pageDevicesList[i];
           break;
         }
@@ -75,23 +94,41 @@ class Screen extends React.Component {
     return bestResult.deviceName;
   }
 
-  updateFrame() {
+  updateFrames() {
     clearTimeout(this.doUpdateFrame);
     this.doUpdateFrame = setTimeout(() => {
-      const frameWidth = window.innerWidth;
-      const frameHeight = window.innerHeight;
-      const frameId = 1;
-      this.props.actions.updateFrameDimensions(frameId, frameWidth, frameHeight);
+      this.props.actions.updateScreenDimensions(window.innerWidth, window.innerHeight);
+      let frameWidth;
+      let frameHeight;
+      for (let i = 0; i <= this.props.screen.splitScreen; i += 1) {
+        const letter = String.fromCharCode(65 + i);
+        const frame = document.getElementById(`f_${letter}`);
+        frameWidth = frame.offsetWidth;
+        frameHeight = frame.offsetHeight;
+        this.props.actions.updateFrameDimensions(
+          letter,
+          frameWidth,
+          frameHeight);
+      }
+
       this.props.actions.setCurrentDevice(this.matchDeviceToViewPortWidth());
     }, 300);
   }
 
   render() {
-
     return (
       <div className="screen-component" styleName="screen-component">
-        <Frame id={0} fileName="test1" />
-        <Frame id={1} fileName="test2" />
+        <Frame
+          id={this.props.screen.currentDesignVersion}
+          screen={this.props.screen}
+          project={this.props.data}
+        />
+        { this.props.screen.splitScreen > 0 ?
+          <Frame
+            id={'B'}
+            screen={this.props.screen}
+            project={this.props.data}
+          /> : null }
       </div>
     );
   }
@@ -112,7 +149,11 @@ function mapDispatchToProps(dispatch) {
   /* Populated by react-webpack-redux:action */
   const actions = {
     updateFrameDimensions,
-    setCurrentDevice
+    updateScreenDimensions,
+    setCurrentDevice,
+    setCurrentPageName,
+    setCurrentDesignVersion,
+    setSplitScreen
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

@@ -13,14 +13,24 @@ import { connect } from 'react-redux';
 import {
   increase,
   updateFrameDimensions,
-  setCurrentDevice
+  setCurrentDevice,
+  setSplitScreen,
+  updateScreenDimensions,
+  setCurrentPageName,
+  setCurrentDesignVersion
 } from '../actions/';
 import Main from '../components/App';
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
   render() {
-    const {actions, screen, data} = this.props;
-    return <Main actions={actions} screen={screen} data={data} />;
+    const {actions, screen, data, routing} = this.props;
+    return (
+      <Main
+        actions={actions}
+        screen={screen}
+        data={data}
+        routing={routing}/>
+    );
   }
 }
 /* Populated by react-webpack-redux:reducer
@@ -32,17 +42,23 @@ App.propTypes = {
   actions: PropTypes.shape({
     increase: PropTypes.func.isRequired,
     updateFrameDimensions: PropTypes.func.isRequired,
-    setCurrentDevice: PropTypes.func.isRequired
+    setCurrentDevice: PropTypes.func.isRequired,
+    setSplitScreen: PropTypes.func.isRequired,
+    updateScreenDimensions: PropTypes.func.isRequired,
+    setCurrentPageName: PropTypes.func.isRequired,
+    setCurrentDesignVersion: PropTypes.func.isRequired
   }),
   screen: PropTypes.shape({}),
-  data: PropTypes.shape({})
+  data: PropTypes.shape({}),
+  routing: PropTypes.shape({})
 };
 function mapStateToProps(state) {
   // eslint-disable-line no-unused-vars
   /* Populated by react-webpack-redux:reducer */
   const props = {
     screen: state.screen,
-    data: state.data
+    data: state.data,
+    routing: state.routing
   };
   return props;
 }
@@ -51,7 +67,11 @@ function mapDispatchToProps(dispatch) {
   const actions = {
     increase,
     updateFrameDimensions,
-    setCurrentDevice
+    setCurrentDevice,
+    setSplitScreen,
+    updateScreenDimensions,
+    setCurrentPageName,
+    setCurrentDesignVersion
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;
