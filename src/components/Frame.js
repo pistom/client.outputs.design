@@ -1,12 +1,9 @@
 import React from 'react';
 import cssmodules from 'react-css-modules';
 import styles from './frame.cssmodule.scss';
+import Device from './Device';
 
 class Frame extends React.Component {
-
-  componentDidMount() {
-    console.log(this.props.project.pages[this.props.screen.currentPageName])
-  }
 
   calculateFrameWidth() {
     const splitScreen = this.props.screen.splitScreen;
@@ -17,6 +14,16 @@ class Frame extends React.Component {
     return `${frameWidthPercentage}%`;
   }
 
+  calculateFrameHeight() {
+    const splitScreen = this.props.screen.splitScreen;
+    let frameHeight = this.props.screen.height;
+    if (splitScreen > 0 && this.props.screen.width < this.props.screen.height) {
+      frameHeight /= (splitScreen + 1);
+    }
+    return `${frameHeight}px`;
+  }
+
+
   render() {
     let fileName;
     if (
@@ -26,11 +33,14 @@ class Frame extends React.Component {
     ) {
       fileName = this.props.project.pages[this.props.screen.currentPageName]
         .devices[this.props.screen.currentDevice]
-        .designs[this.props.screen.currentDesignVersion]
+        .designs[this.props.id]
         .fileName;
     } else {
       fileName = 'Loading...';
     }
+
+    const filePath = `url(http://localhost/crayon/API/test/${fileName})`;
+
     return (
       <div
         id={`f_${this.props.id}`}
@@ -38,13 +48,10 @@ class Frame extends React.Component {
         styleName="frame-component"
         style={{
           width: this.calculateFrameWidth(),
-          height: this.props.screen.height,
-          backgroundImage: `url(http://localhost/crayon/API/test/${fileName})`,
-          backgroundPosition: 'top center'
+          height: this.calculateFrameHeight(),
         }}
       >
-        <p>Frame {this.props.id}</p>
-
+        <Device filePath={filePath} />
       </div>
     );
   }

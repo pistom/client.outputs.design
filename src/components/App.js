@@ -9,9 +9,7 @@ import Screen from './Screen';
 import Home from './Home';
 
 class AppComponent extends React.Component {
-  componentDidMount() {
-    console.log(this.props.actions);
-  }
+
   render() {
     return (
       <Router>

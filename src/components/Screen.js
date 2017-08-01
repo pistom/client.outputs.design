@@ -101,17 +101,23 @@ class Screen extends React.Component {
       let frameWidth;
       let frameHeight;
       for (let i = 0; i <= this.props.screen.splitScreen; i += 1) {
-        const letter = String.fromCharCode(65 + i);
-        const frame = document.getElementById(`f_${letter}`);
+        let version;
+        if (this.props.screen.splitScreen === 0) {
+          version = this.props.screen.currentDesignVersion;
+        } else {
+          version = String.fromCharCode(65 + i);
+        }
+        const frame = document.getElementById(`f_${version}`);
         frameWidth = frame.offsetWidth;
         frameHeight = frame.offsetHeight;
         this.props.actions.updateFrameDimensions(
-          letter,
+          version,
           frameWidth,
           frameHeight);
       }
-
-      this.props.actions.setCurrentDevice(this.matchDeviceToViewPortWidth());
+      let currentDevice = (this.props.match.params.device) ?
+        this.props.match.params.device : this.matchDeviceToViewPortWidth();
+      this.props.actions.setCurrentDevice(currentDevice);
     }, 300);
   }
 

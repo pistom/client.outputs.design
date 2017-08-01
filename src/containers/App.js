@@ -9,7 +9,7 @@ import React, {
   PropTypes
 } from 'react';
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import {
   increase,
   updateFrameDimensions,
@@ -20,6 +20,7 @@ import {
   setCurrentDesignVersion
 } from '../actions/';
 import Main from '../components/App';
+
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
   render() {
@@ -29,7 +30,8 @@ class App extends Component {
         actions={actions}
         screen={screen}
         data={data}
-        routing={routing}/>
+        routing={routing}
+      />
     );
   }
 }
