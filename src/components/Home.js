@@ -1,13 +1,13 @@
 import React from 'react';
 import cssmodules from 'react-css-modules';
-import styles from './home.cssmodule.sass';
+import styles from './home.cssmodule.scss';
 
 class Home extends React.Component {
 
   render() {
     return (
       <div className="home-component" styleName="home-component">
-        Please edit src\components\Home.js to update this component!
+        <h1>outputs.design</h1>
       </div>
     );
   }

@@ -10,7 +10,8 @@ import {
   SET_SPLIT_SCREEN,
   UPDATE_SCREEN_DIMENSIONS,
   SET_CURRENT_PAGE_NAME,
-  SET_CURRENT_DESIGN_VERSION
+  SET_CURRENT_DESIGN_VERSION,
+  SET_DEVICE_MODE
 } from '../actions/const';
 
 const initialState = {
@@ -20,7 +21,8 @@ const initialState = {
   currentDevice: undefined,
   currentPageName: undefined,
   currentDesignVersion: undefined,
-  splitScreen: 0
+  splitScreen: 0,
+  deviceMode: false
 };
 
 function reducer(state = initialState, action) {
@@ -68,6 +70,10 @@ function reducer(state = initialState, action) {
         version = action.designVersion;
       }
       return Object.assign({}, state, {currentDesignVersion: version});
+    }
+
+    case SET_DEVICE_MODE: {
+      return Object.assign({}, state, {deviceMode: action.deviceMode})
     }
 
     default: {

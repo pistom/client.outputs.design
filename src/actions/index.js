@@ -6,6 +6,7 @@ Allows to import actions like so:
 import {action1, action2} from '../actions/'
 */
 /* Populated by react-webpack-redux:action */
+import setDeviceMode from '../actions/setDeviceMode.js';
 import setCurrentDesignVersion from '../actions/setCurrentDesignVersion.js';
 import setCurrentPageName from '../actions/setCurrentPageName.js';
 import updateScreenDimensions from '../actions/updateScreenDimensions.js';
@@ -20,6 +21,7 @@ const actions = {
   setSplitScreen,
   updateScreenDimensions,
   setCurrentPageName,
-  setCurrentDesignVersion
+  setCurrentDesignVersion,
+  setDeviceMode
 };
 module.exports = actions;

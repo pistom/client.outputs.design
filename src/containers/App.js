@@ -9,7 +9,10 @@ import React, {
   PropTypes
 } from 'react';
 import { bindActionCreators } from 'redux';
-import { connect, Provider } from 'react-redux';
+import {
+  connect,
+  Provider
+} from 'react-redux';
 import {
   increase,
   updateFrameDimensions,
@@ -17,10 +20,10 @@ import {
   setSplitScreen,
   updateScreenDimensions,
   setCurrentPageName,
-  setCurrentDesignVersion
+  setCurrentDesignVersion,
+  setDeviceMode
 } from '../actions/';
 import Main from '../components/App';
-
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
   render() {
@@ -30,8 +33,7 @@ class App extends Component {
         actions={actions}
         screen={screen}
         data={data}
-        routing={routing}
-      />
+        routing={routing}/>
     );
   }
 }
@@ -48,7 +50,8 @@ App.propTypes = {
     setSplitScreen: PropTypes.func.isRequired,
     updateScreenDimensions: PropTypes.func.isRequired,
     setCurrentPageName: PropTypes.func.isRequired,
-    setCurrentDesignVersion: PropTypes.func.isRequired
+    setCurrentDesignVersion: PropTypes.func.isRequired,
+    setDeviceMode: PropTypes.func.isRequired
   }),
   screen: PropTypes.shape({}),
   data: PropTypes.shape({}),
@@ -73,7 +76,8 @@ function mapDispatchToProps(dispatch) {
     setSplitScreen,
     updateScreenDimensions,
     setCurrentPageName,
-    setCurrentDesignVersion
+    setCurrentDesignVersion,
+    setDeviceMode
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

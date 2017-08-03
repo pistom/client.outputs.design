@@ -3,7 +3,7 @@ import cssmodules from 'react-css-modules';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
-import styles from './screen.cssmodule.sass';
+import styles from './screen.cssmodule.scss';
 import Frame from './Frame';
 
 import {
@@ -12,7 +12,8 @@ import {
   setCurrentDevice,
   setCurrentPageName,
   setCurrentDesignVersion,
-  setSplitScreen
+  setSplitScreen,
+  setDeviceMode
 } from '../actions/';
 
 class Screen extends React.Component {
@@ -37,6 +38,13 @@ class Screen extends React.Component {
     }
     if (this.props.match.params.version !== nextProps.match.params.version) {
       this.props.actions.setCurrentDesignVersion(nextProps.match.params.version);
+    }
+    // Enable responsive mode
+    if (this.props.screen.deviceMode && !nextProps.screen.deviceMode) {
+      this.updateFrames();
+    }
+    if (this.props.screen.splitScreen !== nextProps.screen.splitScreen) {
+      this.updateFrames();
     }
   }
 
@@ -115,9 +123,32 @@ class Screen extends React.Component {
           frameWidth,
           frameHeight);
       }
-      let currentDevice = (this.props.match.params.device) ?
-        this.props.match.params.device : this.matchDeviceToViewPortWidth();
+
+      let currentDevice;
+
+      if (this.props.screen.deviceMode) {
+        currentDevice = this.props.screen.currentDevice || this.props.match.params.device;
+      } else if (this.props.match.params.device) {
+        currentDevice = this.props.match.params.device;
+      } else {
+        currentDevice = this.matchDeviceToViewPortWidth();
+      }
+
+      // if (this.props.match.params.device) {
+      //   if (this.props.screen.deviceMode) {
+      //     currentDevice = this.props.match.params.device;
+      //   } else {
+      //     currentDevice = this.matchDeviceToViewPortWidth();
+      //   }
+      // } else if (this.props.screen.deviceMode) {
+      //   currentDevice = this.props.match.params.device;
+      // } else {
+      //   currentDevice = this.matchDeviceToViewPortWidth();
+      // }
+
       this.props.actions.setCurrentDevice(currentDevice);
+      this.props.match.params.device = undefined;
+
     }, 300);
   }
 
@@ -159,7 +190,8 @@ function mapDispatchToProps(dispatch) {
     setCurrentDevice,
     setCurrentPageName,
     setCurrentDesignVersion,
-    setSplitScreen
+    setSplitScreen,
+    setDeviceMode
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;
