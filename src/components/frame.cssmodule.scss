@@ -1,9 +1,10 @@
 .frame-component {
   float: left;
-  overflow: hidden;
+  overflow: auto;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  position: relative;
   &:after {
     content: "";
     display: block;

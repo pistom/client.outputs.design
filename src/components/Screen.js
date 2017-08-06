@@ -13,7 +13,8 @@ import {
   setCurrentPageName,
   setCurrentDesignVersion,
   setSplitScreen,
-  setDeviceMode
+  setDeviceMode,
+  showDevice
 } from '../actions/';
 
 class Screen extends React.Component {
@@ -21,6 +22,7 @@ class Screen extends React.Component {
   constructor() {
     super();
     this.doUpdateFrame = undefined;
+    this.initialDevice;
   }
 
   componentDidMount() {
@@ -30,6 +32,8 @@ class Screen extends React.Component {
     this.props.actions.setCurrentPageName(this.props.match.params.page);
     this.props.actions.setCurrentDesignVersion(this.props.match.params.version);
     window.addEventListener('resize', this.updateFrames.bind(this));
+    this.initialDevice = this.props.match.params.device;
+    console.log(this.initialDevice);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -39,11 +43,15 @@ class Screen extends React.Component {
     if (this.props.match.params.version !== nextProps.match.params.version) {
       this.props.actions.setCurrentDesignVersion(nextProps.match.params.version);
     }
-    // Enable responsive mode
-    if (this.props.screen.deviceMode && !nextProps.screen.deviceMode) {
+
+    if (this.props.screen.splitScreen !== nextProps.screen.splitScreen) {
       this.updateFrames();
     }
-    if (this.props.screen.splitScreen !== nextProps.screen.splitScreen) {
+    if (this.props.screen.currentPageName !== nextProps.screen.currentPageName) {
+      this.updateFrames();
+    }
+    // Enable responsive mode
+    if (this.props.screen.deviceMode && !nextProps.screen.deviceMode) {
       this.updateFrames();
     }
   }
@@ -127,27 +135,29 @@ class Screen extends React.Component {
       let currentDevice;
 
       if (this.props.screen.deviceMode) {
-        currentDevice = this.props.screen.currentDevice || this.props.match.params.device;
-      } else if (this.props.match.params.device) {
-        currentDevice = this.props.match.params.device;
+        currentDevice = this.props.screen.currentDevice || this.initialDevice;
+      } else if (this.initialDevice) {
+        currentDevice = this.initialDevice;
+        this.props.actions.setDeviceMode(true);
+        this.props.actions.showDevice(true);
       } else {
         currentDevice = this.matchDeviceToViewPortWidth();
       }
 
-      // if (this.props.match.params.device) {
-      //   if (this.props.screen.deviceMode) {
-      //     currentDevice = this.props.match.params.device;
-      //   } else {
-      //     currentDevice = this.matchDeviceToViewPortWidth();
-      //   }
-      // } else if (this.props.screen.deviceMode) {
-      //   currentDevice = this.props.match.params.device;
-      // } else {
-      //   currentDevice = this.matchDeviceToViewPortWidth();
-      // }
-
       this.props.actions.setCurrentDevice(currentDevice);
-      this.props.match.params.device = undefined;
+      this.initialDevice = undefined;
+
+      if (!this.props.screen.deviceMode) {
+        let imageWidth = this.props.data.pages[this.props.screen.currentPageName]
+          .devices[this.props.screen.currentDevice]
+          .designs[this.props.screen.currentDesignVersion]
+          .iWidth;
+        if (imageWidth < this.props.screen.frames['A'].frameWidth) {
+          this.props.actions.showDevice(true);
+        } else {
+          this.props.actions.showDevice(false);
+        }
+      }
 
     }, 300);
   }
@@ -191,7 +201,8 @@ function mapDispatchToProps(dispatch) {
     setCurrentPageName,
     setCurrentDesignVersion,
     setSplitScreen,
-    setDeviceMode
+    setDeviceMode,
+    showDevice
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

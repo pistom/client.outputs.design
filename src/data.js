@@ -2,51 +2,70 @@
 const data = {
   projectId: 'aFt2T8q71q',
   name: 'Projekt 1',
+  numberOfVersions: 2,
+  devices: {
+    Small: {
+      cWidth: 375,
+      cHeight: 667,
+    },
+    Medium: {
+      cWidth: 768,
+      cHeight: 1024
+    },
+    Large: {
+      cWidth: 1366,
+      cHeight: 768
+    }
+  },
   pages: {
     Homepage: {
       devices: {
         Small: {
           designs: {
             A: {
-              fileName: 'A_h1.jpg'
+              fileName: 'A_h1.jpg',
+              iWidth: 768,
+              iHeight: 2564
             },
             B: {
-              fileName: 'B_h1.jpg'
+              fileName: 'B_h1.jpg',
+              iWidth: 768,
+              iHeight: 2564
             }
           },
-          cWidth: 360,
-          bWidth: 360,
-          iWidth: 768,
-          cHeight: 600,
-          iHeight: 2564
+          bWidth: 375,
+
         },
         Medium: {
           designs: {
             A: {
-              fileName: 'A_h2.jpg'
+              fileName: 'A_h2.jpg',
+              iWidth: 1200,
+              iHeight: 2058
             },
             B: {
-              fileName: 'B_h2.jpg'
+              fileName: 'B_h2.jpg',
+              iWidth: 1200,
+              iHeight: 2058
             }
           },
-          cWidth: 720,
-          bWidth: 768,
-          iWidth: 1200,
-          cHeight: 1024,
-          iHeight: 2058
+
+          bWidth: 768
         },
         Large: {
           designs: {
             A: {
-              fileName: 'A_h3.jpg'
+              fileName: 'A_h3.jpg',
+              iWidth: 1920,
+              iHeight: 1747,
             },
             B: {
-              fileName: 'B_h3.jpg'
+              fileName: 'B_h3.jpg',
+              iWidth: 1920,
+              iHeight: 1747,
             }
           },
           bWidth: 1200,
-          iWidth: 1600,
-          iHeight: 1747,
           active: {
             btns: {
               Homepage: {
@@ -76,46 +95,47 @@ const data = {
         Small: {
           designs: {
             A: {
-              fileName: 'A_a1.jpg'
+              fileName: 'A_a1.jpg',
+              iWidth: 768,
+              iHeight: 1792
             },
             B: {
-              fileName: 'B_a1.jpg'
+              fileName: 'B_a1.jpg',
+              iWidth: 768,
+              iHeight: 1792
             }
           },
-          cWidth: 360,
-          bWidth: 360,
-          iWidth: 768,
-          cHeight: 600,
-          iHeight: 1792
+          bWidth: 360
         },
         Medium: {
           designs: {
             A: {
-              fileName: 'A_a2.jpg'
+              fileName: 'A_a2.jpg',
+              iWidth: 1200,
+              iHeight: 1358
             },
             B: {
-              fileName: 'B_a2.jpg'
+              fileName: 'B_a2.jpg',
+              iWidth: 1200,
+              iHeight: 1358
             }
           },
-          cWidth: 720,
-          bWidth: 768,
-          iWidth: 1200,
-          cHeight: 1024,
-          iHeight: 1358
+          bWidth: 768
         },
         Large: {
           designs: {
             A: {
-              fileName: 'A_a3.jpg'
+              fileName: 'A_a3.jpg',
+              iWidth: 1920,
+              iHeight: 1127,
             },
             B: {
-              fileName: 'B_a3.jpg'
+              fileName: 'B_a3.jpg',
+              iWidth: 1920,
+              iHeight: 1127,
             }
           },
-          cWidth: 1140,
           bWidth: 1200,
-          iWidth: 1600,
-          iHeight: 1127,
           active: {
             btns: {
               Homepage: {
@@ -145,46 +165,47 @@ const data = {
         Small: {
           designs: {
             A: {
-              fileName: 'A_b1.jpg'
+              fileName: 'A_b1.jpg',
+              iWidth: 768,
+              iHeight: 2774
             },
             B: {
-              fileName: 'B_b1.jpg'
+              fileName: 'B_b1.jpg',
+              iWidth: 768,
+              iHeight: 2774
             }
           },
-          cWidth: 360,
-          bWidth: 360,
-          iWidth: 768,
-          cHeight: 600,
-          iHeight: 2774
+          bWidth: 360
         },
         Medium: {
           designs: {
             A: {
-              fileName: 'A_b2.jpg'
+              fileName: 'A_b2.jpg',
+              iWidth: 1200,
+              iHeight: 1615
             },
             B: {
-              fileName: 'B_b2.jpg'
+              fileName: 'B_b2.jpg',
+              iWidth: 1200,
+              iHeight: 1615
             }
           },
-          cWidth: 720,
-          bWidth: 768,
-          iWidth: 1200,
-          cHeight: 1024,
-          iHeight: 1615
+          bWidth: 768
         },
         Large: {
           designs: {
             A: {
-              fileName: 'A_b3.jpg'
+              fileName: 'A_b3.jpg',
+              iWidth: 1920,
+              iHeight: 1702,
             },
             B: {
-              fileName: 'B_b3.jpg'
+              fileName: 'B_b3.jpg',
+              iWidth: 1920,
+              iHeight: 1702,
             }
           },
-          cWidth: 1140,
           bWidth: 1200,
-          iWidth: 1600,
-          iHeight: 1702,
           active: {
             btns: {
               Homepage: {
@@ -214,46 +235,47 @@ const data = {
         Small: {
           designs: {
             A: {
-              fileName: 'A_c1.jpg'
+              fileName: 'A_c1.jpg',
+              iWidth: 768,
+              iHeight: 2228
             },
             B: {
-              fileName: 'B_c1.jpg'
+              fileName: 'B_c1.jpg',
+              iWidth: 768,
+              iHeight: 2228
             }
           },
-          cWidth: 360,
-          bWidth: 360,
-          iWidth: 768,
-          cHeight: 600,
-          iHeight: 2228
+          bWidth: 360
         },
         Medium: {
           designs: {
             A: {
-              fileName: 'A_c2.jpg'
+              fileName: 'A_c2.jpg',
+              iWidth: 1200,
+              iHeight: 1901
             },
             B: {
-              fileName: 'B_c2.jpg'
+              fileName: 'B_c2.jpg',
+              iWidth: 1200,
+              iHeight: 1901
             }
           },
-          cWidth: 720,
-          bWidth: 768,
-          iWidth: 1200,
-          cHeight: 1024,
-          iHeight: 1901
+          bWidth: 768
         },
         Large: {
           designs: {
             A: {
-              fileName: 'A_c3.jpg'
+              fileName: 'A_c3.jpg',
+              iWidth: 1920,
+              iHeight: 1558,
             },
             B: {
-              fileName: 'B_c3.jpg'
+              fileName: 'B_c3.jpg',
+              iWidth: 1920,
+              iHeight: 1558,
             }
           },
-          cWidth: 1140,
           bWidth: 1200,
-          iWidth: 1600,
-          iHeight: 1558,
           active: {
             btns: {
               Homepage: {

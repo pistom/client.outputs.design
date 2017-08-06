@@ -18,7 +18,8 @@ class AppComponent extends React.Component {
     this.navigationActions = {
       splitScreen: this._handleSplitScreen.bind(this),
       changeDesignVersion: this._handleChangeDesignVersion.bind(this),
-      changeDevice: this._handleChangeDevice.bind(this)
+      changeDevice: this._handleChangeDevice.bind(this),
+      changePage: this._handleChangePage.bind(this)
     };
     this.projectId = '/projectid';
   }
@@ -40,11 +41,17 @@ class AppComponent extends React.Component {
     if (device) {
       this.props.actions.setCurrentDevice(device);
       this.props.actions.setDeviceMode(true);
+      this.props.actions.showDevice(true);
     } else {
       this.props.actions.setDeviceMode(false);
+      this.props.actions.showDevice(false);
     }
     // TODO Change mode of dispatch history.push action
     setTimeout(() => history.push(`${this.generateUrl()}`), 100);
+  }
+
+  _handleChangePage(page) {
+    this.props.actions.setCurrentPageName(page);
   }
 
   generateUrl() {
@@ -73,7 +80,13 @@ class AppComponent extends React.Component {
     return (
       <Router>
         <div>
-          <Navigation projectId={this.projectId} urlParams={this.generateUrlParams()} actions={this.navigationActions} />
+          <Navigation
+            projectId={this.projectId}
+            numberOfVersions={this.props.data.numberOfVersions}
+            pages={this.props.data.pages}
+            screen={this.props.screen}
+            urlParams={this.generateUrlParams()}
+            actions={this.navigationActions} />
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/help" render={() => <div>Help</div>} />

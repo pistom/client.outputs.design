@@ -1,20 +1,30 @@
 import React from 'react';
 import cssmodules from 'react-css-modules';
 import styles from './device.cssmodule.scss';
+import Project from './Project';
 
 class Device extends React.Component {
 
   render() {
+    const border = (this.props.showDevice) ? 1 : 0;
     return (
       <div
         className="device-component"
         styleName="device-component"
         style={{
-          backgroundImage: this.props.filePath,
-          height: '100%',
-          backgroundPosition: 'top center'
+          height: this.props.clientHeight,
+          width: this.props.clientWidth,
+          border: `${border}px solid #000`
         }}
       >
+        {this.props.filePath ?
+          <Project
+            filePath={this.props.filePath}
+            imageHeight={this.props.imageHeight}
+            imageWidth={this.props.imageWidth}
+          /> :
+          <div>No file found</div>
+        }
       </div>
     );
   }

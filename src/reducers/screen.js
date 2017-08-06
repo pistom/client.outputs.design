@@ -11,7 +11,8 @@ import {
   UPDATE_SCREEN_DIMENSIONS,
   SET_CURRENT_PAGE_NAME,
   SET_CURRENT_DESIGN_VERSION,
-  SET_DEVICE_MODE
+  SET_DEVICE_MODE,
+  SHOW_DEVICE
 } from '../actions/const';
 
 const initialState = {
@@ -22,7 +23,8 @@ const initialState = {
   currentPageName: undefined,
   currentDesignVersion: undefined,
   splitScreen: 0,
-  deviceMode: false
+  deviceMode: false,
+  showDevice: false
 };
 
 function reducer(state = initialState, action) {
@@ -74,6 +76,10 @@ function reducer(state = initialState, action) {
 
     case SET_DEVICE_MODE: {
       return Object.assign({}, state, {deviceMode: action.deviceMode})
+    }
+
+    case SHOW_DEVICE: {
+      return Object.assign({}, state, {showDevice: action.showDevice})
     }
 
     default: {
