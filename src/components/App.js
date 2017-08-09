@@ -19,7 +19,7 @@ class AppComponent extends React.Component {
       splitScreen: this._handleSplitScreen.bind(this),
       changeDesignVersion: this._handleChangeDesignVersion.bind(this),
       changeDevice: this._handleChangeDevice.bind(this),
-      changePage: this._handleChangePage.bind(this)
+      setZoom: this._handleSetZoom.bind(this)
     };
     this.projectId = '/projectid';
   }
@@ -45,13 +45,14 @@ class AppComponent extends React.Component {
     } else {
       this.props.actions.setDeviceMode(false);
       this.props.actions.showDevice(false);
+      this.props.actions.setZoom(1, false);
     }
     // TODO Change mode of dispatch history.push action
     setTimeout(() => history.push(`${this.generateUrl()}`), 100);
   }
 
-  _handleChangePage(page) {
-    this.props.actions.setCurrentPageName(page);
+  _handleSetZoom(zoom) {
+    this.props.actions.setZoom(zoom);
   }
 
   generateUrl() {

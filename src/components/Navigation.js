@@ -6,36 +6,56 @@ import styles from './navigation.cssmodule.scss';
 const Navigation = (props) => {
 
   return (
-    <ul styleName="navigation-component" className="navigation-component">
-      <li><NavLink exact to="/" activeStyle={{color:'brown'}}>Home</NavLink></li>
-
-      {Object.keys(props.pages).map((pageName) => {
-        return (<li key={pageName}>
-          <NavLink
-            activeStyle={{color:'brown'}}
-            to={`${props.projectId}/${pageName}/${props.urlParams}`}>
-            {pageName}
-          </NavLink>
-        </li>);
-      })}
-
-      {props.screen.currentPageName ?
-        Object.keys(props.pages[props.screen.currentPageName].devices).map((device => {
-          return (<li key={device}>
-            <span
-              onClick={() => props.actions.changeDevice(device)}
-              className={props.screen.currentDevice === device ? 'active' : null}
-              style={props.screen.currentDevice === device ? {color: 'brown'} : null}
+    <div styleName="navigation-component" className="navigation-component">
+      <ul>
+        <li><NavLink exact to="/" activeStyle={{color:'brown'}}>Home</NavLink></li>
+      </ul>
+      <ul>
+        {Object.keys(props.pages).map((pageName) => {
+          return (<li key={pageName}>
+            <NavLink
+              activeStyle={{color:'brown'}}
+              to={`${props.projectId}/${pageName}/${props.urlParams}`}
             >
-              {device}
-            </span>
+
+              {pageName}
+            </NavLink>
           </li>);
-        })) : null
-      }
+        })}
+      </ul>
+
+      <ul>
+        {props.screen.currentPageName ?
+          Object.keys(props.pages[props.screen.currentPageName].devices).map((device => {
+            return (<li key={device}>
+              <span
+                onClick={() => props.actions.changeDevice(device)}
+                className={props.screen.currentDevice === device ? 'active' : null}
+                style={props.screen.currentDevice === device ? {color: 'brown'} : null}
+              >
+                {device}
+              </span>
+            </li>);
+          })) : null
+        }
+        {props.screen.deviceMode ?
+          <li><span onClick={() => props.actions.changeDevice(false)} >Responsive</span></li> : null
+        }
+      </ul>
+
 
       {props.screen.deviceMode ?
-        <li><span onClick={() => props.actions.changeDevice(false)} >Responsive</span></li> : null
+        (
+          <ul>
+            <li><span onClick={() => props.actions.setZoom(.5) }>0.50</span></li>
+            <li><span onClick={() => props.actions.setZoom(.75) }>0.75</span></li>
+            <li><span onClick={() => props.actions.setZoom(1) }>1.00</span></li>
+            <li><span onClick={() => props.actions.setZoom(1.5) }>1.50</span></li>
+            <li><span onClick={() => props.actions.setZoom(2) }>2.00</span></li>
+          </ul>
+        ) : null
       }
+
 
       {props.numberOfVersions > 1 ?
         (
@@ -47,7 +67,7 @@ const Navigation = (props) => {
           </ul>
         ) : null}
 
-    </ul>
+    </div>
   );
 };
 

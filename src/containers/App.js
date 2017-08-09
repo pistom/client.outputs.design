@@ -22,7 +22,8 @@ import {
   setCurrentPageName,
   setCurrentDesignVersion,
   setDeviceMode,
-  showDevice
+  showDevice,
+  setZoom
 } from '../actions/';
 import Main from '../components/App';
 /* Populated by react-webpack-redux:reducer */
@@ -53,7 +54,8 @@ App.propTypes = {
     setCurrentPageName: PropTypes.func.isRequired,
     setCurrentDesignVersion: PropTypes.func.isRequired,
     setDeviceMode: PropTypes.func.isRequired,
-    showDevice: PropTypes.func.isRequired
+    showDevice: PropTypes.func.isRequired,
+    setZoom: PropTypes.func.isRequired
   }),
   screen: PropTypes.shape({}),
   data: PropTypes.shape({}),
@@ -80,7 +82,8 @@ function mapDispatchToProps(dispatch) {
     setCurrentPageName,
     setCurrentDesignVersion,
     setDeviceMode,
-    showDevice
+    showDevice,
+    setZoom
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

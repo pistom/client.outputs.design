@@ -14,7 +14,8 @@ import {
   setCurrentDesignVersion,
   setSplitScreen,
   setDeviceMode,
-  showDevice
+  showDevice,
+  setZoom
 } from '../actions/';
 
 class Screen extends React.Component {
@@ -33,7 +34,6 @@ class Screen extends React.Component {
     this.props.actions.setCurrentDesignVersion(this.props.match.params.version);
     window.addEventListener('resize', this.updateFrames.bind(this));
     this.initialDevice = this.props.match.params.device;
-    console.log(this.initialDevice);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,10 +48,23 @@ class Screen extends React.Component {
       this.updateFrames();
     }
     if (this.props.screen.currentPageName !== nextProps.screen.currentPageName) {
+
+      let devices = document.getElementsByClassName('project-component');
+      if (devices && devices.length > 0) {
+        for (let i = 0; i <= devices.length - 1; i++) {
+          devices[i].scrollTop = 0;
+        }
+      }
       this.updateFrames();
     }
     // Enable responsive mode
     if (this.props.screen.deviceMode && !nextProps.screen.deviceMode) {
+      this.updateFrames();
+    }
+    if (this.props.screen.currentDevice !== nextProps.screen.currentDevice) {
+      this.updateFrames();
+    }
+    if (this.props.screen.showDevice !== nextProps.screen.showDevice) {
       this.updateFrames();
     }
   }
@@ -110,6 +123,27 @@ class Screen extends React.Component {
     return bestResult.deviceName;
   }
 
+  setScale() {
+    const frameHeight = this.props.screen.frames['A'].frameHeight;
+    const frameWidth = this.props.screen.frames['A'].frameWidth;
+    const deviceHeight = (this.props.screen.currentDevice) ?
+      this.props.data.devices[this.props.screen.currentDevice].cHeight : null;
+    const deviceWidth = (this.props.screen.currentDevice) ?
+      this.props.data.devices[this.props.screen.currentDevice].cWidth : null;
+    const heightDiff = (frameHeight / (deviceHeight + 200));
+    const widthDiff = (frameWidth / (deviceWidth + 200));
+    let diff = 1;
+    if (heightDiff < 1 || widthDiff < 1) {
+      if (heightDiff < widthDiff) {
+        diff = heightDiff;
+      } else {
+        diff = widthDiff;
+      }
+
+    }
+    return diff;
+  }
+
   updateFrames() {
     clearTimeout(this.doUpdateFrame);
     this.doUpdateFrame = setTimeout(() => {
@@ -133,7 +167,6 @@ class Screen extends React.Component {
       }
 
       let currentDevice;
-
       if (this.props.screen.deviceMode) {
         currentDevice = this.props.screen.currentDevice || this.initialDevice;
       } else if (this.initialDevice) {
@@ -156,8 +189,14 @@ class Screen extends React.Component {
           this.props.actions.showDevice(true);
         } else {
           this.props.actions.showDevice(false);
+          this.props.actions.setZoom(1, false);
         }
       }
+
+      if (this.props.screen.showDevice && !this.props.screen.manualZoom) {
+        this.props.actions.setZoom(this.setScale(), false);
+      }
+
 
     }, 300);
   }
@@ -169,12 +208,14 @@ class Screen extends React.Component {
           id={this.props.screen.currentDesignVersion}
           screen={this.props.screen}
           project={this.props.data}
+          actions={this.props.actions}
         />
         { this.props.screen.splitScreen > 0 ?
           <Frame
             id={'B'}
             screen={this.props.screen}
             project={this.props.data}
+            actions={this.props.actions}
           /> : null }
       </div>
     );
@@ -202,7 +243,8 @@ function mapDispatchToProps(dispatch) {
     setCurrentDesignVersion,
     setSplitScreen,
     setDeviceMode,
-    showDevice
+    showDevice,
+    setZoom
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

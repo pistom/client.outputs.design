@@ -12,7 +12,8 @@ import {
   SET_CURRENT_PAGE_NAME,
   SET_CURRENT_DESIGN_VERSION,
   SET_DEVICE_MODE,
-  SHOW_DEVICE
+  SHOW_DEVICE,
+  SET_ZOOM
 } from '../actions/const';
 
 const initialState = {
@@ -24,7 +25,9 @@ const initialState = {
   currentDesignVersion: undefined,
   splitScreen: 0,
   deviceMode: false,
-  showDevice: false
+  showDevice: false,
+  zoom: 1,
+  manualZoom: false
 };
 
 function reducer(state = initialState, action) {
@@ -75,11 +78,15 @@ function reducer(state = initialState, action) {
     }
 
     case SET_DEVICE_MODE: {
-      return Object.assign({}, state, {deviceMode: action.deviceMode})
+      return Object.assign({}, state, {deviceMode: action.deviceMode});
     }
 
     case SHOW_DEVICE: {
-      return Object.assign({}, state, {showDevice: action.showDevice})
+      return Object.assign({}, state, {showDevice: action.showDevice});
+    }
+
+    case SET_ZOOM: {
+      return Object.assign({}, state, {zoom: action.zoom, manualZoom: action.manual});
     }
 
     default: {

@@ -4,9 +4,31 @@ import styles from './device.cssmodule.scss';
 import Project from './Project';
 
 class Device extends React.Component {
+  constructor(){
+    super();
+    this.devices = {
+      Small: {iWidth: 800, iHeight: 1000, fileName: 'http://localhost/crayon/_images/smartphone.png'},
+      Medium: {iWidth: 1100, iHeight: 1400, fileName: 'http://localhost/crayon/_images/tablet.png'},
+      Large: {iWidth: 1600, iHeight: 1200, fileName: 'http://localhost/crayon/_images/desktop.png'}
+    };
+  }
+
+  calculateTransform() {
+    const zoom = this.props.zoom;
+    const top =  50;
+    const left = 50;
+    const translateX = -50 / zoom;
+    const translateY = -50 / zoom;
+    // TODO Show top and left area of zoomed-in devices
+    return {
+      transform: `scale(${zoom}) translate(${translateX}%, ${translateY}%)`,
+      top: `${top}%`,
+      left: `${left}%`,
+    };
+  }
+
 
   render() {
-    const border = (this.props.showDevice) ? 1 : 0;
     return (
       <div
         className="device-component"
@@ -14,9 +36,20 @@ class Device extends React.Component {
         style={{
           height: this.props.clientHeight,
           width: this.props.clientWidth,
-          border: `${border}px solid #000`
+          ...this.calculateTransform()
         }}
       >
+        {this.props.showDevice && this.props.currentDevice ?
+          <div
+            styleName="device-component__device"
+            id={`device_${this.props.frameId}`}
+            style={{
+              backgroundImage: `url(${this.devices[this.props.currentDevice].fileName})`,
+              height: this.devices[this.props.currentDevice].iHeight,
+              width: this.devices[this.props.currentDevice].iWidth
+            }}
+          /> : null
+        }
         {this.props.filePath ?
           <Project
             filePath={this.props.filePath}

@@ -11,7 +11,7 @@
     margin-left: 50%;
   }
   &__activeLayer {
-    background: transparentize(violet, .85);
+    //background: transparentize(violet, .85);
     position: absolute;
     z-index: 1;
     transform: translateX(-50%);

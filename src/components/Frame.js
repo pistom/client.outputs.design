@@ -11,7 +11,7 @@ class Frame extends React.Component {
     if (this.props.screen.width >= this.props.screen.height) {
       frameWidthPercentage = (frameWidthPercentage / (splitScreen + 1));
     }
-    return `${frameWidthPercentage}%`;
+    return frameWidthPercentage;
   }
 
   calculateFrameHeight() {
@@ -20,7 +20,7 @@ class Frame extends React.Component {
     if (splitScreen > 0 && this.props.screen.width < this.props.screen.height) {
       frameHeight = (frameHeight / (splitScreen + 1)) - 10;
     }
-    return `${frameHeight}px`;
+    return frameHeight;
   }
 
 
@@ -71,9 +71,14 @@ class Frame extends React.Component {
     }
 
     // TODO Change gap generating
-    let splitGap = false;
-    if (this.calculateFrameWidth() !== '100%' && this.props.id === 'A') {
-      splitGap = true;
+    let horizontalSplitGap = false;
+    let verticalSplitGap = false;
+    if (this.calculateFrameWidth() !== 100 && this.props.id === 'A') {
+      horizontalSplitGap = true;
+    }
+
+    if (this.calculateFrameHeight() !== this.props.screen.height && this.props.id === 'A') {
+      verticalSplitGap = true;
     }
 
     return (
@@ -82,9 +87,11 @@ class Frame extends React.Component {
         className="frame-component"
         styleName="frame-component"
         style={{
-          width: this.calculateFrameWidth(),
-          height: this.calculateFrameHeight(),
-          borderRight: splitGap ? '2px solid #000' : null
+          width: `${this.calculateFrameWidth()}%`,
+          height: `${this.calculateFrameHeight()}px`,
+          borderRight: horizontalSplitGap ? '2px solid #000' : null,
+          borderBottom: verticalSplitGap ? '2px solid #000' : null,
+          backgroundColor: '#d24a44',
         }}
       >
         <Device
@@ -93,7 +100,11 @@ class Frame extends React.Component {
           clientHeight={clientHeight}
           imageHeight={imageHeight}
           imageWidth={imageWidth}
+          screenWidth={this.calculateFrameWidth()}
+          screenHeight={this.calculateFrameHeight()}
           showDevice={this.props.screen.showDevice}
+          currentDevice={this.props.screen.currentDevice}
+          zoom={this.props.screen.zoom}
         />
       </div>
     );
