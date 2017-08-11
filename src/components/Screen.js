@@ -15,7 +15,8 @@ import {
   setSplitScreen,
   setDeviceMode,
   showDevice,
-  setZoom
+  setZoom,
+  getImage
 } from '../actions/';
 
 class Screen extends React.Component {
@@ -163,7 +164,23 @@ class Screen extends React.Component {
         this.props.actions.updateFrameDimensions(
           version,
           frameWidth,
-          frameHeight);
+          frameHeight
+        );
+
+        if (
+          this.props.data.pages[this.props.screen.currentPageName]
+            .devices[this.props.screen.currentDevice]
+        ) {
+          const imagePath = this.props.data.pages[this.props.screen.currentPageName]
+            .devices[this.props.screen.currentDevice]
+            .designs[version]
+            .fileName;
+          if (imagePath) {
+            const imgFullPath = `http://api.outputs.cinquiemecrayon.eu/getImage.php?image=${this.props.data.projectId}/${imagePath}`;
+            this.props.actions.getImage(version, imgFullPath);
+          }
+        }
+
       }
 
       let currentDevice;
@@ -197,7 +214,6 @@ class Screen extends React.Component {
         this.props.actions.setZoom(this.setScale(), false);
       }
 
-
     }, 300);
   }
 
@@ -208,6 +224,7 @@ class Screen extends React.Component {
           id={this.props.screen.currentDesignVersion}
           screen={this.props.screen}
           project={this.props.data}
+          images={this.props.images}
           actions={this.props.actions}
         />
         { this.props.screen.splitScreen > 0 ?
@@ -215,6 +232,7 @@ class Screen extends React.Component {
             id={'B'}
             screen={this.props.screen}
             project={this.props.data}
+            images={this.props.images}
             actions={this.props.actions}
           /> : null }
       </div>
@@ -229,12 +247,12 @@ Screen.defaultProps = {};
 function mapStateToProps(state) {
   const props = {
     screen: state.screen,
-    data: state.data
+    data: state.data,
+    images: state.images
   };
   return props;
 }
 function mapDispatchToProps(dispatch) {
-  /* Populated by react-webpack-redux:action */
   const actions = {
     updateFrameDimensions,
     updateScreenDimensions,
@@ -244,7 +262,8 @@ function mapDispatchToProps(dispatch) {
     setSplitScreen,
     setDeviceMode,
     showDevice,
-    setZoom
+    setZoom,
+    getImage
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

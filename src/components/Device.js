@@ -7,9 +7,12 @@ class Device extends React.Component {
   constructor(){
     super();
     this.devices = {
-      Small: {iWidth: 800, iHeight: 1000, fileName: 'http://localhost/crayon/_images/smartphone.png'},
-      Medium: {iWidth: 1100, iHeight: 1400, fileName: 'http://localhost/crayon/_images/tablet.png'},
-      Large: {iWidth: 1600, iHeight: 1200, fileName: 'http://localhost/crayon/_images/desktop.png'}
+      // Small: {iWidth: 800, iHeight: 1000, fileName: 'http://localhost/crayon/_images/smartphone.png'},
+      // Medium: {iWidth: 1100, iHeight: 1400, fileName: 'http://localhost/crayon/_images/tablet.png'},
+      // Large: {iWidth: 1600, iHeight: 1200, fileName: 'http://localhost/crayon/_images/desktop.png'}
+      Small: {iWidth: 800, iHeight: 1000, fileName: 'http://api.outputs.cinquiemecrayon.eu/devices/smartphone.png'},
+      Medium: {iWidth: 1100, iHeight: 1400, fileName: 'http://api.outputs.cinquiemecrayon.eu/devices/tablet.png'},
+      Large: {iWidth: 1600, iHeight: 1200, fileName: 'http://api.outputs.cinquiemecrayon.eu/devices/desktop.png'}
     };
   }
 
@@ -29,6 +32,8 @@ class Device extends React.Component {
 
 
   render() {
+    const imagePath = (this.props.images && this.props.images[this.props.frameId]) ?
+      this.props.images[this.props.frameId].objectURL : null;
     return (
       <div
         className="device-component"
@@ -50,9 +55,9 @@ class Device extends React.Component {
             }}
           /> : null
         }
-        {this.props.filePath ?
+        {imagePath ?
           <Project
-            filePath={this.props.filePath}
+            imagePath={imagePath}
             imageHeight={this.props.imageHeight}
             imageWidth={this.props.imageWidth}
           /> :

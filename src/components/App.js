@@ -79,7 +79,7 @@ class AppComponent extends React.Component {
     };
 
     return (
-      <Router>
+      <Router basePatch>
         <div>
           <Navigation
             projectId={this.projectId}

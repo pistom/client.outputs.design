@@ -23,19 +23,21 @@ import {
   setCurrentDesignVersion,
   setDeviceMode,
   showDevice,
-  setZoom
+  setZoom,
+  getImage
 } from '../actions/';
 import Main from '../components/App';
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
   render() {
-    const {actions, screen, data, routing} = this.props;
+    const {actions, screen, data, routing, images} = this.props;
     return (
       <Main
         actions={actions}
         screen={screen}
         data={data}
-        routing={routing}/>
+        routing={routing}
+        images={images}/>
     );
   }
 }
@@ -55,11 +57,13 @@ App.propTypes = {
     setCurrentDesignVersion: PropTypes.func.isRequired,
     setDeviceMode: PropTypes.func.isRequired,
     showDevice: PropTypes.func.isRequired,
-    setZoom: PropTypes.func.isRequired
+    setZoom: PropTypes.func.isRequired,
+    getImage: PropTypes.func.isRequired
   }),
   screen: PropTypes.shape({}),
   data: PropTypes.shape({}),
-  routing: PropTypes.shape({})
+  routing: PropTypes.shape({}),
+  images: PropTypes.shape({})
 };
 function mapStateToProps(state) {
   // eslint-disable-line no-unused-vars
@@ -67,7 +71,8 @@ function mapStateToProps(state) {
   const props = {
     screen: state.screen,
     data: state.data,
-    routing: state.routing
+    routing: state.routing,
+    images: state.images
   };
   return props;
 }
@@ -83,7 +88,8 @@ function mapDispatchToProps(dispatch) {
     setCurrentDesignVersion,
     setDeviceMode,
     showDevice,
-    setZoom
+    setZoom,
+    getImage
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

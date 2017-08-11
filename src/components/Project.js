@@ -8,7 +8,7 @@ const Project = props => (
     <div
       styleName="project-component__design"
       style={{
-        backgroundImage: props.filePath,
+        backgroundImage: `url(${props.imagePath})`,
         backgroundPosition: 'top center',
         height: props.imageHeight,
         width: props.imageWidth

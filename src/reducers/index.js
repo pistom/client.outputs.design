@@ -9,11 +9,13 @@
  */
 /* Populated by react-webpack-redux:reducer */
 import { combineReducers } from 'redux';
+import images from '../reducers/images.js';
 import data from '../reducers/data.js';
 import screen from './screen.js';
 const reducers = {
   screen,
-  data
+  data,
+  images
 };
 const combined = combineReducers(reducers);
 module.exports = combined;

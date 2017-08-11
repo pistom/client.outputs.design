@@ -23,9 +23,7 @@ class Frame extends React.Component {
     return frameHeight;
   }
 
-
   render() {
-    let fileName;
     let imageHeight;
     let imageWidth;
     try {
@@ -37,19 +35,19 @@ class Frame extends React.Component {
         const project = this.props.project.pages[this.props.screen.currentPageName]
           .devices[this.props.screen.currentDevice]
           .designs[this.props.id];
-        fileName = project.fileName;
         imageHeight = project.iHeight;
         imageWidth = project.iWidth;
       } else {
-        fileName = null;
         imageHeight = null;
         imageWidth = null;
       }
     } catch (Err) {
-      fileName = null;
     }
-
-    const filePath = (fileName) ? `url(http://localhost/crayon/API/test/${fileName})` : null;
+    // const filePath = (fileName) ? `url(http://localhost/crayon/API/test/${fileName})` : null;
+    // const filePath = (fileName) ? `http://api.outputs.cinquiemecrayon.eu/${this.props.project.projectId}/${fileName}` : null;
+    // if (filePath) {
+    //   this.props.actions.getImage(filePath);
+    // }
 
     let clientWidth;
     let clientHeight;
@@ -95,7 +93,8 @@ class Frame extends React.Component {
         }}
       >
         <Device
-          filePath={filePath}
+          frameId={this.props.id}
+          images={this.props.images}
           clientWidth={clientWidth}
           clientHeight={clientHeight}
           imageHeight={imageHeight}
