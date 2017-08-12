@@ -2,7 +2,6 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Redirect,
   Switch
 } from 'react-router-dom';
 import history from '../history';
@@ -15,14 +14,19 @@ import PageNotFound from './404';
 class AppComponent extends React.Component {
   constructor() {
     super();
+    this.projectId = 'aFt2T8q71q';
     this.navigationActions = {
       splitScreen: this._handleSplitScreen.bind(this),
       changeDesignVersion: this._handleChangeDesignVersion.bind(this),
       changeDevice: this._handleChangeDevice.bind(this),
       setZoom: this._handleSetZoom.bind(this)
     };
-    this.projectId = '/projectid';
   }
+
+  componentDidMount() {
+    this.props.actions.getProjectData(this.projectId);
+  }
+
   _handleSplitScreen(split) {
     this.props.actions.setSplitScreen(split);
     this.props.actions.setCurrentDesignVersion('A');
@@ -56,7 +60,7 @@ class AppComponent extends React.Component {
   }
 
   generateUrl() {
-    return `${this.projectId}/${this.props.screen.currentPageName}/${this.generateUrlParams()}`;
+    return `/project/${this.projectId}/${this.props.screen.currentPageName}/${this.generateUrlParams()}`;
   }
 
   generateUrlParams() {
@@ -73,28 +77,27 @@ class AppComponent extends React.Component {
   }
 
   render() {
-    this.screenInfo = {
-      currentDesignVersion: this.props.screen.currentDesignVersion,
-      currentPageName: this.props.screen.currentPageName
-    };
-
     return (
-      <Router basePatch>
-        <div>
-          <Navigation
-            projectId={this.projectId}
-            numberOfVersions={this.props.data.numberOfVersions}
-            pages={this.props.data.pages}
-            screen={this.props.screen}
-            urlParams={this.generateUrlParams()}
-            actions={this.navigationActions} />
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/help" render={() => <div>Help</div>} />
-            <Route path={`${this.projectId}/:page/:version?/:device?`} component={Screen} />
-            <Route component={PageNotFound} />
-          </Switch>
-        </div>
+      <Router>
+        { !this.props.data.isLoadingData && !this.props.data.loadingDataError ?
+          (
+            <div>
+              <Navigation
+                projectId={this.projectId}
+                numberOfVersions={this.props.data.numberOfVersions}
+                pages={this.props.data.pages}
+                screen={this.props.screen}
+                urlParams={this.generateUrlParams()}
+                actions={this.navigationActions} />
+              <Switch>
+                <Route path="/" exact component={Home} />
+                <Route path="/help" render={() => <div>Help</div>} />
+                <Route path={`/project/${this.projectId}/:page/:version?/:device?`} component={Screen} />
+                <Route component={PageNotFound} />
+              </Switch>
+            </div>
+          ) : null
+        }
       </Router>
 
     );

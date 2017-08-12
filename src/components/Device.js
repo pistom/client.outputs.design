@@ -51,12 +51,13 @@ class Device extends React.Component {
             style={{
               backgroundImage: `url(${this.devices[this.props.currentDevice].fileName})`,
               height: this.devices[this.props.currentDevice].iHeight,
-              width: this.devices[this.props.currentDevice].iWidth
+              width: this.devices[this.props.currentDevice].iWidth,
             }}
           /> : null
         }
         {imagePath ?
           <Project
+            isLoading={this.props.isLoading}
             imagePath={imagePath}
             imageHeight={this.props.imageHeight}
             imageWidth={this.props.imageWidth}

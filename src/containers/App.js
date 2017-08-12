@@ -14,7 +14,6 @@ import {
   Provider
 } from 'react-redux';
 import {
-  increase,
   updateFrameDimensions,
   setCurrentDevice,
   setSplitScreen,
@@ -24,7 +23,9 @@ import {
   setDeviceMode,
   showDevice,
   setZoom,
-  getImage
+  getImage,
+  getProjectData,
+  setLoadingImage
 } from '../actions/';
 import Main from '../components/App';
 /* Populated by react-webpack-redux:reducer */
@@ -48,7 +49,6 @@ class App extends Component {
  */
 App.propTypes = {
   actions: PropTypes.shape({
-    increase: PropTypes.func.isRequired,
     updateFrameDimensions: PropTypes.func.isRequired,
     setCurrentDevice: PropTypes.func.isRequired,
     setSplitScreen: PropTypes.func.isRequired,
@@ -58,7 +58,9 @@ App.propTypes = {
     setDeviceMode: PropTypes.func.isRequired,
     showDevice: PropTypes.func.isRequired,
     setZoom: PropTypes.func.isRequired,
-    getImage: PropTypes.func.isRequired
+    getImage: PropTypes.func.isRequired,
+    getProjectData: PropTypes.func.isRequired,
+    setLoadingImage: PropTypes.func.isRequired
   }),
   screen: PropTypes.shape({}),
   data: PropTypes.shape({}),
@@ -79,7 +81,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   /* Populated by react-webpack-redux:action */
   const actions = {
-    increase,
     updateFrameDimensions,
     setCurrentDevice,
     setSplitScreen,
@@ -89,7 +90,9 @@ function mapDispatchToProps(dispatch) {
     setDeviceMode,
     showDevice,
     setZoom,
-    getImage
+    getImage,
+    getProjectData,
+    setLoadingImage
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

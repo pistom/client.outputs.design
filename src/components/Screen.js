@@ -16,7 +16,8 @@ import {
   setDeviceMode,
   showDevice,
   setZoom,
-  getImage
+  getImage,
+  setLoadingImage
 } from '../actions/';
 
 class Screen extends React.Component {
@@ -49,13 +50,13 @@ class Screen extends React.Component {
       this.updateFrames();
     }
     if (this.props.screen.currentPageName !== nextProps.screen.currentPageName) {
-
       let devices = document.getElementsByClassName('project-component');
       if (devices && devices.length > 0) {
         for (let i = 0; i <= devices.length - 1; i++) {
           devices[i].scrollTop = 0;
         }
       }
+      this.props.actions.setLoadingImage(true);
       this.updateFrames();
     }
     // Enable responsive mode
@@ -66,6 +67,9 @@ class Screen extends React.Component {
       this.updateFrames();
     }
     if (this.props.screen.showDevice !== nextProps.screen.showDevice) {
+      this.updateFrames();
+    }
+    if (this.props.screen.currentDesignVersion !== nextProps.screen.currentDesignVersion) {
       this.updateFrames();
     }
   }
@@ -140,7 +144,6 @@ class Screen extends React.Component {
       } else {
         diff = widthDiff;
       }
-
     }
     return diff;
   }
@@ -161,11 +164,7 @@ class Screen extends React.Component {
         const frame = document.getElementById(`f_${version}`);
         frameWidth = frame.offsetWidth;
         frameHeight = frame.offsetHeight;
-        this.props.actions.updateFrameDimensions(
-          version,
-          frameWidth,
-          frameHeight
-        );
+
 
         if (
           this.props.data.pages[this.props.screen.currentPageName]
@@ -180,6 +179,12 @@ class Screen extends React.Component {
             this.props.actions.getImage(version, imgFullPath);
           }
         }
+
+        this.props.actions.updateFrameDimensions(
+          version,
+          frameWidth,
+          frameHeight
+        );
 
       }
 
@@ -214,7 +219,7 @@ class Screen extends React.Component {
         this.props.actions.setZoom(this.setScale(), false);
       }
 
-    }, 300);
+    }, 50);
   }
 
   render() {
@@ -263,7 +268,8 @@ function mapDispatchToProps(dispatch) {
     setDeviceMode,
     showDevice,
     setZoom,
-    getImage
+    getImage,
+    setLoadingImage
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

@@ -25,7 +25,8 @@ const data = {
             A: {
               fileName: 'A_h1.jpg',
               iWidth: 768,
-              iHeight: 2564
+              iHeight: 2564,
+              density: 2
             },
             B: {
               fileName: 'B_h1.jpg',

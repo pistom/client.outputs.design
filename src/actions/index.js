@@ -6,6 +6,8 @@ Allows to import actions like so:
 import {action1, action2} from '../actions/'
 */
 /* Populated by react-webpack-redux:action */
+import setLoadingImage from '../actions/setLoadingImage.js';
+import getProjectData from '../actions/getProjectData.js';
 import getImage from '../actions/getImage.js';
 import setZoom from '../actions/setZoom.js';
 import showDevice from '../actions/showDevice.js';
@@ -16,9 +18,7 @@ import updateScreenDimensions from '../actions/updateScreenDimensions.js';
 import setSplitScreen from '../actions/setSplitScreen.js';
 import setCurrentDevice from '../actions/setCurrentDevice.js';
 import updateFrameDimensions from './updateFrameDimensions.js';
-import increase from '../actions/increase.js';
 const actions = {
-  increase,
   updateFrameDimensions,
   setCurrentDevice,
   setSplitScreen,
@@ -28,6 +28,8 @@ const actions = {
   setDeviceMode,
   showDevice,
   setZoom,
-  getImage
+  getImage,
+  getProjectData,
+  setLoadingImage
 };
 module.exports = actions;

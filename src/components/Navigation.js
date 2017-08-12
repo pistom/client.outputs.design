@@ -15,7 +15,7 @@ const Navigation = (props) => {
           return (<li key={pageName}>
             <NavLink
               activeStyle={{color:'brown'}}
-              to={`${props.projectId}/${pageName}/${props.urlParams}`}
+              to={`/project/${props.projectId}/${pageName}/${props.urlParams}`}
             >
 
               {pageName}

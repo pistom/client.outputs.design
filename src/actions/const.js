@@ -1,6 +1,5 @@
 /* eslint-disable import/prefer-default-export */
 /* Populated by react-webpack-redux:action */
-export const INCREASE = 'INCREASE';
 export const UPDATE_FRAME_DIMENSIONS = 'UPDATE_FRAME_DIMENSIONS ';
 export const SET_CURRENT_DEVICE = 'SET_CURRENT_DEVICE';
 export const SET_SPLIT_SCREEN = 'SET_SPLIT_SCREEN';
@@ -14,3 +13,8 @@ export const GET_IMAGE = 'GET_IMAGE';
 export const GET_IMAGE_FULFILLED = 'GET_IMAGE_FULFILLED';
 export const GET_IMAGE_PENDING = 'GET_IMAGE_PENDING';
 export const GET_IMAGE_REJECTED = 'GET_IMAGE_REJECTED';
+export const GET_PROJECT_DATA = 'GET_PROJECT_DATA';
+export const GET_PROJECT_DATA_FULFILLED = 'GET_PROJECT_DATA_FULFILLED';
+export const GET_PROJECT_DATA_PENDING = 'GET_PROJECT_DATA_PENDING';
+export const GET_PROJECT_DATA_REJECTED = 'GET_PROJECT_DATA_REJECTED';
+export const SET_LOADING_IMAGE = 'SET_LOADING_IMAGE';

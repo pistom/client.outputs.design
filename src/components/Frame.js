@@ -104,6 +104,7 @@ class Frame extends React.Component {
           showDevice={this.props.screen.showDevice}
           currentDevice={this.props.screen.currentDevice}
           zoom={this.props.screen.zoom}
+          isLoading={this.props.images.isLoadingImage}
         />
       </div>
     );
