@@ -67,6 +67,13 @@ const Navigation = (props) => {
           </ul>
         ) : null}
 
+      <ul>
+        <li><span onClick={() => props.actions.setBgColor('#ffffff')}>white</span></li>
+        <li><span onClick={() => props.actions.setBgColor('#000000')}>black</span></li>
+        <li><span onClick={() => props.actions.setBgColor('#888888')}>gray</span></li>
+        <li><span onClick={() => props.actions.setBgColor('#c13e32')}>red</span></li>
+      </ul>
+
     </div>
   );
 };

@@ -13,7 +13,9 @@ import {
   SET_CURRENT_DESIGN_VERSION,
   SET_DEVICE_MODE,
   SHOW_DEVICE,
-  SET_ZOOM
+  SET_ZOOM,
+  SET_BG_COLOR,
+  SET_BG_IMAGE
 } from '../actions/const';
 
 const initialState = {
@@ -27,7 +29,9 @@ const initialState = {
   deviceMode: false,
   showDevice: false,
   zoom: 1,
-  manualZoom: false
+  manualZoom: false,
+  bgColor: undefined,
+  bgImage: undefined
 };
 
 function reducer(state = initialState, action) {
@@ -87,6 +91,14 @@ function reducer(state = initialState, action) {
 
     case SET_ZOOM: {
       return Object.assign({}, state, {zoom: action.zoom, manualZoom: action.manual});
+    }
+
+    case SET_BG_COLOR: {
+      return Object.assign({}, state, {zoom: action.zoom, bgColor: action.color});
+    }
+
+    case SET_BG_IMAGE: {
+      return Object.assign({}, state, {zoom: action.zoom, bgImage: action.image});
     }
 
     default: {

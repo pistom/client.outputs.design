@@ -17,7 +17,9 @@ import {
   showDevice,
   setZoom,
   getImage,
-  setLoadingImage
+  setLoadingImage,
+  setBgColor,
+  setBgImage
 } from '../actions/';
 
 class Screen extends React.Component {
@@ -31,10 +33,14 @@ class Screen extends React.Component {
   componentDidMount() {
     this.updateFrames();
     const splitScreenUrlParam = queryString.parse(this.props.location.search).splitScreen;
+    const bgColorUrlParam = queryString.parse(this.props.location.search).bgColor;
+    const bgImageUrlParam = queryString.parse(this.props.location.search).bgImage;
     this.props.actions.setSplitScreen(parseInt(splitScreenUrlParam, 10));
+    this.props.actions.setBgColor(bgColorUrlParam);
+    this.props.actions.setBgImage(bgImageUrlParam);
     this.props.actions.setCurrentPageName(this.props.match.params.page);
     this.props.actions.setCurrentDesignVersion(this.props.match.params.version);
-    window.addEventListener('resize', this.updateFrames.bind(this));
+    window.addEventListener('resize', this.updateFrames.bind(this, false));
     this.initialDevice = this.props.match.params.device;
   }
 
@@ -47,7 +53,7 @@ class Screen extends React.Component {
     }
 
     if (this.props.screen.splitScreen !== nextProps.screen.splitScreen) {
-      this.updateFrames();
+      this.updateFrames(true);
     }
     if (this.props.screen.currentPageName !== nextProps.screen.currentPageName) {
       let devices = document.getElementsByClassName('project-component');
@@ -57,25 +63,25 @@ class Screen extends React.Component {
         }
       }
       this.props.actions.setLoadingImage(true);
-      this.updateFrames();
+      this.updateFrames(true);
     }
     // Enable responsive mode
     if (this.props.screen.deviceMode && !nextProps.screen.deviceMode) {
       this.updateFrames();
     }
     if (this.props.screen.currentDevice !== nextProps.screen.currentDevice) {
-      this.updateFrames();
+      this.updateFrames(true);
     }
     if (this.props.screen.showDevice !== nextProps.screen.showDevice) {
       this.updateFrames();
     }
     if (this.props.screen.currentDesignVersion !== nextProps.screen.currentDesignVersion) {
-      this.updateFrames();
+      this.updateFrames(true);
     }
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateFrames.bind(this));
+    window.removeEventListener('resize', this.updateFrames.bind(this, false));
   }
 
   getPageDevices() {
@@ -148,7 +154,7 @@ class Screen extends React.Component {
     return diff;
   }
 
-  updateFrames() {
+  updateFrames(updateImage = false) {
     clearTimeout(this.doUpdateFrame);
     this.doUpdateFrame = setTimeout(() => {
       this.props.actions.updateScreenDimensions(window.innerWidth, window.innerHeight);
@@ -165,7 +171,6 @@ class Screen extends React.Component {
         frameWidth = frame.offsetWidth;
         frameHeight = frame.offsetHeight;
 
-
         if (
           this.props.data.pages[this.props.screen.currentPageName]
             .devices[this.props.screen.currentDevice]
@@ -174,7 +179,7 @@ class Screen extends React.Component {
             .devices[this.props.screen.currentDevice]
             .designs[version]
             .fileName;
-          if (imagePath) {
+          if (imagePath && updateImage) {
             const imgFullPath = `http://api.outputs.cinquiemecrayon.eu/getImage.php?image=${this.props.data.projectId}/${imagePath}`;
             this.props.actions.getImage(version, imgFullPath);
           }
@@ -185,7 +190,6 @@ class Screen extends React.Component {
           frameWidth,
           frameHeight
         );
-
       }
 
       let currentDevice;
@@ -199,7 +203,9 @@ class Screen extends React.Component {
         currentDevice = this.matchDeviceToViewPortWidth();
       }
 
-      this.props.actions.setCurrentDevice(currentDevice);
+      if (currentDevice !== this.props.screen.currentDevice) {
+        this.props.actions.setCurrentDevice(currentDevice);
+      }
       this.initialDevice = undefined;
 
       if (!this.props.screen.deviceMode) {
@@ -219,7 +225,7 @@ class Screen extends React.Component {
         this.props.actions.setZoom(this.setScale(), false);
       }
 
-    }, 50);
+    }, 250);
   }
 
   render() {
@@ -269,7 +275,9 @@ function mapDispatchToProps(dispatch) {
     showDevice,
     setZoom,
     getImage,
-    setLoadingImage
+    setLoadingImage,
+    setBgColor,
+    setBgImage
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

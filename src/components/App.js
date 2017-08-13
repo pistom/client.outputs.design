@@ -19,7 +19,8 @@ class AppComponent extends React.Component {
       splitScreen: this._handleSplitScreen.bind(this),
       changeDesignVersion: this._handleChangeDesignVersion.bind(this),
       changeDevice: this._handleChangeDevice.bind(this),
-      setZoom: this._handleSetZoom.bind(this)
+      setZoom: this._handleSetZoom.bind(this),
+      setBgColor: this._handleSetBgColor.bind(this)
     };
   }
 
@@ -31,7 +32,12 @@ class AppComponent extends React.Component {
     this.props.actions.setSplitScreen(split);
     this.props.actions.setCurrentDesignVersion('A');
     // TODO Change mode of dispatch history.push action
-    console.log(this.generateUrl());
+    // console.log(this.generateUrl());
+    setTimeout(() => history.push(`${this.generateUrl()}`), 100);
+  }
+
+  _handleSetBgColor(color) {
+    this.props.actions.setBgColor(color);
     setTimeout(() => history.push(`${this.generateUrl()}`), 100);
   }
 
@@ -69,11 +75,17 @@ class AppComponent extends React.Component {
     if (this.props.screen.deviceMode) {
       urlElems.push(this.props.screen.currentDevice);
     }
-    let splitScreen = '';
+    let locationSearch = '?';
     if (this.props.screen.splitScreen > 0) {
-      splitScreen = `?splitScreen=${this.props.screen.splitScreen}`;
+      locationSearch += `splitScreen=${this.props.screen.splitScreen}&`;
     }
-    return urlElems.join('/') + splitScreen;
+    if (this.props.screen.bgColor) {
+      locationSearch += `bgColor=${encodeURIComponent(this.props.screen.bgColor)}&`;
+    }
+    if (this.props.screen.bgImage) {
+      locationSearch += `bgImage=${encodeURIComponent(this.props.screen.bgImage)}&`;
+    }
+    return urlElems.join('/') + locationSearch.slice(0, -1);
   }
 
   render() {

@@ -24,7 +24,7 @@ const Project = props => (
             imageWidth={props.imageWidth}
           />
         </div>
-      ) : (<span>Loading...</span>)
+      ) : (<span styleName="project-component__loadingSpinner" />)
     }
   </div>
 );

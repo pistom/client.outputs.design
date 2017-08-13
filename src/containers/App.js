@@ -25,7 +25,9 @@ import {
   setZoom,
   getImage,
   getProjectData,
-  setLoadingImage
+  setLoadingImage,
+  setBgColor,
+  setBgImage
 } from '../actions/';
 import Main from '../components/App';
 /* Populated by react-webpack-redux:reducer */
@@ -60,7 +62,9 @@ App.propTypes = {
     setZoom: PropTypes.func.isRequired,
     getImage: PropTypes.func.isRequired,
     getProjectData: PropTypes.func.isRequired,
-    setLoadingImage: PropTypes.func.isRequired
+    setLoadingImage: PropTypes.func.isRequired,
+    setBgColor: PropTypes.func.isRequired,
+    setBgImage: PropTypes.func.isRequired
   }),
   screen: PropTypes.shape({}),
   data: PropTypes.shape({}),
@@ -92,7 +96,9 @@ function mapDispatchToProps(dispatch) {
     setZoom,
     getImage,
     getProjectData,
-    setLoadingImage
+    setLoadingImage,
+    setBgColor,
+    setBgImage
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

@@ -89,7 +89,7 @@ class Frame extends React.Component {
           height: `${this.calculateFrameHeight()}px`,
           borderRight: horizontalSplitGap ? '2px solid #000' : null,
           borderBottom: verticalSplitGap ? '2px solid #000' : null,
-          backgroundColor: '#d24a44',
+          backgroundColor: `${this.props.screen.showDevice ? this.props.screen.bgColor : 'white'}`
         }}
       >
         <Device
