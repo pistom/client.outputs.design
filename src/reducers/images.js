@@ -2,7 +2,10 @@ import {
   GET_IMAGE_FULFILLED,
   GET_IMAGE_PENDING,
   GET_IMAGE_REJECTED,
-  SET_LOADING_IMAGE
+  SET_LOADING_IMAGE,
+  UPDATE_SCREEN_DIMENSIONS,
+  SET_CURRENT_DESIGN_VERSION,
+  SET_SPLIT_SCREEN
 } from '../actions/const';
 
 const initialState = {
@@ -15,6 +18,24 @@ const initialState = {
 
 function reducer(state = initialState, action) {
   switch (action.type) {
+
+    case UPDATE_SCREEN_DIMENSIONS: {
+      return Object.assign({}, state, {
+        isLoadingImage: true
+      });
+    }
+
+    case SET_CURRENT_DESIGN_VERSION: {
+      return Object.assign({}, state, {
+        isLoadingImage: true
+      });
+    }
+
+    case SET_SPLIT_SCREEN: {
+      return Object.assign({}, state, {
+        isLoadingImage: true
+      });
+    }
 
     case SET_LOADING_IMAGE: {
       return Object.assign({}, state, {isLoadingImage: action.isLoading});

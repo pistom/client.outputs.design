@@ -2,19 +2,19 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
+  Redirect
 } from 'react-router-dom';
 import history from '../history';
 import './app.css';
 import Screen from './Screen';
-import Home from './Home';
 import Navigation from './Navigation';
 import PageNotFound from './404';
+import Login from './Login';
 
 class AppComponent extends React.Component {
   constructor() {
     super();
-    this.projectId = 'aFt2T8q71q';
     this.navigationActions = {
       splitScreen: this._handleSplitScreen.bind(this),
       changeDesignVersion: this._handleChangeDesignVersion.bind(this),
@@ -22,15 +22,30 @@ class AppComponent extends React.Component {
       setZoom: this._handleSetZoom.bind(this),
       setBgColor: this._handleSetBgColor.bind(this)
     };
+    const projectId = window.location.pathname.split('/')[2];
+    this.state = {projectId};
   }
 
   componentDidMount() {
-    this.props.actions.getProjectData(this.projectId);
+    if (this.state.projectId) {
+      this.props.actions.getProjectData(this.state.projectId);
+      const currentPageName = window.location.pathname.split('/')[3] || null;
+      this.props.actions.setCurrentPageName(currentPageName);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.data.projectId !== nextProps.data.projectId) {
+      this.setState({
+        projectId: nextProps.data.projectId
+      });
+    }
   }
 
   _handleSplitScreen(split) {
     this.props.actions.setSplitScreen(split);
     this.props.actions.setCurrentDesignVersion('A');
+    // this.props.actions.setLoadingImage(false);
     // TODO Change mode of dispatch history.push action
     // console.log(this.generateUrl());
     setTimeout(() => history.push(`${this.generateUrl()}`), 100);
@@ -44,7 +59,10 @@ class AppComponent extends React.Component {
   _handleChangeDesignVersion(design) {
     this.props.actions.setCurrentDesignVersion(design);
     // TODO Change mode of dispatch history.push action
-    setTimeout(() => history.push(`${this.generateUrl()}`), 100);
+    setTimeout(() => {
+      history.push(`${this.generateUrl()}`);
+      // this.props.actions.setLoadingImage(false);
+    }, 100);
   }
 
   _handleChangeDevice(device) {
@@ -66,7 +84,7 @@ class AppComponent extends React.Component {
   }
 
   generateUrl() {
-    return `/project/${this.projectId}/${this.props.screen.currentPageName}/${this.generateUrlParams()}`;
+    return `/project/${this.state.projectId}/${this.props.screen.currentPageName}/${this.generateUrlParams()}`;
   }
 
   generateUrlParams() {
@@ -91,27 +109,35 @@ class AppComponent extends React.Component {
   render() {
     return (
       <Router>
-        { !this.props.data.isLoadingData && !this.props.data.loadingDataError ?
+        { !this.props.data.isLoadingData &&
+          !this.props.data.loadingDataError &&
+          !this.props.data.error ?
           (
             <div>
               <Navigation
-                projectId={this.projectId}
+                projectId={this.props.data.projectId}
                 numberOfVersions={this.props.data.numberOfVersions}
                 pages={this.props.data.pages}
                 screen={this.props.screen}
                 urlParams={this.generateUrlParams()}
                 actions={this.navigationActions} />
               <Switch>
-                <Route path="/" exact component={Home} />
+                <Redirect from="/" exact to={`/project/${this.state.projectId}`} />
+                <Redirect from="/project" exact to={`/project/${this.state.projectId}`} />
                 <Route path="/help" render={() => <div>Help</div>} />
-                <Route path={`/project/${this.projectId}/:page/:version?/:device?`} component={Screen} />
+                <Route path={`/project/${this.state.projectId}/:page?/:version?/:device?`} component={Screen} />
                 <Route component={PageNotFound} />
               </Switch>
             </div>
-          ) : null
+          ) :
+          <Login
+            // projectId={this.projectId}
+            projectId="aFt2T8q71q"
+            error={this.props.data.error}
+            getProjectData={this.props.actions.getProjectData}
+          />
         }
       </Router>
-
     );
   }
 }

@@ -79,6 +79,13 @@ class Frame extends React.Component {
       verticalSplitGap = true;
     }
 
+    const versionIndicatorStyles = {
+      display: 'none'
+    };
+    if (this.props.project.numberOfVersions > 1) {
+      versionIndicatorStyles.display = 'block';
+    }
+
     return (
       <div
         id={`f_${this.props.id}`}
@@ -89,9 +96,17 @@ class Frame extends React.Component {
           height: `${this.calculateFrameHeight()}px`,
           borderRight: horizontalSplitGap ? '2px solid #000' : null,
           borderBottom: verticalSplitGap ? '2px solid #000' : null,
-          backgroundColor: `${this.props.screen.showDevice ? this.props.screen.bgColor : 'white'}`
+          backgroundColor: `${this.props.screen.showDevice ? this.props.screen.bgColor : 'gray'}`
         }}
       >
+        <div
+          styleName="frame-component__versionIndicator"
+          style={versionIndicatorStyles}
+        >
+          <div>version</div>
+          {this.props.id}
+        </div>
+
         <Device
           frameId={this.props.id}
           images={this.props.images}

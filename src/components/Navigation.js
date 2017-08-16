@@ -8,16 +8,12 @@ const Navigation = (props) => {
   return (
     <div styleName="navigation-component" className="navigation-component">
       <ul>
-        <li><NavLink exact to="/" activeStyle={{color:'brown'}}>Home</NavLink></li>
-      </ul>
-      <ul>
         {Object.keys(props.pages).map((pageName) => {
           return (<li key={pageName}>
             <NavLink
               activeStyle={{color:'brown'}}
               to={`/project/${props.projectId}/${pageName}/${props.urlParams}`}
             >
-
               {pageName}
             </NavLink>
           </li>);

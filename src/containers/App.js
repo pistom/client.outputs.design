@@ -64,7 +64,8 @@ App.propTypes = {
     getProjectData: PropTypes.func.isRequired,
     setLoadingImage: PropTypes.func.isRequired,
     setBgColor: PropTypes.func.isRequired,
-    setBgImage: PropTypes.func.isRequired
+    setBgImage: PropTypes.func.isRequired,
+    setLoadingImage: PropTypes.func.isRequired
   }),
   screen: PropTypes.shape({}),
   data: PropTypes.shape({}),

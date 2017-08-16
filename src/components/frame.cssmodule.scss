@@ -15,4 +15,61 @@
     display: block;
     clear: both;
   }
+  &__versionIndicator {
+    text-align: center;
+    z-index: 99;
+    position: absolute;
+    transition: .5s;
+    top: 2%;
+    left: 2%;
+    color: #fff;
+    font-size: 5vh;
+    animation-name: versionIndicator;
+    animation-duration: 3s;
+    text-shadow: 1px 1px 0 black, -1px -1px 0 black, -1px 1px 0 black, 1px -1px 0 black;
+    opacity: .35;
+    line-height: .75em;
+    div {
+      font-size: 2vh;
+    }
+  }
+}
+
+@keyframes versionIndicator {
+  0% {
+    z-index: 500;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5vh;
+    opacity: 0;
+    line-height: .75em;
+  }
+  25% {
+    z-index: 500;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50vh;
+    opacity: 1;
+    line-height: .4em;
+  }
+  75% {
+    z-index: 500;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50vh;
+    opacity: 1;
+    line-height: .4em;
+  }
+  100% {
+    z-index: 99;
+    top: 2%;
+    left: 2%;
+    transform: translate(0%, 0%);
+    font-size: 5vh;
+    opacity: .35;
+    line-height: .75em;
+  }
 }

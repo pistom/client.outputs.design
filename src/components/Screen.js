@@ -33,15 +33,22 @@ class Screen extends React.Component {
   componentDidMount() {
     this.updateFrames();
     const splitScreenUrlParam = queryString.parse(this.props.location.search).splitScreen;
-    const bgColorUrlParam = queryString.parse(this.props.location.search).bgColor;
+    const bgColorUrlParam = queryString.parse(this.props.location.search).bgColor || 'gray';
     const bgImageUrlParam = queryString.parse(this.props.location.search).bgImage;
     this.props.actions.setSplitScreen(parseInt(splitScreenUrlParam, 10));
     this.props.actions.setBgColor(bgColorUrlParam);
     this.props.actions.setBgImage(bgImageUrlParam);
-    this.props.actions.setCurrentPageName(this.props.match.params.page);
+    if (!this.props.screen.currentPageName) {
+      this.props.actions.setCurrentPageName(
+        Object.keys(this.props.data.pages)[0]
+      );
+    } else {
+      this.props.actions.setCurrentPageName(this.props.match.params.page);
+    }
     this.props.actions.setCurrentDesignVersion(this.props.match.params.version);
     window.addEventListener('resize', this.updateFrames.bind(this, false));
     this.initialDevice = this.props.match.params.device;
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -50,6 +57,7 @@ class Screen extends React.Component {
     }
     if (this.props.match.params.version !== nextProps.match.params.version) {
       this.props.actions.setCurrentDesignVersion(nextProps.match.params.version);
+      this.props.actions.setLoadingImage(false);
     }
 
     if (this.props.screen.splitScreen !== nextProps.screen.splitScreen) {
@@ -73,7 +81,7 @@ class Screen extends React.Component {
       this.updateFrames(true);
     }
     if (this.props.screen.showDevice !== nextProps.screen.showDevice) {
-      this.updateFrames();
+      this.updateFrames(true);
     }
     if (this.props.screen.currentDesignVersion !== nextProps.screen.currentDesignVersion) {
       this.updateFrames(true);
@@ -85,7 +93,7 @@ class Screen extends React.Component {
   }
 
   getPageDevices() {
-    const pageName = this.props.match.params.page;
+    const pageName = this.props.screen.currentPageName;
     const pageDevices = this.props.data.pages[pageName].devices;
     let pageDevicesList = [];
     try {
@@ -180,7 +188,7 @@ class Screen extends React.Component {
             .designs[version]
             .fileName;
           if (imagePath && updateImage) {
-            const imgFullPath = `http://api.outputs.cinquiemecrayon.eu/getImage.php?image=${this.props.data.projectId}/${imagePath}`;
+            const imgFullPath = `http://api.outputs.local/getImage.php?image=${this.props.data.projectId}/${imagePath}`;
             this.props.actions.getImage(version, imgFullPath);
           }
         }
@@ -191,6 +199,7 @@ class Screen extends React.Component {
           frameHeight
         );
       }
+
 
       let currentDevice;
       if (this.props.screen.deviceMode) {
@@ -224,6 +233,8 @@ class Screen extends React.Component {
       if (this.props.screen.showDevice && !this.props.screen.manualZoom) {
         this.props.actions.setZoom(this.setScale(), false);
       }
+
+      this.props.actions.setLoadingImage(false);
 
     }, 250);
   }

@@ -32,9 +32,11 @@ class Device extends React.Component {
 
 
   render() {
-    const imagePath = (this.props.images && this.props.images[this.props.frameId]) ?
-      this.props.images[this.props.frameId].objectURL : null;
-
+    let imagePath = undefined;
+    if (!this.props.isLoadingImage) {
+      imagePath = (this.props.images && this.props.images[this.props.frameId]) ?
+        this.props.images[this.props.frameId].objectURL : null;
+    }
     return (
       <div
         className="device-component"

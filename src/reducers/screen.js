@@ -31,7 +31,8 @@ const initialState = {
   zoom: 1,
   manualZoom: false,
   bgColor: undefined,
-  bgImage: undefined
+  bgImage: undefined,
+  showDesignImage: false
 };
 
 function reducer(state = initialState, action) {
