@@ -1,3 +1,36 @@
 .screen-component {
   background-color:#eeffee;
+  &__loadingSpinner {
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    left: 50%;
+    margin-tom: -40px;
+    margin-left: -20px;
+    z-index: 500;
+    background-color: #333;
+    position: absolute;
+    border-radius: 100%;
+    -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+    animation: sk-scaleout 1.0s infinite ease-in-out;
+  }
+}
+
+@-webkit-keyframes sk-scaleout {
+  0% { -webkit-transform: scale(0) translate(-50%, -50%) }
+  100% {
+    -webkit-transform: scale(1.0);
+    opacity: 0;
+  }
+}
+
+@keyframes sk-scaleout {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 100% {
+      -webkit-transform: scale(1.0);
+      transform: scale(1.0);
+      opacity: 0;
+    }
 }

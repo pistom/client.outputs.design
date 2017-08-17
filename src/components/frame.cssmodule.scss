@@ -17,6 +17,8 @@
   }
   &__versionIndicator {
     text-align: center;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
     z-index: 99;
     position: absolute;
     transition: .5s;
@@ -26,17 +28,31 @@
     font-size: 5vh;
     animation-name: versionIndicator;
     animation-duration: 3s;
-    text-shadow: 1px 1px 0 black, -1px -1px 0 black, -1px 1px 0 black, 1px -1px 0 black;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.25), -1px -1px 0 rgba(0,0,0,.25), -1px 1px 0 rgba(0,0,0,.25), 1px -1px 0 rgba(0,0,0,.25);
+    filter: blur(0);
     opacity: .35;
     line-height: .75em;
     div {
-      font-size: 2vh;
+      font-size: 1.5vh;
+      text-transform: uppercase;
+      font-weight: normal;
     }
   }
 }
 
 @keyframes versionIndicator {
   0% {
+    filter: blur(30px);
+    z-index: 500;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5vh;
+    opacity: 0;
+    line-height: .75em;
+  }
+  10% {
+    filter: blur(30px);
     z-index: 500;
     top: 50%;
     left: 50%;
@@ -46,22 +62,23 @@
     line-height: .75em;
   }
   25% {
+    filter: blur(0);
     z-index: 500;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 50vh;
     opacity: 1;
-    line-height: .4em;
+    line-height: .45em;
   }
-  75% {
+  55% {
     z-index: 500;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 50vh;
     opacity: 1;
-    line-height: .4em;
+    line-height: .45em;
   }
   100% {
     z-index: 99;

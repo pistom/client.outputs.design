@@ -68,6 +68,15 @@ const Navigation = (props) => {
         <li><span onClick={() => props.actions.setBgColor('#000000')}>black</span></li>
         <li><span onClick={() => props.actions.setBgColor('#888888')}>gray</span></li>
         <li><span onClick={() => props.actions.setBgColor('#c13e32')}>red</span></li>
+        {
+          Object.keys(props.backgrounds).map((bg) => {
+            return (
+              <li key={bg}><span onClick={() => props.actions.setBgImage(bg)}>{bg}</span></li>
+            );
+          })
+        }
+
+
       </ul>
 
     </div>

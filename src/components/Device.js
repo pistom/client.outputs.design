@@ -4,21 +4,10 @@ import styles from './device.cssmodule.scss';
 import Project from './Project';
 
 class Device extends React.Component {
-  constructor(){
-    super();
-    this.devices = {
-      // Small: {iWidth: 800, iHeight: 1000, fileName: 'http://localhost/crayon/_images/smartphone.png'},
-      // Medium: {iWidth: 1100, iHeight: 1400, fileName: 'http://localhost/crayon/_images/tablet.png'},
-      // Large: {iWidth: 1600, iHeight: 1200, fileName: 'http://localhost/crayon/_images/desktop.png'}
-      Small: {iWidth: 800, iHeight: 1000, fileName: 'http://api.outputs.cinquiemecrayon.eu/devices/smartphone.png'},
-      Medium: {iWidth: 1100, iHeight: 1400, fileName: 'http://api.outputs.cinquiemecrayon.eu/devices/tablet.png'},
-      Large: {iWidth: 1600, iHeight: 1200, fileName: 'http://api.outputs.cinquiemecrayon.eu/devices/desktop.png'}
-    };
-  }
 
   calculateTransform() {
     const zoom = this.props.zoom;
-    const top =  50;
+    const top = 50;
     const left = 50;
     const translateX = -50 / zoom;
     const translateY = -50 / zoom;
@@ -33,10 +22,27 @@ class Device extends React.Component {
 
   render() {
     let imagePath = undefined;
+    let deviceBackgroundImage = undefined;
+    let deviceImageWidth = undefined;
+    let deviceImageHeight = undefined;
+
     if (!this.props.isLoadingImage) {
-      imagePath = (this.props.images && this.props.images[this.props.frameId]) ?
-        this.props.images[this.props.frameId].objectURL : null;
+      if (
+        this.props.screen.currentPageName &&
+        this.props.screen.currentDevice &&
+        this.props.frameId &&
+        this.props.images[this.props.screen.currentPageName] &&
+        this.props.images[this.props.screen.currentPageName][this.props.screen.currentDevice]
+      ) {
+        imagePath = this.props.images[this.props.screen.currentPageName][this.props.screen.currentDevice][this.props.frameId];
+      }
     }
+    if (this.props.images.devicesList && this.props.images.devicesList[this.props.currentDevice]) {
+      deviceBackgroundImage = this.props.images.devicesList[this.props.currentDevice].fileName;
+      deviceImageWidth = this.props.images.devicesList[this.props.currentDevice].dWidth;
+      deviceImageHeight = this.props.images.devicesList[this.props.currentDevice].dHeight;
+    }
+
     return (
       <div
         className="device-component"
@@ -52,18 +58,20 @@ class Device extends React.Component {
             styleName="device-component__device"
             id={`device_${this.props.frameId}`}
             style={{
-              backgroundImage: `url(${this.devices[this.props.currentDevice].fileName})`,
-              height: this.devices[this.props.currentDevice].iHeight,
-              width: this.devices[this.props.currentDevice].iWidth,
+              backgroundImage: `url(${deviceBackgroundImage})`,
+              height: deviceImageHeight,
+              width: deviceImageWidth,
             }}
           /> : null
         }
         {imagePath ?
           <Project
-            isLoading={this.props.isLoading}
             imagePath={imagePath}
+            projectId={this.props.projectId}
             imageHeight={this.props.imageHeight}
             imageWidth={this.props.imageWidth}
+            screen={this.props.screen}
+            currentPage={this.props.currentPage}
           /> : null
         }
       </div>

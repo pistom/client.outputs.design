@@ -19,7 +19,8 @@ import {
   getImage,
   setLoadingImage,
   setBgColor,
-  setBgImage
+  setBgImage,
+  setImageDimensions
 } from '../actions/';
 
 class Screen extends React.Component {
@@ -27,6 +28,7 @@ class Screen extends React.Component {
   constructor() {
     super();
     this.doUpdateFrame = undefined;
+    this.doShowImage = undefined;
     this.initialDevice;
   }
 
@@ -34,7 +36,7 @@ class Screen extends React.Component {
     this.updateFrames();
     const splitScreenUrlParam = queryString.parse(this.props.location.search).splitScreen;
     const bgColorUrlParam = queryString.parse(this.props.location.search).bgColor || 'gray';
-    const bgImageUrlParam = queryString.parse(this.props.location.search).bgImage;
+    const bgImageUrlParam = queryString.parse(this.props.location.search).bgImage || undefined;
     this.props.actions.setSplitScreen(parseInt(splitScreenUrlParam, 10));
     this.props.actions.setBgColor(bgColorUrlParam);
     this.props.actions.setBgImage(bgImageUrlParam);
@@ -70,7 +72,7 @@ class Screen extends React.Component {
           devices[i].scrollTop = 0;
         }
       }
-      this.props.actions.setLoadingImage(true);
+      // this.props.actions.setLoadingImage(true);
       this.updateFrames(true);
     }
     // Enable responsive mode
@@ -162,6 +164,17 @@ class Screen extends React.Component {
     return diff;
   }
 
+  getDevices() {
+    const devicesList = Object.keys(this.props.data.devices);
+    for (let i = 0; i < devicesList.length; i += 1) {
+      const device = this.props.data.devices[devicesList[i]];
+      const fileName = device.fileName;
+      const imgFullPath = `http://api.outputs.local/getImage.php?image=${fileName}`;
+      this.props.actions.getImage('fileName', imgFullPath, 'devicesList', devicesList[i]);
+      this.props.actions.setImageDimensions(devicesList[i], device.dWidth, device.dHeight);
+    }
+  }
+
   updateFrames(updateImage = false) {
     clearTimeout(this.doUpdateFrame);
     this.doUpdateFrame = setTimeout(() => {
@@ -179,6 +192,12 @@ class Screen extends React.Component {
         frameWidth = frame.offsetWidth;
         frameHeight = frame.offsetHeight;
 
+        this.props.actions.updateFrameDimensions(
+          version,
+          frameWidth,
+          frameHeight
+        );
+
         if (
           this.props.data.pages[this.props.screen.currentPageName]
             .devices[this.props.screen.currentDevice]
@@ -189,15 +208,18 @@ class Screen extends React.Component {
             .fileName;
           if (imagePath && updateImage) {
             const imgFullPath = `http://api.outputs.local/getImage.php?image=${this.props.data.projectId}/${imagePath}`;
-            this.props.actions.getImage(version, imgFullPath);
+            const pageName = this.props.screen.currentPageName;
+            const device = this.props.screen.currentDevice;
+
+            if (
+              !this.props.images[this.props.screen.currentPageName] ||
+              !this.props.images[this.props.screen.currentPageName][this.props.screen.currentDevice] ||
+              !this.props.images[this.props.screen.currentPageName][this.props.screen.currentDevice][version]
+            ) {
+            this.props.actions.getImage(version, imgFullPath, pageName, device);
+            }
           }
         }
-
-        this.props.actions.updateFrameDimensions(
-          version,
-          frameWidth,
-          frameHeight
-        );
       }
 
 
@@ -234,7 +256,9 @@ class Screen extends React.Component {
         this.props.actions.setZoom(this.setScale(), false);
       }
 
-      this.props.actions.setLoadingImage(false);
+      if (!this.props.images.devicesList) {
+        this.getDevices();
+      }
 
     }, 250);
   }
@@ -242,6 +266,10 @@ class Screen extends React.Component {
   render() {
     return (
       <div className="screen-component" styleName="screen-component">
+        { this.props.images.isLoadingImage > 0 ?
+          <span styleName="screen-component__loadingSpinner" /> : null
+        }
+
         <Frame
           id={this.props.screen.currentDesignVersion}
           screen={this.props.screen}
@@ -288,7 +316,8 @@ function mapDispatchToProps(dispatch) {
     getImage,
     setLoadingImage,
     setBgColor,
-    setBgImage
+    setBgImage,
+    setImageDimensions
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

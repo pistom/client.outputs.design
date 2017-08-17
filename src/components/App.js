@@ -12,6 +12,27 @@ import Navigation from './Navigation';
 import PageNotFound from './404';
 import Login from './Login';
 
+export class Utils {
+  static generateUrlParams(screen) {
+    const urlElems = [];
+    urlElems.push(screen.currentDesignVersion);
+    if (screen.deviceMode) {
+      urlElems.push(screen.currentDevice);
+    }
+    let locationSearch = '?';
+    if (screen.splitScreen > 0) {
+      locationSearch += `splitScreen=${screen.splitScreen}&`;
+    }
+    if (screen.bgColor) {
+      locationSearch += `bgColor=${encodeURIComponent(screen.bgColor)}&`;
+    }
+    if (screen.bgImage) {
+      locationSearch += `bgImage=${encodeURIComponent(screen.bgImage)}&`;
+    }
+    return urlElems.join('/') + locationSearch.slice(0, -1);
+  }
+}
+
 class AppComponent extends React.Component {
   constructor() {
     super();
@@ -20,7 +41,8 @@ class AppComponent extends React.Component {
       changeDesignVersion: this._handleChangeDesignVersion.bind(this),
       changeDevice: this._handleChangeDevice.bind(this),
       setZoom: this._handleSetZoom.bind(this),
-      setBgColor: this._handleSetBgColor.bind(this)
+      setBgColor: this._handleSetBgColor.bind(this),
+      setBgImage: this._handleSetBgImage.bind(this)
     };
     const projectId = window.location.pathname.split('/')[2];
     this.state = {projectId};
@@ -45,14 +67,18 @@ class AppComponent extends React.Component {
   _handleSplitScreen(split) {
     this.props.actions.setSplitScreen(split);
     this.props.actions.setCurrentDesignVersion('A');
-    // this.props.actions.setLoadingImage(false);
     // TODO Change mode of dispatch history.push action
-    // console.log(this.generateUrl());
     setTimeout(() => history.push(`${this.generateUrl()}`), 100);
   }
 
   _handleSetBgColor(color) {
     this.props.actions.setBgColor(color);
+    this.props.actions.setBgImage(undefined);
+    setTimeout(() => history.push(`${this.generateUrl()}`), 100);
+  }
+
+  _handleSetBgImage(bg) {
+    this.props.actions.setBgImage(bg);
     setTimeout(() => history.push(`${this.generateUrl()}`), 100);
   }
 
@@ -84,26 +110,7 @@ class AppComponent extends React.Component {
   }
 
   generateUrl() {
-    return `/project/${this.state.projectId}/${this.props.screen.currentPageName}/${this.generateUrlParams()}`;
-  }
-
-  generateUrlParams() {
-    const urlElems = [];
-    urlElems.push(this.props.screen.currentDesignVersion);
-    if (this.props.screen.deviceMode) {
-      urlElems.push(this.props.screen.currentDevice);
-    }
-    let locationSearch = '?';
-    if (this.props.screen.splitScreen > 0) {
-      locationSearch += `splitScreen=${this.props.screen.splitScreen}&`;
-    }
-    if (this.props.screen.bgColor) {
-      locationSearch += `bgColor=${encodeURIComponent(this.props.screen.bgColor)}&`;
-    }
-    if (this.props.screen.bgImage) {
-      locationSearch += `bgImage=${encodeURIComponent(this.props.screen.bgImage)}&`;
-    }
-    return urlElems.join('/') + locationSearch.slice(0, -1);
+    return `/project/${this.state.projectId}/${this.props.screen.currentPageName}/${Utils.generateUrlParams(this.props.screen)}`;
   }
 
   render() {
@@ -118,8 +125,9 @@ class AppComponent extends React.Component {
                 projectId={this.props.data.projectId}
                 numberOfVersions={this.props.data.numberOfVersions}
                 pages={this.props.data.pages}
+                backgrounds={this.props.data.backgrounds}
                 screen={this.props.screen}
-                urlParams={this.generateUrlParams()}
+                urlParams={Utils.generateUrlParams(this.props.screen)}
                 actions={this.navigationActions} />
               <Switch>
                 <Redirect from="/" exact to={`/project/${this.state.projectId}`} />

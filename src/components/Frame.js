@@ -86,6 +86,28 @@ class Frame extends React.Component {
       versionIndicatorStyles.display = 'block';
     }
 
+    let currentPage = undefined;
+    if (
+      this.props.project.pages &&
+      this.props.project.pages[this.props.screen.currentPageName] &&
+      this.props.project.pages[this.props.screen.currentPageName]
+        .devices[this.props.screen.currentDevice]
+    ) {
+      currentPage = this.props.project.pages[this.props.screen.currentPageName]
+        .devices[this.props.screen.currentDevice].designs[this.props.id];
+    }
+
+    let backgroundImageStyles = {
+      backgroundImage: 'none'
+    };
+    if (this.props.screen.bgImage && this.props.project) {
+      backgroundImageStyles = {
+        backgroundImage: `url('http://api.outputs.local/getImage.php?image=${this.props.project.backgrounds[this.props.screen.bgImage].fileName}')`,
+        backgroundSize: this.props.project.backgrounds[this.props.screen.bgImage].bgSize,
+        backgroundPosition: this.props.project.backgrounds[this.props.screen.bgImage].bgPosition
+      };
+    }
+
     return (
       <div
         id={`f_${this.props.id}`}
@@ -96,7 +118,8 @@ class Frame extends React.Component {
           height: `${this.calculateFrameHeight()}px`,
           borderRight: horizontalSplitGap ? '2px solid #000' : null,
           borderBottom: verticalSplitGap ? '2px solid #000' : null,
-          backgroundColor: `${this.props.screen.showDevice ? this.props.screen.bgColor : 'gray'}`
+          backgroundColor: `${this.props.screen.showDevice ? this.props.screen.bgColor : 'gray'}`,
+          ...backgroundImageStyles
         }}
       >
         <div
@@ -108,8 +131,11 @@ class Frame extends React.Component {
         </div>
 
         <Device
+          projectId={this.props.project.projectId}
           frameId={this.props.id}
           images={this.props.images}
+          screen={this.props.screen}
+          currentPage={currentPage}
           clientWidth={clientWidth}
           clientHeight={clientHeight}
           imageHeight={imageHeight}

@@ -7,7 +7,7 @@ const myInit = {
   cache: 'force-cache'
 };
 
-function getImage(frameId, imgFullPath) {
+function getImage(designVersion, imgFullPath, pageName, device) {
   return {
     type: 'GET_IMAGE',
     payload: {
@@ -18,10 +18,7 @@ function getImage(frameId, imgFullPath) {
         })
         .then(function(myBlob) {
           const objectURL = URL.createObjectURL(myBlob);
-          // console.log(myBlob);
-          const image = {};
-          image[frameId] = {objectURL};
-          return image;
+          return {file:objectURL, pageName, device, designVersion};
         })
     }
   };
