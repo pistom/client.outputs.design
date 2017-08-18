@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
 
 function getProjectData(projectId, password) {
-  const dataSource = `http://api.outputs.local/getData.php?projectId=${projectId}`;
+  const dataSource = `http://api.outputs.cinquiemecrayon.eu/getData.php?projectId=${projectId}`;
   const data = new FormData();
   data.append('password', password);
   return {

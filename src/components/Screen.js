@@ -145,13 +145,14 @@ class Screen extends React.Component {
   }
 
   setScale() {
-    const frameHeight = this.props.screen.frames['A'].frameHeight;
-    const frameWidth = this.props.screen.frames['A'].frameWidth;
+    const firstFrame = Object.keys(this.props.screen.frames)[0];
+    const frameHeight = this.props.screen.frames[firstFrame].frameHeight;
+    const frameWidth = this.props.screen.frames[firstFrame].frameWidth;
     const deviceHeight = (this.props.screen.currentDevice) ?
       this.props.data.devices[this.props.screen.currentDevice].cHeight : null;
     const deviceWidth = (this.props.screen.currentDevice) ?
       this.props.data.devices[this.props.screen.currentDevice].cWidth : null;
-    const heightDiff = (frameHeight / (deviceHeight + 200));
+    const heightDiff = (frameHeight / (deviceHeight + 400));
     const widthDiff = (frameWidth / (deviceWidth + 200));
     let diff = 1;
     if (heightDiff < 1 || widthDiff < 1) {
@@ -169,7 +170,7 @@ class Screen extends React.Component {
     for (let i = 0; i < devicesList.length; i += 1) {
       const device = this.props.data.devices[devicesList[i]];
       const fileName = device.fileName;
-      const imgFullPath = `http://api.outputs.local/getImage.php?image=${fileName}`;
+      const imgFullPath = `http://api.outputs.cinquiemecrayon.eu/getImage.php?image=${fileName}`;
       this.props.actions.getImage('fileName', imgFullPath, 'devicesList', devicesList[i]);
       this.props.actions.setImageDimensions(devicesList[i], device.dWidth, device.dHeight);
     }
@@ -207,7 +208,7 @@ class Screen extends React.Component {
             .designs[version]
             .fileName;
           if (imagePath && updateImage) {
-            const imgFullPath = `http://api.outputs.local/getImage.php?image=${this.props.data.projectId}/${imagePath}`;
+            const imgFullPath = `http://api.outputs.cinquiemecrayon.eu/getImage.php?image=${this.props.data.projectId}/${imagePath}`;
             const pageName = this.props.screen.currentPageName;
             const device = this.props.screen.currentDevice;
 
@@ -254,6 +255,21 @@ class Screen extends React.Component {
 
       if (this.props.screen.showDevice && !this.props.screen.manualZoom) {
         this.props.actions.setZoom(this.setScale(), false);
+      }
+
+      if (!this.props.screen.deviceMode) {
+        if (
+          this.props.data.pages[this.props.screen.currentPageName]
+            .devices[this.props.screen.currentDevice].bWidth > this.props.screen
+            .frames[Object.keys(this.props.screen.frames)[0]]
+            .frameWidth
+        ) {
+          this.props.actions.showDevice(true);
+          this.props.actions.setZoom(this.setScale(), false);
+        } else {
+          this.props.actions.showDevice(false);
+          this.props.actions.setZoom(1, false);
+        }
       }
 
       if (!this.props.images.devicesList) {

@@ -96,6 +96,9 @@ class AppComponent extends React.Component {
       this.props.actions.setCurrentDevice(device);
       this.props.actions.setDeviceMode(true);
       this.props.actions.showDevice(true);
+      if (this.props.data.devices[device].defaultBgImage) {
+        this.props.actions.setBgImage(this.props.data.devices[device].defaultBgImage);
+      }
     } else {
       this.props.actions.setDeviceMode(false);
       this.props.actions.showDevice(false);
@@ -140,7 +143,7 @@ class AppComponent extends React.Component {
           ) :
           <Login
             // projectId={this.projectId}
-            projectId="aFt2T8q71q"
+            projectId={this.state.projectId}
             error={this.props.data.error}
             getProjectData={this.props.actions.getProjectData}
           />
