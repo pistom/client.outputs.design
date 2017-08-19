@@ -30,6 +30,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
   line-height: 1;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 ol, ul {
   list-style: none;
@@ -46,3 +47,25 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+a {
+  text-decoration: none;
+}
+
+::-webkit-scrollbar {
+  width:  6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: darkgray;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+// For Internet Explorer
+   body {
+     scrollbar-face-color: darkgray;
+     scrollbar-track-color: transparent;
+   }

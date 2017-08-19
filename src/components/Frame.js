@@ -71,11 +71,11 @@ class Frame extends React.Component {
     // TODO Change gap generating
     let horizontalSplitGap = false;
     let verticalSplitGap = false;
-    if (this.calculateFrameWidth() !== 100 && this.props.id === 'A') {
+    if (this.calculateFrameWidth() !== 100 && this.props.id !== 'A') {
       horizontalSplitGap = true;
     }
 
-    if (this.calculateFrameHeight() !== this.props.screen.height && this.props.id === 'A') {
+    if (this.calculateFrameHeight() !== this.props.screen.height && this.props.id !== 'A') {
       verticalSplitGap = true;
     }
 
@@ -102,7 +102,7 @@ class Frame extends React.Component {
     };
     if (this.props.screen.bgImage && this.props.project) {
       backgroundImageStyles = {
-        backgroundImage: `url('http://api.outputs.cinquiemecrayon.eu/getImage.php?image=${this.props.project.backgrounds[this.props.screen.bgImage].fileName}')`,
+        backgroundImage: `url('${apiURL}getImage.php?image=${this.props.project.backgrounds[this.props.screen.bgImage].fileName}')`,
         backgroundSize: this.props.project.backgrounds[this.props.screen.bgImage].bgSize,
         backgroundPosition: this.props.project.backgrounds[this.props.screen.bgImage].bgPosition
       };
@@ -116,8 +116,8 @@ class Frame extends React.Component {
         style={{
           width: `${this.calculateFrameWidth()}%`,
           height: `${this.calculateFrameHeight()}px`,
-          borderRight: horizontalSplitGap ? '2px solid #000' : null,
-          borderBottom: verticalSplitGap ? '2px solid #000' : null,
+          borderLeft: horizontalSplitGap ? '2px solid #000' : null,
+          borderTop: verticalSplitGap ? '2px solid #000' : null,
           backgroundColor: `${this.props.screen.showDevice ? this.props.screen.bgColor : 'gray'}`,
           ...backgroundImageStyles
         }}

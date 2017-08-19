@@ -170,7 +170,7 @@ class Screen extends React.Component {
     for (let i = 0; i < devicesList.length; i += 1) {
       const device = this.props.data.devices[devicesList[i]];
       const fileName = device.fileName;
-      const imgFullPath = `http://api.outputs.cinquiemecrayon.eu/getImage.php?image=${fileName}`;
+      const imgFullPath = `${apiURL}getImage.php?image=${fileName}`;
       this.props.actions.getImage('fileName', imgFullPath, 'devicesList', devicesList[i]);
       this.props.actions.setImageDimensions(devicesList[i], device.dWidth, device.dHeight);
     }
@@ -201,14 +201,16 @@ class Screen extends React.Component {
 
         if (
           this.props.data.pages[this.props.screen.currentPageName]
-            .devices[this.props.screen.currentDevice]
+            .devices[this.props.screen.currentDevice] &&
+          this.props.data.pages[this.props.screen.currentPageName]
+            .devices[this.props.screen.currentDevice].designs[version]
         ) {
           const imagePath = this.props.data.pages[this.props.screen.currentPageName]
             .devices[this.props.screen.currentDevice]
             .designs[version]
             .fileName;
           if (imagePath && updateImage) {
-            const imgFullPath = `http://api.outputs.cinquiemecrayon.eu/getImage.php?image=${this.props.data.projectId}/${imagePath}`;
+            const imgFullPath = `${apiURL}getImage.php?image=${this.props.data.projectId}/${imagePath}`;
             const pageName = this.props.screen.currentPageName;
             const device = this.props.screen.currentDevice;
 
@@ -296,6 +298,14 @@ class Screen extends React.Component {
         { this.props.screen.splitScreen > 0 ?
           <Frame
             id={'B'}
+            screen={this.props.screen}
+            project={this.props.data}
+            images={this.props.images}
+            actions={this.props.actions}
+          /> : null }
+        { this.props.screen.splitScreen > 1?
+          <Frame
+            id={'C'}
             screen={this.props.screen}
             project={this.props.data}
             images={this.props.images}
