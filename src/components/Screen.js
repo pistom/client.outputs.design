@@ -1,5 +1,6 @@
 import React from 'react';
 import cssmodules from 'react-css-modules';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
@@ -29,7 +30,7 @@ class Screen extends React.Component {
     super();
     this.doUpdateFrame = undefined;
     this.doShowImage = undefined;
-    this.initialDevice;
+    this.initialDevice = undefined;
   }
 
   componentDidMount() {
@@ -45,7 +46,7 @@ class Screen extends React.Component {
         Object.keys(this.props.data.pages)[0]
       );
     } else {
-      this.props.actions.setCurrentPageName(this.props.match.params.page);
+      this.props.actions.setCurrentPageName(decodeURIComponent(this.props.match.params.page));
     }
     this.props.actions.setCurrentDesignVersion(this.props.match.params.version);
     window.addEventListener('resize', this.updateFrames.bind(this, false));
@@ -55,7 +56,7 @@ class Screen extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.match.params.page !== nextProps.match.params.page) {
-      this.props.actions.setCurrentPageName(nextProps.match.params.page);
+      this.props.actions.setCurrentPageName(decodeURIComponent(nextProps.match.params.page));
     }
     if (this.props.match.params.version !== nextProps.match.params.version) {
       this.props.actions.setCurrentDesignVersion(nextProps.match.params.version);
@@ -66,9 +67,9 @@ class Screen extends React.Component {
       this.updateFrames(true);
     }
     if (this.props.screen.currentPageName !== nextProps.screen.currentPageName) {
-      let devices = document.getElementsByClassName('project-component');
+      const devices = document.getElementsByClassName('project-component');
       if (devices && devices.length > 0) {
-        for (let i = 0; i <= devices.length - 1; i++) {
+        for (let i = 0; i <= devices.length - 1; i += 1) {
           devices[i].scrollTop = 0;
         }
       }
@@ -114,36 +115,6 @@ class Screen extends React.Component {
     return pageDevicesList;
   }
 
-  matchDeviceToViewPortWidth() {
-    const pageDevicesList = this.getPageDevices();
-    if (pageDevicesList.length === 0) {
-      pageDevicesList.push({deviceName: null});
-    }
-    const frameWidth = this.props.screen.frames[this.props.screen.currentDesignVersion].frameWidth;
-
-    /*
-     * Filter all devices who have image width > window width and
-     * breakpoint width <= window width
-     */
-    const matchedResults = pageDevicesList.filter((device) => {
-      if (frameWidth < device.imageWidth && frameWidth >= device.breakpointWidth) {
-        return device;
-      }
-    });
-    let bestResult = pageDevicesList[0];
-    if (matchedResults.length !== 0) {
-      bestResult = matchedResults.pop();
-    } else {
-      for (let i = pageDevicesList.length - 1; i >= 0; i -= 1) {
-        if (pageDevicesList[i].breakpointWidth <= frameWidth) {
-          bestResult = pageDevicesList[i];
-          break;
-        }
-      }
-    }
-    return bestResult.deviceName;
-  }
-
   setScale() {
     const firstFrame = Object.keys(this.props.screen.frames)[0];
     const frameHeight = this.props.screen.frames[firstFrame].frameHeight;
@@ -174,6 +145,38 @@ class Screen extends React.Component {
       this.props.actions.getImage('fileName', imgFullPath, 'devicesList', devicesList[i]);
       this.props.actions.setImageDimensions(devicesList[i], device.dWidth, device.dHeight);
     }
+  }
+
+  matchDeviceToViewPortWidth() {
+    const pageDevicesList = this.getPageDevices();
+    if (pageDevicesList.length === 0) {
+      pageDevicesList.push({deviceName: null});
+    }
+    const frameWidth = this.props.screen.frames[this.props.screen.currentDesignVersion].frameWidth;
+
+    /*
+     * Filter all devices who have image width > window width and
+     * breakpoint width <= window width
+     */
+    const matchedResults = pageDevicesList.filter((device) => {
+      let filteredDevice;
+      if (frameWidth < device.imageWidth && frameWidth >= device.breakpointWidth) {
+        filteredDevice = device;
+      }
+      return filteredDevice;
+    });
+    let bestResult = pageDevicesList[0];
+    if (matchedResults.length !== 0) {
+      bestResult = matchedResults.pop();
+    } else {
+      for (let i = pageDevicesList.length - 1; i >= 0; i -= 1) {
+        if (pageDevicesList[i].breakpointWidth <= frameWidth) {
+          bestResult = pageDevicesList[i];
+          break;
+        }
+      }
+    }
+    return bestResult.deviceName;
   }
 
   updateFrames(updateImage = false) {
@@ -215,11 +218,11 @@ class Screen extends React.Component {
             const device = this.props.screen.currentDevice;
 
             if (
-              !this.props.images[this.props.screen.currentPageName] ||
-              !this.props.images[this.props.screen.currentPageName][this.props.screen.currentDevice] ||
-              !this.props.images[this.props.screen.currentPageName][this.props.screen.currentDevice][version]
+              !this.props.images[pageName] ||
+              !this.props.images[pageName][device] ||
+              !this.props.images[pageName][device][version]
             ) {
-            this.props.actions.getImage(version, imgFullPath, pageName, device);
+              this.props.actions.getImage(version, imgFullPath, pageName, device);
             }
           }
         }
@@ -243,11 +246,11 @@ class Screen extends React.Component {
       this.initialDevice = undefined;
 
       if (!this.props.screen.deviceMode) {
-        let imageWidth = this.props.data.pages[this.props.screen.currentPageName]
+        const imageWidth = this.props.data.pages[this.props.screen.currentPageName]
           .devices[this.props.screen.currentDevice]
           .designs[this.props.screen.currentDesignVersion]
           .iWidth;
-        if (imageWidth < this.props.screen.frames['A'].frameWidth) {
+        if (imageWidth < this.props.screen.frames.A.frameWidth) {
           this.props.actions.showDevice(true);
         } else {
           this.props.actions.showDevice(false);
@@ -303,7 +306,7 @@ class Screen extends React.Component {
             images={this.props.images}
             actions={this.props.actions}
           /> : null }
-        { this.props.screen.splitScreen > 1?
+        { this.props.screen.splitScreen > 1 ?
           <Frame
             id={'C'}
             screen={this.props.screen}
@@ -348,5 +351,79 @@ function mapDispatchToProps(dispatch) {
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;
 }
+
+Screen.defaultProps = {
+  actions: {},
+  data: {},
+  screen: {},
+  images: {},
+  match: {},
+  location: {}
+};
+Screen.propTypes = {
+  actions: PropTypes.objectOf(
+    PropTypes.func
+  ),
+  data: PropTypes.shape({
+    isLoadingData: PropTypes.bool,
+    loadingDataError: PropTypes.bool,
+    dataReady: PropTypes.bool,
+    projectId: PropTypes.string,
+    name: PropTypes.string,
+    numberOfVersions: PropTypes.number,
+    password: PropTypes.string,
+    error: PropTypes.bool,
+    backgrounds: PropTypes.objectOf(
+      PropTypes.shape({
+        fileName: PropTypes.string,
+        bgSize: PropTypes.string,
+        bgPosition: PropTypes.string
+      })
+    ),
+    pages: PropTypes.objectOf(
+      PropTypes.shape()
+    ),
+    devices: PropTypes.objectOf(
+      PropTypes.shape()
+    )
+  }),
+  screen: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+    currentDevice: PropTypes.string,
+    currentPageName: PropTypes.string,
+    currentDesignVersion: PropTypes.string,
+    splitScreen: PropTypes.number,
+    deviceMode: PropTypes.bool,
+    showDevice: PropTypes.bool,
+    zoom: PropTypes.number,
+    manualZoom: PropTypes.bool,
+    bgColor: PropTypes.string,
+    bgImage: PropTypes.string,
+    showDesignImage: PropTypes.bool,
+    frames: PropTypes.objectOf(
+      PropTypes.shape({
+        frameWidth: PropTypes.number,
+        frameHeight: PropTypes.number
+      })
+    )
+  }),
+  images: PropTypes.shape({
+    isLoadingImage: PropTypes.number,
+    loadingImageError: PropTypes.bool,
+    devicesList: PropTypes.shape({})
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      version: PropTypes.string,
+      device: PropTypes.string,
+      page: PropTypes.string
+    })
+  }),
+  location: PropTypes.shape({
+    search: PropTypes.string
+  })
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(cssmodules(Screen, styles));
 

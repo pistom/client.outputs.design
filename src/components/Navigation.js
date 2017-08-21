@@ -12,38 +12,131 @@ const Navigation = (props) => {
         <li styleName="navigation-component__listElem">
           <span styleName="navigation-component__btn navigation-component__btnSettings hasSubmenu"></span>
           <div styleName="navigation-component__submenu">
-            <h2>Devices</h2>
-            <ul>
-              {props.screen.currentPageName ?
-                Object.keys(props.pages[props.screen.currentPageName].devices).map((device => {
-                  return (<li key={device}>
-                    <span
-                      onClick={() => props.actions.changeDevice(device)}
-                      className={props.screen.currentDevice === device ? 'active' : null}
-                      style={props.screen.currentDevice === device ? {color: 'brown'} : null}
-                    >
-                      {device}
-                    </span>
-                  </li>);
-                })) : null
-              }
+            <h2>Options</h2>
+            <div styleName="navigation-component__options">
+              <div styleName="option">
+                <div styleName="label">
+                  Device:
+                </div>
+                <div styleName="list">
+                  <ul>
+                    {props.screen.currentPageName ?
+                      Object.keys(props.pages[props.screen.currentPageName].devices)
+                        .map((device => {
+                          return (
+                            <li key={device}>
+                              <span
+                                onClick={() => props.actions.changeDevice(device)}
+                                styleName={props.screen.currentDevice === device &&
+                                  props.screen.deviceMode ? 'active' : null}
+                              >
+                                {device}
+                              </span>
+                            </li>);
+                        })) : null
+                    }
+                  </ul>
+                </div>
+              </div>
+
+              {props.numberOfVersions > 1 ?
+                (
+                  <div styleName="option">
+                    <div styleName="label">
+                      Split screen:
+                    </div>
+                    <div styleName="list">
+                      <div styleName="splitScreen">
+                        {props.screen.splitScreen === 0 ?
+                          <span onClick={() => props.actions.splitScreen(1)}>off</span> :
+                          <span
+                            styleName="on"
+                            onClick={() => props.actions.splitScreen(0)}>on</span>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+
               {props.screen.deviceMode ?
-                <li>
-                  <span onClick={() => props.actions.changeDevice(false)}>Responsive</span>
-                </li> : null
+                <div styleName="option">
+                  <div styleName="label">
+                    Background:
+                  </div>
+                  <div styleName="list">
+                    <div styleName="colors">
+                      <span
+                        onClick={() => props.actions.setBgColor('#ffffff')}
+                        style={{backgroundColor: '#ffffff'}}
+                      />
+                      <span
+                        onClick={() => props.actions.setBgColor('#000000')}
+                        style={{backgroundColor: '#000000'}}
+                      />
+                      <span
+                        onClick={() => props.actions.setBgColor('#888888')}
+                        style={{backgroundColor: '#888888'}}
+                      />
+                      <span
+                        onClick={() => props.actions.setBgColor('#c13e32')}
+                        style={{backgroundColor: '#c13e32'}}
+                      />
+                      <span
+                        onClick={() => props.actions.setBgColor('#6495ed')}
+                        style={{backgroundColor: '#6495ed'}}
+                      />
+                      <span
+                        onClick={() => props.actions.setBgColor('#88de23')}
+                        style={{backgroundColor: '#88de23'}}
+                      />
+                    </div>
+                    <div styleName="images">
+                      <ul>
+                        {Object.keys(props.backgrounds).map((bg) => {
+                          return (
+                            <li key={bg}>
+                              <span onClick={() => props.actions.setBgImage(bg)}>{bg}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+
+                  </div>
+                </div> : null
               }
               {props.screen.deviceMode ?
                 (
-                  <ul>
-                    <li><span onClick={() => props.actions.setZoom(.5) }>0.50</span></li>
-                    <li><span onClick={() => props.actions.setZoom(.75) }>0.75</span></li>
-                    <li><span onClick={() => props.actions.setZoom(1) }>1.00</span></li>
-                    <li><span onClick={() => props.actions.setZoom(1.5) }>1.50</span></li>
-                    <li><span onClick={() => props.actions.setZoom(2) }>2.00</span></li>
-                  </ul>
+                  <div styleName="option">
+                    <div styleName="label">
+                      Zoom:
+                    </div>
+                    <div styleName="list">
+                      <div styleName="zoom">
+                        <span styleName="zoom_plus" onClick={() => props.actions.setZoom('-') }/>
+                        <span styleName="zoom_reset" onClick={() => props.actions.setZoom('1:1') }/>
+                        <span styleName="zoom_minus" onClick={() => props.actions.setZoom('+') }/>
+                      </div>
+                    </div>
+                  </div>
                 ) : null
               }
-            </ul>
+            </div>
+
+
+            <div styleName="navigation-component__autoMode">
+              <h2 styleName="no-border">
+                Auto adjust
+                {props.screen.deviceMode ?
+                  <span onClick={() => props.actions.changeDevice(false)}>Off</span> :
+                  <span
+                    styleName="on"
+                    onClick={() => props.actions.changeDevice(props.screen.currentDevice)}>
+                    On
+                  </span>
+                }
+              </h2>
+            </div>
           </div>
         </li>
 
@@ -51,11 +144,14 @@ const Navigation = (props) => {
           <span styleName="navigation-component__btn navigation-component__btnPages hasSubmenu"></span>
           <div styleName="navigation-component__submenu">
             <h2>Pages</h2>
-            <ul styleName="navigation-component__pages">
+            <ul
+              styleName="navigation-component__pages"
+              style={{bottom: props.numberOfVersions > 1 ? 45 : 15}}
+            >
               {Object.keys(props.pages).map((pageName) => {
                 return (<li key={pageName}>
                   <NavLink
-                    activeClassName="active"
+                    styleName={props.screen.currentPageName === pageName ? 'active' : null}
                     to={`/project/${props.projectId}/${pageName}/${props.urlParams}`}
                   >
                     {pageName}
@@ -63,42 +159,28 @@ const Navigation = (props) => {
                 </li>);
               })}
             </ul>
+            {props.numberOfVersions > 1 ?
+              <div styleName="navigation-component__versions">
+                <h2 styleName="no-border">
+                  Version:
+                  <span
+                    onClick={() => props.actions.changeDesignVersion('A')}
+                    styleName={props.screen.currentDesignVersion === 'A' ? 'active' : null}>
+                    A
+                  </span>
+                  <span
+                    onClick={() => props.actions.changeDesignVersion('B')}
+                    styleName={props.screen.currentDesignVersion === 'B' ? 'active' : null}>
+                    B
+                  </span>
+                </h2>
+              </div> : null }
           </div>
         </li>
         <li styleName="navigation-component__listElem">
           <span styleName="navigation-component__btn navigation-component__btnComment"></span>
         </li>
       </ul>
-
-
-
-
-
-      {/*{props.numberOfVersions > 1 ?*/}
-      {/*(*/}
-      {/*<ul>*/}
-      {/*<li><span onClick={() => props.actions.splitScreen(1)}>split on</span></li>*/}
-      {/*<li><span onClick={() => props.actions.splitScreen(0)}>split off</span></li>*/}
-      {/*<li><span onClick={() => props.actions.changeDesignVersion('A')} >ver. A</span></li>*/}
-      {/*<li><span onClick={() => props.actions.changeDesignVersion('B')} >ver. B</span></li>*/}
-      {/*</ul>*/}
-      {/*) : null}*/}
-
-      {/*<ul>*/}
-      {/*<li><span onClick={() => props.actions.setBgColor('#ffffff')}>white</span></li>*/}
-      {/*<li><span onClick={() => props.actions.setBgColor('#000000')}>black</span></li>*/}
-      {/*<li><span onClick={() => props.actions.setBgColor('#888888')}>gray</span></li>*/}
-      {/*<li><span onClick={() => props.actions.setBgColor('#c13e32')}>red</span></li>*/}
-      {/*{*/}
-      {/*Object.keys(props.backgrounds).map((bg) => {*/}
-      {/*return (*/}
-      {/*<li key={bg}><span onClick={() => props.actions.setBgImage(bg)}>{bg}</span></li>*/}
-      {/*);*/}
-      {/*})*/}
-      {/*}*/}
-
-
-      {/*</ul>*/}
 
     </div>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cssmodules from 'react-css-modules';
 import styles from './frame.cssmodule.scss';
 import Device from './Device';
@@ -9,7 +10,7 @@ class Frame extends React.Component {
     const splitScreen = this.props.screen.splitScreen;
     let frameWidthPercentage = 100;
     if (this.props.screen.width >= this.props.screen.height) {
-      frameWidthPercentage = (frameWidthPercentage / (splitScreen + 1));
+      frameWidthPercentage /= (splitScreen + 1);
     }
     return frameWidthPercentage;
   }
@@ -18,7 +19,7 @@ class Frame extends React.Component {
     const splitScreen = this.props.screen.splitScreen;
     let frameHeight = this.props.screen.height;
     if (splitScreen > 0 && this.props.screen.width < this.props.screen.height) {
-      frameHeight = (frameHeight / (splitScreen + 1)) - 10;
+      frameHeight /= (splitScreen + 1);
     }
     return frameHeight;
   }
@@ -42,6 +43,7 @@ class Frame extends React.Component {
         imageWidth = null;
       }
     } catch (Err) {
+      console.log(Err);
     }
     // const filePath = (fileName) ? `url(http://localhost/crayon/API/test/${fileName})` : null;
     // const filePath = (fileName) ? `http://api.outputs.cinquiemecrayon.eu/${this.props.project.projectId}/${fileName}` : null;
@@ -86,7 +88,7 @@ class Frame extends React.Component {
       versionIndicatorStyles.display = 'block';
     }
 
-    let currentPage = undefined;
+    let currentPage;
     if (
       this.props.project.pages &&
       this.props.project.pages[this.props.screen.currentPageName] &&
@@ -153,8 +155,64 @@ class Frame extends React.Component {
 }
 
 Frame.displayName = 'Frame';
-Frame.propTypes = {};
-Frame.defaultProps = {};
+Frame.propTypes = {
+  project: PropTypes.shape({
+    isLoadingData: PropTypes.bool,
+    loadingDataError: PropTypes.bool,
+    dataReady: PropTypes.bool,
+    projectId: PropTypes.string,
+    name: PropTypes.string,
+    numberOfVersions: PropTypes.number,
+    password: PropTypes.string,
+    error: PropTypes.bool,
+    backgrounds: PropTypes.objectOf(
+      PropTypes.shape({
+        fileName: PropTypes.string,
+        bgSize: PropTypes.string,
+        bgPosition: PropTypes.string
+      })
+    ),
+    pages: PropTypes.objectOf(
+      PropTypes.shape()
+    ),
+    devices: PropTypes.objectOf(
+      PropTypes.shape()
+    )
+  }),
+  screen: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+    currentDevice: PropTypes.string,
+    currentPageName: PropTypes.string,
+    currentDesignVersion: PropTypes.string,
+    splitScreen: PropTypes.number,
+    deviceMode: PropTypes.bool,
+    showDevice: PropTypes.bool,
+    zoom: PropTypes.number,
+    manualZoom: PropTypes.bool,
+    bgColor: PropTypes.string,
+    bgImage: PropTypes.string,
+    showDesignImage: PropTypes.bool,
+    frames: PropTypes.objectOf(
+      PropTypes.shape({
+        frameWidth: PropTypes.number,
+        frameHeight: PropTypes.number
+      })
+    )
+  }),
+  images: PropTypes.shape({
+    isLoadingImage: PropTypes.number,
+    loadingImageError: PropTypes.bool,
+    devicesList: PropTypes.shape({})
+  }),
+  id: PropTypes.string
+};
+Frame.defaultProps = {
+  screen: {},
+  project: {},
+  images: {},
+  id: 'A'
+};
 
 
 export default cssmodules(Frame, styles);

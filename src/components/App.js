@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/href-no-hash */
 import React from 'react';
 import {
   BrowserRouter as Router,
@@ -5,6 +6,7 @@ import {
   Switch,
   Redirect
 } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import history from '../history';
 import './app.css';
 import Screen from './Screen';
@@ -51,15 +53,22 @@ class AppComponent extends React.Component {
   componentDidMount() {
     if (this.state.projectId) {
       this.props.actions.getProjectData(this.state.projectId);
-      const currentPageName = window.location.pathname.split('/')[3] || null;
+      let currentPageName = window.location.pathname.split('/')[3] || null;
+      currentPageName = currentPageName ? decodeURIComponent(currentPageName) : undefined;
       this.props.actions.setCurrentPageName(currentPageName);
     }
+    this.state.zoom = 1;
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.data.projectId !== nextProps.data.projectId) {
       this.setState({
         projectId: nextProps.data.projectId
+      });
+    }
+    if (this.props.screen.zoom !== nextProps.screen.zoom) {
+      this.setState({
+        zoom: nextProps.screen.zoom
       });
     }
   }
@@ -103,13 +112,30 @@ class AppComponent extends React.Component {
       this.props.actions.setDeviceMode(false);
       this.props.actions.showDevice(false);
       this.props.actions.setZoom(1, false);
+      this.props.actions.setBgImage(undefined);
+      this.props.actions.setBgColor('ffffff');
     }
     // TODO Change mode of dispatch history.push action
     setTimeout(() => history.push(`${this.generateUrl()}`), 100);
   }
 
-  _handleSetZoom(zoom) {
-    this.props.actions.setZoom(zoom);
+  _handleSetZoom(zoomming) {
+    let newZoom;
+    switch (zoomming) {
+      case '+': {
+        newZoom = this.state.zoom + (this.state.zoom / 2);
+        break;
+      }
+      case '-': {
+        newZoom = this.state.zoom - (this.state.zoom / 3);
+        break;
+      }
+      default: {
+        newZoom = 1;
+      }
+    }
+    this.setState({zoom: newZoom});
+    this.props.actions.setZoom(newZoom);
   }
 
   generateUrl() {
@@ -140,13 +166,13 @@ class AppComponent extends React.Component {
                 <Route component={PageNotFound} />
               </Switch>
             </div>
-          ) :
-          <Login
-            // projectId={this.projectId}
-            projectId={this.state.projectId}
-            error={this.props.data.error}
-            getProjectData={this.props.actions.getProjectData}
-          />
+          ) : (
+            <Login
+              projectId={this.state.projectId}
+              error={this.props.data.error}
+              getProjectData={this.props.actions.getProjectData}
+            />
+          )
         }
       </Router>
     );
@@ -154,6 +180,52 @@ class AppComponent extends React.Component {
 }
 
 AppComponent.defaultProps = {
+  actions: {},
+  data: {},
+  screen: {}
+};
+AppComponent.propTypes = {
+  actions: PropTypes.objectOf(
+    PropTypes.func
+  ),
+  data: PropTypes.shape({
+    isLoadingData: PropTypes.bool,
+    loadingDataError: PropTypes.bool,
+    dataReady: PropTypes.bool,
+    projectId: PropTypes.string,
+    name: PropTypes.string,
+    numberOfVersions: PropTypes.number,
+    password: PropTypes.string,
+    error: PropTypes.bool,
+    backgrounds: PropTypes.objectOf(
+      PropTypes.shape({
+        fileName: PropTypes.string,
+        bgSize: PropTypes.string,
+        bgPosition: PropTypes.string
+      })
+    ),
+    pages: PropTypes.objectOf(
+      PropTypes.shape()
+    ),
+    devices: PropTypes.objectOf(
+      PropTypes.shape()
+    )
+  }),
+  screen: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+    currentDevice: PropTypes.string,
+    currentPageName: PropTypes.string,
+    currentDesignVersion: PropTypes.string,
+    splitScreen: PropTypes.number,
+    deviceMode: PropTypes.bool,
+    showDevice: PropTypes.bool,
+    zoom: PropTypes.number,
+    manualZoom: PropTypes.bool,
+    bgColor: PropTypes.string,
+    bgImage: PropTypes.string,
+    showDesignImage: PropTypes.bool
+  })
 };
 
 export default AppComponent;

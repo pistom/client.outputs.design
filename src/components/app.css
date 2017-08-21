@@ -64,8 +64,11 @@ a {
   background: transparent;
 }
 
-// For Internet Explorer
-   body {
-     scrollbar-face-color: darkgray;
-     scrollbar-track-color: transparent;
-   }
+html, body {
+  height: 100%;
+}
+
+body {
+ scrollbar-face-color: darkgray;
+ scrollbar-track-color: transparent;
+}
