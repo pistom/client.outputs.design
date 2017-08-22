@@ -9,6 +9,18 @@ const Navigation = (props) => {
     <div styleName="navigation-component" className="navigation-component">
       <span styleName="navigation-component__btn navigation-component__btnMenu"></span>
       <ul styleName="navigation-component__list">
+        <li styleName="navigation-component__listElem hasSubList">
+          <span styleName="navigation-component__btn navigation-component__btnFeedback"></span>
+          <ul styleName="navigation-component__subList">
+            <li>
+              <span
+                styleName="navigation-component__btn navigation-component__btnMessages"
+                onClick={() => props.actions.showMessagesWindow(true)}
+              />
+            </li>
+            <li><span styleName="navigation-component__btn navigation-component__btnComments"></span></li>
+          </ul>
+        </li>
         <li styleName="navigation-component__listElem">
           <span styleName="navigation-component__btn navigation-component__btnSettings hasSubmenu"></span>
           <div styleName="navigation-component__submenu">
@@ -113,9 +125,9 @@ const Navigation = (props) => {
                     </div>
                     <div styleName="list">
                       <div styleName="zoom">
-                        <span styleName="zoom_plus" onClick={() => props.actions.setZoom('-') }/>
+                        <span styleName="zoom_minus" onClick={() => props.actions.setZoom('-') }/>
                         <span styleName="zoom_reset" onClick={() => props.actions.setZoom('1:1') }/>
-                        <span styleName="zoom_minus" onClick={() => props.actions.setZoom('+') }/>
+                        <span styleName="zoom_plus" onClick={() => props.actions.setZoom('+') }/>
                       </div>
                     </div>
                   </div>
@@ -177,9 +189,7 @@ const Navigation = (props) => {
               </div> : null }
           </div>
         </li>
-        <li styleName="navigation-component__listElem">
-          <span styleName="navigation-component__btn navigation-component__btnComment"></span>
-        </li>
+
       </ul>
 
     </div>

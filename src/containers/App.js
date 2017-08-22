@@ -28,20 +28,23 @@ import {
   setLoadingImage,
   setBgColor,
   setBgImage,
-  setImageDimensions
+  setImageDimensions,
+  showMessagesWindow,
+  getMessages
 } from '../actions/';
 import Main from '../components/App';
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
   render() {
-    const {actions, screen, data, routing, images} = this.props;
+    const {actions, screen, data, routing, images, messages} = this.props;
     return (
       <Main
         actions={actions}
         screen={screen}
         data={data}
         routing={routing}
-        images={images}/>
+        images={images}
+        messages={messages}/>
     );
   }
 }
@@ -67,11 +70,14 @@ App.propTypes = {
     setBgColor: PropTypes.func.isRequired,
     setBgImage: PropTypes.func.isRequired,
     setImageDimensions: PropTypes.func.isRequired,
+    showMessagesWindow: PropTypes.func.isRequired,
+    getMessages: PropTypes.func.isRequired
   }),
   screen: PropTypes.shape({}),
   data: PropTypes.shape({}),
   routing: PropTypes.shape({}),
-  images: PropTypes.shape({})
+  images: PropTypes.shape({}),
+  messages: PropTypes.shape({})
 };
 function mapStateToProps(state) {
   // eslint-disable-line no-unused-vars
@@ -80,7 +86,8 @@ function mapStateToProps(state) {
     screen: state.screen,
     data: state.data,
     routing: state.routing,
-    images: state.images
+    images: state.images,
+    messages: state.messages
   };
   return props;
 }
@@ -101,7 +108,9 @@ function mapDispatchToProps(dispatch) {
     setLoadingImage,
     setBgColor,
     setBgImage,
-    setImageDimensions
+    setImageDimensions,
+    showMessagesWindow,
+    getMessages
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

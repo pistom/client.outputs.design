@@ -4,6 +4,9 @@
   right: 20px;
   z-index: 500;
   &:hover {
+    .navigation-component__list {
+
+    }
     .navigation-component__listElem {
       opacity: 1;
       margin-bottom: 10px;
@@ -51,7 +54,7 @@
   }
 
   &__btn {
-    margin: 10px;
+    margin: 0 10px;
     height: 50px;
     width: 50px;
     background: white;
@@ -105,6 +108,7 @@
     }
   }
   &__btnMenu {
+    margin: 10px;
     background-position: 0 50px;
     z-index: 1;
     position: absolute;
@@ -114,15 +118,25 @@
   &__btnPages {
     background-position: 0 100px;
   }
-  &__btnComment {
+  &__btnFeedback {
     background-position: 0 150px;
+  }
+  &__btnSettings {
+    background-position: 0 200px;
+  }
+  &__btnMessages {
+    background-position: -100px -50px;
     cursor: pointer;
     &:hover {
       background-color: cornflowerblue;
     }
   }
-  &__btnSettings {
-    background-position: 0 200px;
+  &__btnComments {
+    background-position: -100px 0;
+    cursor: pointer;
+    &:hover {
+      background-color: cornflowerblue;
+    }
   }
 
   &__submenu {
@@ -162,10 +176,9 @@
     position: absolute;
     top: 38px;
     bottom: 15px;
-    right: 15px;
+    width: 210px;
     left: 15px;
     overflow: auto;
-
     li {
       a {
         display: block;
@@ -186,7 +199,7 @@
   &__versions {
     position:absolute;
     bottom: 0;
-    right: 15px;
+    width: 210px;
     left: 15px;
     border-top: 1px solid transparentize(black, .85);
     padding-top: 0;
@@ -319,15 +332,17 @@
             background-image: url('/static/images/icons_bg.svg');
             cursor: pointer;
           }
-          .zoom_plus {
-            background-position: -260px -10px;
+          .zoom_minus {
+            background-position: 90px -10px;
           }
           .zoom_reset {
-            background-position: -210px -10px;
+            background-position: -10px -10px;
           }
-          .zoom_minus {
-            background-position: -260px -60px;
+          .zoom_plus {
+            background-position: 90px -60px;
           }
+
+
         }
         .splitScreen {
           padding: 4px;
@@ -367,6 +382,40 @@
         content: "";
         display: block;
         clear: both;
+      }
+    }
+  }
+  .hasSubList {
+    .navigation-component__btn {
+      z-index:1 ;
+      position: relative;
+    }
+    &:hover {
+      li {
+
+        transition: .5s ease-in;
+        &:first-child {
+          right: 60px;
+          opacity: 1;
+        }
+        &:nth-child(2) {
+          right: 120px;
+          opacity: 1;
+        }
+      }
+    }
+    .navigation-component__subList {
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      right: 0;
+
+      li {
+        transition: .25s ease-out;
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
       }
     }
   }

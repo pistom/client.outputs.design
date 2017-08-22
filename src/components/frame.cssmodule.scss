@@ -18,17 +18,17 @@
   &__versionIndicator {
     text-align: center;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: bold;
+    font-weight: 600;
     z-index: 99;
     position: absolute;
     transition: .5s;
     top: 2%;
     left: 2%;
-    color: #fff;
+    color: #999999;
     font-size: 5vh;
     animation-name: versionIndicator;
-    animation-duration: 3s;
-    text-shadow: 1px 1px 0 rgba(0,0,0,.25), -1px -1px 0 rgba(0,0,0,.25), -1px 1px 0 rgba(0,0,0,.25), 1px -1px 0 rgba(0,0,0,.25);
+    animation-duration: 5s;
+    text-shadow: 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff;
     filter: blur(0);
     opacity: .35;
     line-height: .75em;
@@ -43,50 +43,41 @@
 @keyframes versionIndicator {
   0% {
     filter: blur(30px);
-    z-index: 500;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 5vh;
+    z-index: 140;
     opacity: 0;
-    line-height: .75em;
   }
   10% {
     filter: blur(30px);
-    z-index: 500;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 5vh;
+    z-index: 140;
     opacity: 0;
-    line-height: .75em;
   }
-  25% {
+  20% {
     filter: blur(0);
-    z-index: 500;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 50vh;
+    z-index: 140;
     opacity: 1;
-    line-height: .45em;
+    color: white;
   }
-  55% {
-    z-index: 500;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 50vh;
+  30% {
+    z-index: 140;
+    opacity: .35;
+    color: lightslategray;
+  }
+  40% {
+    z-index: 140;
     opacity: 1;
-    line-height: .45em;
+    color: white;
+    text-shadow: 0 0 1px lightslategray, 0 0 1px lightslategray, 0 0 1px lightslategray;
+  }
+  80% {
+    z-index: 140;
+    opacity: 1;
+    color: white;
+    text-shadow: 0 0 1px lightslategray, 0 0 1px lightslategray, 0 0 1px lightslategray;
   }
   100% {
     z-index: 99;
-    top: 2%;
-    left: 2%;
-    transform: translate(0%, 0%);
-    font-size: 5vh;
     opacity: .35;
-    line-height: .75em;
+    color: lightslategray;
+    text-shadow: 0 0 1px white, 0 0 1px white, 0 0 1px white;
   }
 }

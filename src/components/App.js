@@ -13,6 +13,7 @@ import Screen from './Screen';
 import Navigation from './Navigation';
 import PageNotFound from './404';
 import Login from './Login';
+import Messages from './MessagesWindow';
 
 export class Utils {
   static generateUrlParams(screen) {
@@ -44,7 +45,8 @@ class AppComponent extends React.Component {
       changeDevice: this._handleChangeDevice.bind(this),
       setZoom: this._handleSetZoom.bind(this),
       setBgColor: this._handleSetBgColor.bind(this),
-      setBgImage: this._handleSetBgImage.bind(this)
+      setBgImage: this._handleSetBgImage.bind(this),
+      showMessagesWindow: this._handleShowMessages.bind(this)
     };
     const projectId = window.location.pathname.split('/')[2];
     this.state = {projectId};
@@ -53,6 +55,7 @@ class AppComponent extends React.Component {
   componentDidMount() {
     if (this.state.projectId) {
       this.props.actions.getProjectData(this.state.projectId);
+      this.props.actions.getMessages(this.state.projectId);
       let currentPageName = window.location.pathname.split('/')[3] || null;
       currentPageName = currentPageName ? decodeURIComponent(currentPageName) : undefined;
       this.props.actions.setCurrentPageName(currentPageName);
@@ -96,7 +99,6 @@ class AppComponent extends React.Component {
     // TODO Change mode of dispatch history.push action
     setTimeout(() => {
       history.push(`${this.generateUrl()}`);
-      // this.props.actions.setLoadingImage(false);
     }, 100);
   }
 
@@ -138,6 +140,10 @@ class AppComponent extends React.Component {
     this.props.actions.setZoom(newZoom);
   }
 
+  _handleShowMessages(show) {
+    this.props.actions.showMessagesWindow(show);
+  }
+
   generateUrl() {
     return `/project/${this.state.projectId}/${this.props.screen.currentPageName}/${Utils.generateUrlParams(this.props.screen)}`;
   }
@@ -165,12 +171,20 @@ class AppComponent extends React.Component {
                 <Route path={`/project/${this.state.projectId}/:page?/:version?/:device?`} component={Screen} />
                 <Route component={PageNotFound} />
               </Switch>
+              { this.props.screen.showMessagesWindow ?
+                <Messages
+                  actions={this.props.actions}
+                  messages={this.props.messages.messages}
+                  designIsAccepted={this.props.messages.designIsAccepted}
+                /> : null
+              }
             </div>
           ) : (
             <Login
               projectId={this.state.projectId}
               error={this.props.data.error}
               getProjectData={this.props.actions.getProjectData}
+              getMessages={this.props.actions.getMessages}
             />
           )
         }
@@ -196,7 +210,7 @@ AppComponent.propTypes = {
     name: PropTypes.string,
     numberOfVersions: PropTypes.number,
     password: PropTypes.string,
-    error: PropTypes.bool,
+    error: PropTypes.string,
     backgrounds: PropTypes.objectOf(
       PropTypes.shape({
         fileName: PropTypes.string,

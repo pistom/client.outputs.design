@@ -15,7 +15,8 @@ import {
   SHOW_DEVICE,
   SET_ZOOM,
   SET_BG_COLOR,
-  SET_BG_IMAGE
+  SET_BG_IMAGE,
+  SHOW_MESSAGES_WINDOW
 } from '../actions/const';
 
 const initialState = {
@@ -32,7 +33,8 @@ const initialState = {
   manualZoom: false,
   bgColor: undefined,
   bgImage: undefined,
-  showDesignImage: false
+  showDesignImage: false,
+  showMessagesWindow: true
 };
 
 function reducer(state = initialState, action) {
@@ -100,6 +102,10 @@ function reducer(state = initialState, action) {
 
     case SET_BG_IMAGE: {
       return Object.assign({}, state, {zoom: action.zoom, bgImage: action.image});
+    }
+
+    case SHOW_MESSAGES_WINDOW: {
+      return Object.assign({}, state, {showMessagesWindow: action.show});
     }
 
     default: {

@@ -120,7 +120,7 @@ class Frame extends React.Component {
           height: `${this.calculateFrameHeight()}px`,
           borderLeft: horizontalSplitGap ? '2px solid #000' : null,
           borderTop: verticalSplitGap ? '2px solid #000' : null,
-          backgroundColor: `${this.props.screen.showDevice ? this.props.screen.bgColor : 'gray'}`,
+          backgroundColor: `${this.props.screen.showDevice ? this.props.screen.bgColor : 'white'}`,
           ...backgroundImageStyles
         }}
       >
@@ -164,7 +164,6 @@ Frame.propTypes = {
     name: PropTypes.string,
     numberOfVersions: PropTypes.number,
     password: PropTypes.string,
-    error: PropTypes.bool,
     backgrounds: PropTypes.objectOf(
       PropTypes.shape({
         fileName: PropTypes.string,

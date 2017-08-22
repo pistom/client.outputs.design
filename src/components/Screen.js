@@ -36,7 +36,7 @@ class Screen extends React.Component {
   componentDidMount() {
     this.updateFrames();
     const splitScreenUrlParam = queryString.parse(this.props.location.search).splitScreen;
-    const bgColorUrlParam = queryString.parse(this.props.location.search).bgColor || 'gray';
+    const bgColorUrlParam = queryString.parse(this.props.location.search).bgColor || 'white';
     const bgImageUrlParam = queryString.parse(this.props.location.search).bgImage || undefined;
     this.props.actions.setSplitScreen(parseInt(splitScreenUrlParam, 10));
     this.props.actions.setBgColor(bgColorUrlParam);
@@ -372,7 +372,6 @@ Screen.propTypes = {
     name: PropTypes.string,
     numberOfVersions: PropTypes.number,
     password: PropTypes.string,
-    error: PropTypes.bool,
     backgrounds: PropTypes.objectOf(
       PropTypes.shape({
         fileName: PropTypes.string,

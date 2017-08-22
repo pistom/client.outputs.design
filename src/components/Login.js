@@ -12,6 +12,13 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentWillMount() {
+    this.setState({
+      projectId: '',
+      password: ''
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
     this.setState({projectId: nextProps.projectId});
   }
@@ -27,6 +34,7 @@ class Login extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     this.props.getProjectData(this.state.projectId, this.state.password);
+    this.props.getMessages(this.state.projectId, this.state.password);
   }
 
   render() {
