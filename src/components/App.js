@@ -74,6 +74,11 @@ class AppComponent extends React.Component {
         zoom: nextProps.screen.zoom
       });
     }
+    if (this.props.messages.areLoadingMessages && !nextProps.messages.areLoadingMessages) {
+      if (nextProps.messages.messages.length > 0) {
+        this.props.actions.showMessagesWindow(true);
+      }
+    }
   }
 
   _handleSplitScreen(split) {

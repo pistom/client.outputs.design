@@ -6,7 +6,7 @@ class Login extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {projectId: '', password: ''};
+    this.state = {projectId: '', password: '', error: ''};
     this.handleChangeProjectId = this.handleChangeProjectId.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -15,12 +15,16 @@ class Login extends React.Component {
   componentWillMount() {
     this.setState({
       projectId: '',
-      password: ''
+      password: '',
+      error: ''
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({projectId: nextProps.projectId});
+    this.setState({
+      projectId: nextProps.projectId,
+      error: nextProps.error
+    });
   }
 
   handleChangeProjectId(event) {
@@ -28,11 +32,17 @@ class Login extends React.Component {
   }
 
   handleChangePassword(event) {
-    this.setState({password: event.target.value});
+    this.setState({
+      password: event.target.value,
+      error: ''
+    });
   }
 
   handleSubmit(event) {
     event.preventDefault();
+    this.setState({
+      error: ''
+    });
     this.props.getProjectData(this.state.projectId, this.state.password);
     this.props.getMessages(this.state.projectId, this.state.password);
   }
@@ -40,12 +50,15 @@ class Login extends React.Component {
   render() {
     return (
       <div className="login-component" styleName="login-component">
+        <h1>designOutputs</h1>
         <form onSubmit={this.handleSubmit}>
-          <input type="text" value={this.state.projectId} placeholder="Projec ID" onChange={this.handleChangeProjectId}/>
-          <input type="password" value={this.state.password} placeholder="Password" onChange={this.handleChangePassword}/>
-          <input type="submit" value="Submit" />
+          <label htmlFor="projectId">Project ID</label>
+          <input type="text" id="projectId" value={this.state.projectId} onChange={this.handleChangeProjectId} />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" value={this.state.password} onChange={this.handleChangePassword} />
+          <p styleName="submit"><input type="submit" value="Login" /></p>
         </form>
-        <p>{this.props.error}</p>
+        <p styleName="info">{this.state.error}</p>
       </div>
     );
   }

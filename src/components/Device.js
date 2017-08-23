@@ -72,6 +72,7 @@ class Device extends React.Component {
             imageWidth={this.props.imageWidth}
             screen={this.props.screen}
             currentPage={this.props.currentPage}
+            comments={this.props.comments}
           /> : null
         }
       </div>

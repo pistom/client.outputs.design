@@ -1,0 +1,110 @@
+.comment-component {
+  position: absolute;
+  .number {
+    display: block;
+    width: 25px;
+    height: 25px;
+    background: darkred;
+    color: white;
+    font-size: .85em;
+    font-weight: 600;
+    text-align: center;
+    line-height: 25px;
+    border-radius: 25px;
+    z-index: 1;
+    position: absolute;
+  }
+  .commentBox {
+    z-index: 0;
+    border: 1px solid lightgray;
+    padding: 10px;
+    background: transparentize(white,.15);
+    max-width: 240px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 1.5em;
+    width: 240px;
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    .datetime {
+      font-size: .75em;
+      color: darkslategray;
+    }
+    .comment {
+      color: darkslategray;
+      font-size: .85em;
+      border-top: 1px solid lightgray;
+      padding-top: 5px;
+    }
+  }
+
+  .form {
+    border-top: 1px solid lightgray;
+    box-shadow: 0 -16px 16px -16px transparentize(lightgray,.5);
+    &.accepted {
+      height: 50px;
+    }
+    &__message {
+      text-align: center;
+      padding: 15px;
+      font-style: italic;
+      color: lightslategray;
+    }
+    &__btns {
+      text-align: right;
+    }
+    &__btn {
+      border: 1px solid lightslategray;
+      background: white;
+      padding: 2px 15px;
+      margin-bottom:6px;
+      margin-left: 4px;
+      border-radius:2px;
+      color: lightslategray;
+      cursor: pointer;
+      transition: .25s;
+      &:hover {
+        background: transparentize(lightslategray,.5);
+        color: white;
+      }
+      &.red {
+        background-color: darkred;
+        color: white;
+        border-color: darkred;
+      }
+      &.green {
+        background: darkgreen;
+        color: white;
+        border-color: darkgreen;
+      }
+    }
+    textarea {
+      width: 218px;
+      height: 120px;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      border-width: 1px;
+      border-style: solid;
+      border-color: lightgray;
+      padding: 8px;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      margin-top:10px;
+      font-size: .85em;
+      color: darkslategray;
+      margin-bottom: 0;
+      line-height:1.5em;
+      &:focus {
+        outline: none;
+      }
+      &::placeholder {
+        color: lightgray;
+      }
+    }
+  }
+}

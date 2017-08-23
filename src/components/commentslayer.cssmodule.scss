@@ -1,0 +1,7 @@
+.commentslayer-component {
+  background: transparentize(yellow,.75);
+  position: absolute;
+  z-index: 102;
+  transform: translateX(-50%);
+  margin-left: 50%;
+}

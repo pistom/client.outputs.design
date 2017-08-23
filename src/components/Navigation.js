@@ -7,7 +7,9 @@ const Navigation = (props) => {
 
   return (
     <div styleName="navigation-component" className="navigation-component">
-      <span styleName="navigation-component__btn navigation-component__btnMenu"></span>
+      <div styleName="navigation-component__btnMenuWrapper">
+        <span styleName="navigation-component__btn navigation-component__btnMenu"/>
+      </div>
       <ul styleName="navigation-component__list">
         <li styleName="navigation-component__listElem hasSubList">
           <span styleName="navigation-component__btn navigation-component__btnFeedback"></span>

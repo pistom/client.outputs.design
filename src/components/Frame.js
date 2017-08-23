@@ -109,6 +109,21 @@ class Frame extends React.Component {
         backgroundPosition: this.props.project.backgrounds[this.props.screen.bgImage].bgPosition
       };
     }
+    let comments = {};
+    if (
+      this.props.screen.currentPageName &&
+      this.props.comments &&
+      this.props.screen.currentDevice
+    ) {
+      const currentPageName = this.props.screen.currentPageName;
+      const currentDevice = this.props.screen.currentDevice;
+      try {
+        comments = this.props.comments[currentPageName][currentDevice][this.props.id];
+      } catch(Err) {
+        comments = {};
+      }
+
+    }
 
     return (
       <div
@@ -118,8 +133,8 @@ class Frame extends React.Component {
         style={{
           width: `${this.calculateFrameWidth()}%`,
           height: `${this.calculateFrameHeight()}px`,
-          borderLeft: horizontalSplitGap ? '2px solid #000' : null,
-          borderTop: verticalSplitGap ? '2px solid #000' : null,
+          borderLeft: horizontalSplitGap ? '5px solid gray' : null,
+          borderTop: verticalSplitGap ? '5px solid gray' : null,
           backgroundColor: `${this.props.screen.showDevice ? this.props.screen.bgColor : 'white'}`,
           ...backgroundImageStyles
         }}
@@ -148,6 +163,7 @@ class Frame extends React.Component {
           currentDevice={this.props.screen.currentDevice}
           zoom={this.props.screen.zoom}
           isLoading={this.props.images.isLoadingImage}
+          comments={comments}
         />
       </div>
     );

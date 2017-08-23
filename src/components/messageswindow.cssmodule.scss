@@ -11,19 +11,24 @@
   box-sizing: border-box;
   max-height: 640px;
   padding: 10px;
+
   &__wrapper {
     position: absolute;
     width: 100%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    background: transparentize(lightslategray,.5);
+    background: transparentize(lightslategray,.25);
     z-index: 600;
     height: 100%;
     padding: 10px;
     opacity: 1;
     animation-name: showMessage;
-    animation-duration: .5s;
+    animation-duration: .2s;
+    transition: .1s ease-out;
+    &.hide {
+      opacity: 0;
+    }
   }
   &__close {
     position: absolute;
@@ -69,6 +74,12 @@
       left: 15px;
       overflow-x: hidden;
       overflow-y: auto;
+      .messagesInfo {
+        font-weight: 600;
+        color: lightgray;
+        margin-top: 20px;
+        text-align: center;
+      }
       &.accepted {
         bottom: 50px;
       }
@@ -131,10 +142,11 @@
     .form {
       position: absolute;
       bottom: 0;
-      border-top: 1px solid lightslategray;
+      border-top: 1px solid lightgray;
       left: 15px;
       right: 15px;
       height: 150px;
+      box-shadow: 0 -16px 16px -16px transparentize(lightgray,.5);
       &.accepted {
         height: 50px;
       }
@@ -151,27 +163,50 @@
         border: 1px solid lightslategray;
         background: white;
         padding: 4px 15px;
-        margin-bottom:4px;
-        margin-right: 4px;
+        margin-bottom:6px;
         border-radius:2px;
+        color: lightslategray;
+        cursor: pointer;
+        transition: .25s;
+        &:hover {
+          background: transparentize(lightslategray,.5);
+          color: white;
+        }
         &.success {
           background: limegreen;
           color: white;
           border-color: green;
+          &:hover {
+            background: green;
+            color: white;
+          }
+        }
+        &.big {
+          font-size: 1em;
+          padding: 6px 20px
         }
       }
       textarea {
         width: 100%;
-        height: 40px;
+        height: 50px;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        border-width: 0 0 1px 0;
+        border-width: 1px;
         border-style: solid;
-        border-color: lightslategray;
-        padding:0;
-        margin-top:15px;
-        font-size: 1em;
+        border-color: lightgray;
+        padding: 8px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        margin-top:10px;
+        font-size: .85em;
         color: darkslategray;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
+        &:focus {
+          outline: none;
+        }
+        &::placeholder {
+          color: lightgray;
+        }
       }
     }
   }

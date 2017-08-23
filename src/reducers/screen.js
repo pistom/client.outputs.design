@@ -34,7 +34,7 @@ const initialState = {
   bgColor: undefined,
   bgImage: undefined,
   showDesignImage: false,
-  showMessagesWindow: true
+  showMessagesWindow: false
 };
 
 function reducer(state = initialState, action) {

@@ -297,6 +297,7 @@ class Screen extends React.Component {
           project={this.props.data}
           images={this.props.images}
           actions={this.props.actions}
+          comments={this.props.messages.comments}
         />
         { this.props.screen.splitScreen > 0 ?
           <Frame
@@ -305,6 +306,7 @@ class Screen extends React.Component {
             project={this.props.data}
             images={this.props.images}
             actions={this.props.actions}
+            comments={this.props.messages.comments}
           /> : null }
         { this.props.screen.splitScreen > 1 ?
           <Frame
@@ -313,6 +315,7 @@ class Screen extends React.Component {
             project={this.props.data}
             images={this.props.images}
             actions={this.props.actions}
+            comments={this.props.messages.comments}
           /> : null }
       </div>
     );
@@ -327,7 +330,8 @@ function mapStateToProps(state) {
   const props = {
     screen: state.screen,
     data: state.data,
-    images: state.images
+    images: state.images,
+    messages: state.messages
   };
   return props;
 }
