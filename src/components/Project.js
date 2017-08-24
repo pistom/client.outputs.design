@@ -17,6 +17,7 @@ const Project = props => (
           backgroundSize: `${props.imageWidth}px ${props.imageHeight}px`
         }}
       />
+
       <ActiveLayer
         projectId={props.projectId}
         imageHeight={props.imageHeight}
@@ -24,11 +25,14 @@ const Project = props => (
         activeElements={props.currentPage.active}
         screen={props.screen}
       />
-      <CommentsLayer
-        imageHeight={props.imageHeight}
-        imageWidth={props.imageWidth}
-        comments={props.comments}
-      />
+
+      { props.screen.showComments ?
+        <CommentsLayer
+          imageHeight={props.imageHeight}
+          imageWidth={props.imageWidth}
+          comments={props.comments}
+        /> : null
+      }
     </div>
   </div>
 );

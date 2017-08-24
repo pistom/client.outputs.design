@@ -30,7 +30,8 @@ import {
   setBgImage,
   setImageDimensions,
   showMessagesWindow,
-  getMessages
+  getMessages,
+  showComments
 } from '../actions/';
 import Main from '../components/App';
 /* Populated by react-webpack-redux:reducer */
@@ -71,7 +72,8 @@ App.propTypes = {
     setBgImage: PropTypes.func.isRequired,
     setImageDimensions: PropTypes.func.isRequired,
     showMessagesWindow: PropTypes.func.isRequired,
-    getMessages: PropTypes.func.isRequired
+    getMessages: PropTypes.func.isRequired,
+    showComments: PropTypes.func.isRequired
   }),
   screen: PropTypes.shape({}),
   data: PropTypes.shape({}),
@@ -110,7 +112,8 @@ function mapDispatchToProps(dispatch) {
     setBgImage,
     setImageDimensions,
     showMessagesWindow,
-    getMessages
+    getMessages,
+    showComments
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

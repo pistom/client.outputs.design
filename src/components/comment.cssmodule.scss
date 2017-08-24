@@ -18,7 +18,7 @@
     z-index: 0;
     border: 1px solid lightgray;
     padding: 10px;
-    background: transparentize(white,.15);
+    background: transparentize(white,.05);
     max-width: 240px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -33,19 +33,20 @@
     border-radius: 2px;
     .datetime {
       font-size: .75em;
-      color: darkslategray;
+      color: lightslategray;
     }
     .comment {
-      color: darkslategray;
-      font-size: .85em;
-      border-top: 1px solid lightgray;
+      color: lightslategray;
+      font-size: 1em;
       padding-top: 5px;
+      max-height: 240px;
+      overflow: auto;
+      padding-bottom: 5px;
     }
   }
 
   .form {
-    border-top: 1px solid lightgray;
-    box-shadow: 0 -16px 16px -16px transparentize(lightgray,.5);
+    border-top: 1px solid #eeeeee;
     &.accepted {
       height: 50px;
     }
@@ -59,7 +60,7 @@
       text-align: right;
     }
     &__btn {
-      border: 1px solid lightslategray;
+      border: 1px solid #eeeeee;
       background: white;
       padding: 2px 15px;
       margin-bottom:6px;
@@ -69,8 +70,7 @@
       cursor: pointer;
       transition: .25s;
       &:hover {
-        background: transparentize(lightslategray,.5);
-        color: white;
+        background: #eeeeee;
       }
       &.red {
         background-color: darkred;
@@ -86,7 +86,7 @@
     textarea {
       width: 218px;
       height: 120px;
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: 'Hind', sans-serif;
       border-width: 1px;
       border-style: solid;
       border-color: lightgray;
@@ -95,7 +95,7 @@
       -moz-box-sizing: border-box;
       box-sizing: border-box;
       margin-top:10px;
-      font-size: .85em;
+      font-size: 1em;
       color: darkslategray;
       margin-bottom: 0;
       line-height:1.5em;

@@ -57,13 +57,14 @@
     position: relative;
     .title {
       font-size: 1rem;
-      color: lightslategray;
+      color: cornflowerblue;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       font-weight: 300;
-      border-bottom: 1px solid lightgray;
+      border-bottom: 1px solid #eeeeee;
       padding-bottom: 10px;
       margin-bottom: 10px;
+      font-weight: 600;
       height: 15px;
     }
     .messages {
@@ -88,7 +89,8 @@
           border-top: none;
         }
         padding: 15px 0;
-        border-top: 1px dotted lightgray;
+        //border-top: 1px dotted lightgray;
+        position: relative;
         margin-top: 15px;
         line-height: 1.5em;
         .typeMessageIcon {
@@ -97,6 +99,7 @@
           height: 25px;
           display: block;
           position: absolute;
+          top: 10px;
         }
         &:first-child {
           margin-top: 0;
@@ -114,14 +117,14 @@
           margin-left: 30px;
         }
         &.accept {
-          font-size: .85em;
+          font-size: 1em;
           .typeMessageIcon {
             background-position: -100px -150px
           }
           .info {
             color: white;
             font-weight: 600;
-            background: limegreen;
+            background: green;
             font-size: 1em;
             padding: 2px 8px;
             text-align: center;
@@ -130,19 +133,20 @@
         }
       }
       .date {
-        font-size: .75em;
+        font-size: .85em;
         color: lightgray;
         padding-left: 30px;
       }
       .content {
         color: darkslategray;
-        font-size: .85em;
+        font-size: 1em;
+        padding-right:10px;
       }
     }
     .form {
       position: absolute;
       bottom: 0;
-      border-top: 1px solid lightgray;
+      border-top: 1px solid #eeeeee;
       left: 15px;
       right: 15px;
       height: 150px;
@@ -160,45 +164,47 @@
         text-align: right;
       }
       &__btn {
-        border: 1px solid lightslategray;
+        border: 1px solid #eeeeee;
         background: white;
-        padding: 4px 15px;
+        padding: 8px 15px 4px;
         margin-bottom:6px;
         border-radius:2px;
         color: lightslategray;
         cursor: pointer;
         transition: .25s;
+        font-family: 'Hind', sans-serif;
+        line-height: 1em;
         &:hover {
-          background: transparentize(lightslategray,.5);
-          color: white;
+          background: #eeeeee;
         }
         &.success {
-          background: limegreen;
+          background: cornflowerblue;
           color: white;
-          border-color: green;
+          border-color: cornflowerblue;
           &:hover {
-            background: green;
+            background: darken(cornflowerblue,8);
+            border-color: darken(cornflowerblue,8);
             color: white;
           }
         }
         &.big {
           font-size: 1em;
-          padding: 6px 20px
+          padding: 10px 20px 6px
         }
       }
       textarea {
         width: 100%;
         height: 50px;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: 'Hind', sans-serif;
         border-width: 1px;
         border-style: solid;
-        border-color: lightgray;
+        border-color: #eeeeee;
         padding: 8px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
         margin-top:10px;
-        font-size: .85em;
+        font-size: 1em;
         color: darkslategray;
         margin-bottom: 10px;
         &:focus {

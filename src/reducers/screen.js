@@ -3,7 +3,6 @@
  * If you change the type from object to something else, do not forget to update
  * src/container/App.js accordingly.
  */
-import { LOCATION_CHANGE } from 'react-router-redux';
 import {
   UPDATE_FRAME_DIMENSIONS,
   SET_CURRENT_DEVICE,
@@ -16,7 +15,8 @@ import {
   SET_ZOOM,
   SET_BG_COLOR,
   SET_BG_IMAGE,
-  SHOW_MESSAGES_WINDOW
+  SHOW_MESSAGES_WINDOW,
+  SHOW_COMMENTS
 } from '../actions/const';
 
 const initialState = {
@@ -34,7 +34,8 @@ const initialState = {
   bgColor: undefined,
   bgImage: undefined,
   showDesignImage: false,
-  showMessagesWindow: false
+  showMessagesWindow: false,
+  showComments: false
 };
 
 function reducer(state = initialState, action) {
@@ -106,6 +107,10 @@ function reducer(state = initialState, action) {
 
     case SHOW_MESSAGES_WINDOW: {
       return Object.assign({}, state, {showMessagesWindow: action.show});
+    }
+
+    case SHOW_COMMENTS: {
+      return Object.assign({}, state, {showComments: action.show});
     }
 
     default: {

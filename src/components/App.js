@@ -46,7 +46,8 @@ class AppComponent extends React.Component {
       setZoom: this._handleSetZoom.bind(this),
       setBgColor: this._handleSetBgColor.bind(this),
       setBgImage: this._handleSetBgImage.bind(this),
-      showMessagesWindow: this._handleShowMessages.bind(this)
+      showMessagesWindow: this._handleShowMessages.bind(this),
+      showComments: this._handleShowComments.bind(this)
     };
     const projectId = window.location.pathname.split('/')[2];
     this.state = {projectId};
@@ -149,6 +150,10 @@ class AppComponent extends React.Component {
     this.props.actions.showMessagesWindow(show);
   }
 
+  _handleShowComments(show) {
+    this.props.actions.showComments(show);
+  }
+
   generateUrl() {
     return `/project/${this.state.projectId}/${this.props.screen.currentPageName}/${Utils.generateUrlParams(this.props.screen)}`;
   }
@@ -168,7 +173,9 @@ class AppComponent extends React.Component {
                 backgrounds={this.props.data.backgrounds}
                 screen={this.props.screen}
                 urlParams={Utils.generateUrlParams(this.props.screen)}
-                actions={this.navigationActions} />
+                actions={this.navigationActions}
+                showComments={this.props.screen.showComments}
+              />
               <Switch>
                 <Redirect from="/" exact to={`/project/${this.state.projectId}`} />
                 <Redirect from="/project" exact to={`/project/${this.state.projectId}`} />
