@@ -97,6 +97,7 @@ class AppComponent extends React.Component {
 
   _handleSetBgImage(bg) {
     this.props.actions.setBgImage(bg);
+    this.props.actions.setBgColor(undefined);
     setTimeout(() => history.push(`${this.generateUrl()}`), 100);
   }
 

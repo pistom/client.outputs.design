@@ -86,6 +86,10 @@ class Frame extends React.Component {
     };
     if (this.props.project.numberOfVersions > 1) {
       versionIndicatorStyles.display = 'block';
+      versionIndicatorStyles.color = this.props.screen.bgColor || 'lightslategray';
+      if (this.props.screen.bgColor === 'white' || this.props.screen.bgColor === '#ffffff'){
+        versionIndicatorStyles.color = 'lightslategray';
+      }
     }
 
     let currentPage;
