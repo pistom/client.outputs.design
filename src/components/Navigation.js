@@ -4,7 +4,6 @@ import cssmodules from 'react-css-modules';
 import styles from './navigation.cssmodule.scss';
 
 const Navigation = (props) => {
-
   return (
     <div>
       { !props.showComments ?
@@ -209,8 +208,11 @@ const Navigation = (props) => {
               onClick={() => props.actions.showComments(false)}
             />
             <span
-              styleName="navigation-component__btn navigation-component__btnAddComment"
-              onClick={() => props.actions.showComments(false)}
+              styleName={props.addingCommentMode ?
+                "navigation-component__btn navigation-component__btnAddComment enabled" :
+                "navigation-component__btn navigation-component__btnAddComment"
+              }
+              onClick={() => props.actions.setAddingCommentMode(!props.addingCommentMode)}
             />
           </div>
         </div>

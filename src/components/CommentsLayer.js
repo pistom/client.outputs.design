@@ -12,6 +12,7 @@ class CommentsLayer extends React.Component {
       visibleAreaHeight: 0
     };
     this.handleClickComment = this.handleClickComment.bind(this);
+    this.addCommentFunc = this.addComment.bind(this);
   }
 
   handleClickComment(commentId) {
@@ -22,6 +23,37 @@ class CommentsLayer extends React.Component {
 
   componentDidMount() {
     this.setVisibleAreaDimensions();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const commentLayerDOM = document.getElementById('commentLayer');
+    if (commentLayerDOM) {
+      if (!this.props.addingCommentMode && nextProps.addingCommentMode) {
+        commentLayerDOM.addEventListener('click', this.addCommentFunc, false);
+      }
+      if (this.props.addingCommentMode && !nextProps.addingCommentMode) {
+        console.log('test');
+        commentLayerDOM.removeEventListener('click', this.addCommentFunc, false);
+      }
+    }
+
+  }
+
+  addComment(e) {
+    this.props.actions.setAddingCommentMode(false);
+    const x = e.offsetX;
+    const y = e.offsetY;
+    const pageName = this.props.screen.currentPageName;
+    const device = this.props.screen.currentDevice;
+    const version = this.props.screen.currentDesignVersion;
+    const comment = {
+      pos: [x, y],
+      date: 'test',
+      time: 'test',
+      type: 'client',
+      content: ''
+    };
+    this.props.actions.addComment(comment, pageName, device, version);
   }
 
   setVisibleAreaDimensions() {
@@ -39,10 +71,12 @@ class CommentsLayer extends React.Component {
   render() {
     return (
       <div
+        id="commentLayer"
         styleName="commentslayer-component"
         style={{
           height: this.props.imageHeight,
-          width: this.props.imageWidth
+          width: this.props.imageWidth,
+          cursor: this.props.addingCommentMode ? 'crosshair' : 'default'
         }}
       >
         { this.props.comments ?
@@ -56,6 +90,7 @@ class CommentsLayer extends React.Component {
                 comment={this.props.comments[comment]}
                 visibleArea={[this.state.visibleAreaWidth, this.state.visibleAreaHeight]}
                 imageWidth={this.props.imageWidth}
+                addingCommentMode={this.props.addingCommentMode}
               />
             );
           }) : null

@@ -175,6 +175,9 @@
     bottom: 60px;
     right: 0;
     cursor: pointer;
+    &.enabled {
+      background-color: transparentize(cornflowerblue,.5);
+    }
   }
 
   &__submenu {

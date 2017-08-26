@@ -73,6 +73,8 @@ class Device extends React.Component {
             screen={this.props.screen}
             currentPage={this.props.currentPage}
             comments={this.props.comments}
+            addingCommentMode={this.props.addingCommentMode}
+            actions={this.props.actions}
           /> : null
         }
       </div>

@@ -1,7 +1,9 @@
 import {
   GET_MESSAGES_FULFILLED,
   GET_MESSAGES_PENDING,
-  GET_MESSAGES_REJECTED
+  GET_MESSAGES_REJECTED,
+  SET_ADDING_COMMENT_MODE,
+  ADD_COMMENT
 } from '../actions/const';
 
 const initialState = {
@@ -9,7 +11,8 @@ const initialState = {
   loadingMessagesError: false,
   messages: [],
   comments: {},
-  designIsAccepted: false
+  designIsAccepted: false,
+  addingCommentMode: false
 };
 
 function reducer(state = initialState, action) {
@@ -40,6 +43,27 @@ function reducer(state = initialState, action) {
         loadingMessagesError: true
       });
       return nextState;
+    }
+
+    case SET_ADDING_COMMENT_MODE: {
+      return Object.assign({}, state, {addingCommentMode: action.enabled})
+    }
+
+    case ADD_COMMENT: {
+      const nextState = {};
+      nextState.comments = Object.assign({}, state.comments);
+      nextState.comments[action.pageName] = nextState.comments[action.pageName] || {};
+      nextState.comments[action.pageName][action.device]
+        = nextState.comments[action.pageName][action.device] || {};
+      nextState.comments[action.pageName][action.device][action.version]
+        = nextState.comments[action.pageName][action.device][action.version] || {};
+      const commentsList
+        = Object.keys(nextState.comments[action.pageName][action.device][action.version]);
+      const lastCommentNumber = commentsList.length > 0 ?
+        Number.parseInt(commentsList[commentsList.length - 1], 0) + 1 : 1;
+      nextState.comments[action.pageName][action.device][action.version][lastCommentNumber]
+        = action.comment;
+      return Object.assign({}, state, nextState);
     }
 
     default: {

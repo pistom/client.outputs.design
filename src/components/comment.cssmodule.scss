@@ -1,4 +1,14 @@
 .comment-component {
+  animation-name: showComment;
+  animation-duration: .25s;
+  &.hide {
+    animation-name: hideComment;
+    animation-duration: .5s;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
   position: absolute;
   .number {
     display: block;
@@ -78,27 +88,27 @@
         border-color: darkred;
       }
       &.green {
-        background: darkgreen;
+        background: cornflowerblue;
         color: white;
-        border-color: darkgreen;
+        border-color: cornflowerblue;
       }
     }
     textarea {
       width: 218px;
-      height: 120px;
+      height: 80px;
       font-family: 'Hind', sans-serif;
-      border-width: 1px;
+      padding:5px 0 0 0;
+      border-width: 0;
       border-style: solid;
       border-color: lightgray;
-      padding: 8px;
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
-      margin-top:10px;
       font-size: 1em;
       color: darkslategray;
       margin-bottom: 0;
       line-height:1.5em;
+      background: transparent;
       &:focus {
         outline: none;
       }
@@ -106,5 +116,35 @@
         color: lightgray;
       }
     }
+  }
+}
+
+@keyframes showComment {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hideComment {
+  0% {
+    opacity: 1;
+    width: auto;
+    height: auto;
+    overflow: visible;
+  }
+  99% {
+    opacity: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+  }
+  100% {
+    opacity: 0.5;
+    width: 0;
+    height: 0;
+    overflow: hidden;
   }
 }

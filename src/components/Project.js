@@ -31,6 +31,9 @@ const Project = props => (
           imageHeight={props.imageHeight}
           imageWidth={props.imageWidth}
           comments={props.comments}
+          addingCommentMode={props.addingCommentMode}
+          actions={props.actions}
+          screen={props.screen}
         /> : null
       }
     </div>

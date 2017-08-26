@@ -47,7 +47,8 @@ class AppComponent extends React.Component {
       setBgColor: this._handleSetBgColor.bind(this),
       setBgImage: this._handleSetBgImage.bind(this),
       showMessagesWindow: this._handleShowMessages.bind(this),
-      showComments: this._handleShowComments.bind(this)
+      showComments: this._handleShowComments.bind(this),
+      setAddingCommentMode: this._handleAddComment.bind(this)
     };
     const projectId = window.location.pathname.split('/')[2];
     this.state = {projectId};
@@ -155,11 +156,16 @@ class AppComponent extends React.Component {
     this.props.actions.showComments(show);
   }
 
+  _handleAddComment(mode) {
+    this.props.actions.setAddingCommentMode(mode);
+  }
+
   generateUrl() {
     return `/project/${this.state.projectId}/${this.props.screen.currentPageName}/${Utils.generateUrlParams(this.props.screen)}`;
   }
 
   render() {
+
     return (
       <Router>
         { !this.props.data.isLoadingData &&
@@ -176,6 +182,7 @@ class AppComponent extends React.Component {
                 urlParams={Utils.generateUrlParams(this.props.screen)}
                 actions={this.navigationActions}
                 showComments={this.props.screen.showComments}
+                addingCommentMode={this.props.messages.addingCommentMode}
               />
               <Switch>
                 <Redirect from="/" exact to={`/project/${this.state.projectId}`} />

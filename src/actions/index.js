@@ -6,6 +6,8 @@ Allows to import actions like so:
 import {action1, action2} from '../actions/'
 */
 /* Populated by react-webpack-redux:action */
+import addComment from '../actions/addComment.js';
+import setAddingCommentMode from './setAddingCommentMode.js';
 import showComments from '../actions/showComments.js';
 import getMessages from '../actions/getMessages.js';
 import showMessagesWindow from './showMessagesWindow.js';
@@ -42,6 +44,8 @@ const actions = {
   setImageDimensions,
   showMessagesWindow,
   getMessages,
-  showComments
+  showComments,
+  setAddingCommentMode,
+  addComment
 };
 module.exports = actions;

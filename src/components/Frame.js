@@ -116,13 +116,13 @@ class Frame extends React.Component {
     let comments = {};
     if (
       this.props.screen.currentPageName &&
-      this.props.comments &&
+      this.props.messages.comments &&
       this.props.screen.currentDevice
     ) {
       const currentPageName = this.props.screen.currentPageName;
       const currentDevice = this.props.screen.currentDevice;
       try {
-        comments = this.props.comments[currentPageName][currentDevice][this.props.id];
+        comments = this.props.messages.comments[currentPageName][currentDevice][this.props.id];
       } catch(Err) {
         comments = {};
       }
@@ -153,6 +153,7 @@ class Frame extends React.Component {
 
         <Device
           projectId={this.props.project.projectId}
+          actions={this.props.actions}
           frameId={this.props.id}
           images={this.props.images}
           screen={this.props.screen}
@@ -168,6 +169,7 @@ class Frame extends React.Component {
           zoom={this.props.screen.zoom}
           isLoading={this.props.images.isLoadingImage}
           comments={comments}
+          addingCommentMode={this.props.messages.addingCommentMode}
         />
       </div>
     );

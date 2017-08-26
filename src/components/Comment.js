@@ -5,7 +5,7 @@ import styles from './comment.cssmodule.scss';
 class Comment extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { editMode: false, commentContent: '' };
+    this.state = { editMode: false, commentContent: '', zIndex: 0 };
     this.setEditMode = this.setEditMode.bind(this);
     this.deleteComment = this.deleteComment.bind(this);
     this.saveComment = this.saveComment.bind(this);
@@ -16,6 +16,19 @@ class Comment extends React.Component {
     this.setState({
       commentContent: this.props.comment.content
     });
+  }
+
+  componentDidMount() {
+    if (this.state.commentContent === '') {
+      this.setEditMode();
+      this.state.zIndex = 1;
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.activeComment !== nextProps.activeComment) {
+      this.state.zIndex = nextProps.id === nextProps.activeComment ? 1 : 0;
+    }
   }
 
   onChangeCommentContent(e) {
@@ -74,11 +87,11 @@ class Comment extends React.Component {
     return (
       <div
         onClick={() => this.props.clickAction(this.props.id)}
-        styleName="comment-component"
+        styleName={this.props.addingCommentMode ? 'comment-component hide' : 'comment-component'}
         style={{
-          left: this.props.comment.pos[0],
-          top: this.props.comment.pos[1],
-          zIndex: this.props.id === this.props.activeComment ? 1 : 0,
+          left: this.props.comment.pos[0] - 12,
+          top: this.props.comment.pos[1] - 12,
+          zIndex: this.state.zIndex
         }}
       >
         <span styleName="number">{this.props.id}</span>
@@ -93,6 +106,7 @@ class Comment extends React.Component {
             <div styleName="form">
               <form action="" onSubmit={this.saveComment}>
                 <textarea
+                  autoFocus
                   value={this.state.commentContent}
                   onChange={this.onChangeCommentContent}
                 />

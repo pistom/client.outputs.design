@@ -31,7 +31,9 @@ import {
   setImageDimensions,
   showMessagesWindow,
   getMessages,
-  showComments
+  showComments,
+  setAddingCommentMode,
+  addComment
 } from '../actions/';
 import Main from '../components/App';
 /* Populated by react-webpack-redux:reducer */
@@ -73,7 +75,9 @@ App.propTypes = {
     setImageDimensions: PropTypes.func.isRequired,
     showMessagesWindow: PropTypes.func.isRequired,
     getMessages: PropTypes.func.isRequired,
-    showComments: PropTypes.func.isRequired
+    showComments: PropTypes.func.isRequired,
+    setAddingCommentMode: PropTypes.func.isRequired,
+    addComment: PropTypes.func.isRequired
   }),
   screen: PropTypes.shape({}),
   data: PropTypes.shape({}),
@@ -113,7 +117,9 @@ function mapDispatchToProps(dispatch) {
     setImageDimensions,
     showMessagesWindow,
     getMessages,
-    showComments
+    showComments,
+    setAddingCommentMode,
+    addComment
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

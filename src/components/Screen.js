@@ -21,7 +21,9 @@ import {
   setLoadingImage,
   setBgColor,
   setBgImage,
-  setImageDimensions
+  setImageDimensions,
+  addComment,
+  setAddingCommentMode
 } from '../actions/';
 
 class Screen extends React.Component {
@@ -297,7 +299,7 @@ class Screen extends React.Component {
           project={this.props.data}
           images={this.props.images}
           actions={this.props.actions}
-          comments={this.props.messages.comments}
+          messages={this.props.messages}
         />
         { this.props.screen.splitScreen > 0 ?
           <Frame
@@ -306,7 +308,7 @@ class Screen extends React.Component {
             project={this.props.data}
             images={this.props.images}
             actions={this.props.actions}
-            comments={this.props.messages.comments}
+            messages={this.props.messages}
           /> : null }
         { this.props.screen.splitScreen > 1 ?
           <Frame
@@ -315,7 +317,7 @@ class Screen extends React.Component {
             project={this.props.data}
             images={this.props.images}
             actions={this.props.actions}
-            comments={this.props.messages.comments}
+            messages={this.props.messages}
           /> : null }
       </div>
     );
@@ -350,7 +352,9 @@ function mapDispatchToProps(dispatch) {
     setLoadingImage,
     setBgColor,
     setBgImage,
-    setImageDimensions
+    setImageDimensions,
+    addComment,
+    setAddingCommentMode
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;
