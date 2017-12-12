@@ -13,6 +13,7 @@
     "object-curly-spacing": ["off"],
     "padded-blocks": ["off"],
     "react/jsx-closing-bracket-location": ["off"],
+    "jsx-a11y/href-no-hash": ["off"],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-space-before-closing": ["off"],
     "react/prefer-stateless-function": ["off"],

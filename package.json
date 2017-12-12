@@ -1,5 +1,5 @@
 {
-  "name": "outputs.design",
+  "name": "client.outputs.design",
   "private": true,
   "version": "0.0.1",
   "description": "outputs.design",
@@ -21,7 +21,7 @@
   },
   "repository": "",
   "keywords": [],
-  "author": "Your name here",
+  "author": "Tomasz Pisarek",
   "devDependencies": {
     "babel-core": "^6.7.6",
     "babel-eslint": "^7.1.0",

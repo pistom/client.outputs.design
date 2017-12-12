@@ -13,6 +13,8 @@ const Navigation = (props) => {
           </div>
 
           <ul styleName="navigation-component__list">
+
+            {/* COMMENTS */}
             <li styleName="navigation-component__listElem hasSubList">
               <span styleName="navigation-component__btn navigation-component__btnFeedback" />
               <ul styleName="navigation-component__subList">
@@ -31,35 +33,12 @@ const Navigation = (props) => {
               </ul>
             </li>
 
+            {/* SETTINGS */}
             <li styleName="navigation-component__listElem">
-              <span styleName="navigation-component__btn navigation-component__btnSettings hasSubmenu"></span>
+              <span styleName="navigation-component__btn navigation-component__btnSettings hasSubmenu" />
               <div styleName="navigation-component__submenu">
                 <h2>Options</h2>
                 <div styleName="navigation-component__options">
-                  <div styleName="option">
-                    <div styleName="label">
-                      Device:
-                    </div>
-                    <div styleName="list">
-                      <ul>
-                        {props.screen.currentPageName ?
-                          Object.keys(props.pages[props.screen.currentPageName].devices)
-                            .map((device => {
-                              return (
-                                <li key={device}>
-                                  <span
-                                    onClick={() => props.actions.changeDevice(device)}
-                                    styleName={props.screen.currentDevice === device &&
-                                      props.screen.deviceMode ? 'active' : null}
-                                  >
-                                    {device}
-                                  </span>
-                                </li>);
-                            })) : null
-                        }
-                      </ul>
-                    </div>
-                  </div>
 
                   {props.numberOfVersions > 1 ?
                     (
@@ -125,7 +104,10 @@ const Navigation = (props) => {
                         </div>
 
                       </div>
-                    </div> : null
+                    </div> :
+                    <div>
+                      Select a device to see more options
+                    </div>
                   }
                   {props.screen.deviceMode ?
                     (
@@ -162,6 +144,48 @@ const Navigation = (props) => {
               </div>
             </li>
 
+            {/* DEVICES */}
+            <li styleName="navigation-component__listElem">
+              <span styleName="navigation-component__btn navigation-component__btnDevices hasSubmenu" />
+              <div styleName="navigation-component__submenu">
+                <h2>Devices</h2>
+                <ul
+                  styleName="navigation-component__pages"
+                  style={{bottom: props.numberOfVersions > 1 ? 45 : 15}}
+                >
+                  {props.screen.currentPageName ?
+                    Object.keys(props.pages[props.screen.currentPageName].devices)
+                      .map((device => {
+                        return (
+                          <li key={device}>
+                            <span
+                              onClick={() => props.actions.changeDevice(device)}
+                              styleName={props.screen.currentDevice === device &&
+                              props.screen.deviceMode ? 'active' : null}
+                            >
+                              {device}
+                            </span>
+                          </li>);
+                      })) : null
+                  }
+                </ul>
+                <div styleName="navigation-component__autoMode">
+                  <h2 styleName="no-border">
+                    Auto adjust
+                    {props.screen.deviceMode ?
+                      <span onClick={() => props.actions.changeDevice(false)}>Off</span> :
+                      <span
+                        styleName="on"
+                        onClick={() => props.actions.changeDevice(props.screen.currentDevice)}>
+                        On
+                      </span>
+                    }
+                  </h2>
+                </div>
+              </div>
+            </li>
+
+            {/* PAGES */}
             <li styleName="navigation-component__listElem">
               <span styleName="navigation-component__btn navigation-component__btnPages hasSubmenu"></span>
               <div styleName="navigation-component__submenu">
@@ -206,6 +230,10 @@ const Navigation = (props) => {
             <span
               styleName="navigation-component__btn navigation-component__btnClose"
               onClick={() => props.actions.showComments(false)}
+            />
+            <span
+              styleName="navigation-component__btn navigation-component__btnList"
+              onClick={() => props.actions.showCommentsList(true)}
             />
             <span
               styleName={props.addingCommentMode ?

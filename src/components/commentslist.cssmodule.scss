@@ -1,0 +1,109 @@
+.commentslist-component {
+  position: absolute;
+  max-width: 640px;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  max-height: 640px;
+  padding: 10px;
+
+  &__wrapper {
+    position: absolute;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: transparentize(lightslategray,.25);
+    z-index: 600;
+    height: 100%;
+    padding: 10px;
+    opacity: 1;
+    animation-name: showList;
+    animation-duration: .2s;
+    transition: .1s ease-out;
+    &.hide {
+      opacity: 0;
+    }
+  }
+  &__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    background-image: url('/static/images/icons_bg.svg');
+    background-position: -100px -100px;
+    cursor: pointer;
+    z-index: 10;
+  }
+  &__content {
+    border: 1px solid lightslategray;
+    box-shadow: 0 2px 0 transparentize(lightslategray,.5);
+    background-color: white;
+    padding: 15px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    .title {
+      font-size: 1rem;
+      color: cornflowerblue;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 300;
+      border-bottom: 1px solid #eeeeee;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      font-weight: 600;
+      height: 15px;
+    }
+    .comments {
+      position: absolute;
+      top: 40px;
+      right: 15px;
+      bottom: 15px;
+      left: 15px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+  }
+  &__table {
+    width: 100%;
+    .row {
+      &:last-child {
+        span {
+          border-bottom: none;
+        }
+      }
+      span {
+        padding: 15px;
+        border-bottom: 1px dotted #efefef;
+        display: inline-block;
+        &:first-child {
+          padding-left: 0;
+        }
+        &:last-child {
+          padding-right: 0;
+        }
+      }
+    }
+  }
+}
+@keyframes showList {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1
+  }
+}

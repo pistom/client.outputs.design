@@ -14,6 +14,7 @@ import Navigation from './Navigation';
 import PageNotFound from './404';
 import Login from './Login';
 import Messages from './MessagesWindow';
+import CommentsList from './CommentsList';
 
 export class Utils {
   static generateUrlParams(screen) {
@@ -48,7 +49,8 @@ class AppComponent extends React.Component {
       setBgImage: this._handleSetBgImage.bind(this),
       showMessagesWindow: this._handleShowMessages.bind(this),
       showComments: this._handleShowComments.bind(this),
-      setAddingCommentMode: this._handleAddComment.bind(this)
+      setAddingCommentMode: this._handleAddComment.bind(this),
+      showCommentsList: this._handleShowCommentsList.bind(this)
     };
     const projectId = window.location.pathname.split('/')[2];
     this.state = {projectId};
@@ -152,6 +154,10 @@ class AppComponent extends React.Component {
     this.props.actions.showMessagesWindow(show);
   }
 
+  _handleShowCommentsList(show) {
+    this.props.actions.showCommentsList(show);
+  }
+
   _handleShowComments(show) {
     this.props.actions.showComments(show);
   }
@@ -196,6 +202,12 @@ class AppComponent extends React.Component {
                   actions={this.props.actions}
                   messages={this.props.messages.messages}
                   designIsAccepted={this.props.messages.designIsAccepted}
+                /> : null
+              }
+              { this.props.screen.showCommentsList ?
+                <CommentsList
+                  actions={this.props.actions}
+                  comments={this.props.messages.comments}
                 /> : null
               }
             </div>

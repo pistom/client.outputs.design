@@ -22,9 +22,13 @@ class Login extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      projectId: nextProps.projectId,
       error: nextProps.error
     });
+    if (nextProps.projectId) {
+      this.setState({
+        projectId: nextProps.projectId,
+      });
+    }
   }
 
   handleChangeProjectId(event) {

@@ -40,6 +40,9 @@ class CommentsLayer extends React.Component {
   }
 
   addComment(e) {
+    const d = new Date();
+    const month = `0${d.getMonth() + 1}`.slice(-2);
+    const date = `0${d.getDate()}`.slice(-2);
     this.props.actions.setAddingCommentMode(false);
     const x = e.offsetX;
     const y = e.offsetY;
@@ -48,8 +51,8 @@ class CommentsLayer extends React.Component {
     const version = this.props.screen.currentDesignVersion;
     const comment = {
       pos: [x, y],
-      date: 'test',
-      time: 'test',
+      date: `${d.getFullYear()}-${month}-${date}`,
+      time: `${d.getHours()}:${d.getMinutes()}`,
       type: 'client',
       content: ''
     };
@@ -80,20 +83,18 @@ class CommentsLayer extends React.Component {
         }}
       >
         { this.props.comments ?
-          Object.keys(this.props.comments).map((comment, iterator) => {
-            return (
-              <Comment
-                key={iterator}
-                id={comment}
-                activeComment={this.state.activeComment}
-                clickAction={this.handleClickComment}
-                comment={this.props.comments[comment]}
-                visibleArea={[this.state.visibleAreaWidth, this.state.visibleAreaHeight]}
-                imageWidth={this.props.imageWidth}
-                addingCommentMode={this.props.addingCommentMode}
-              />
-            );
-          }) : null
+          Object.keys(this.props.comments).map((comment, iterator) => (
+            <Comment
+              key={iterator}
+              id={comment}
+              activeComment={this.state.activeComment}
+              clickAction={this.handleClickComment}
+              comment={this.props.comments[comment]}
+              visibleArea={[this.state.visibleAreaWidth, this.state.visibleAreaHeight]}
+              imageWidth={this.props.imageWidth}
+              addingCommentMode={this.props.addingCommentMode}
+            />
+          )) : null
         }
       </div>
     );

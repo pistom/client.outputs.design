@@ -33,7 +33,8 @@ import {
   getMessages,
   showComments,
   setAddingCommentMode,
-  addComment
+  addComment,
+  showCommentsList
 } from '../actions/';
 import Main from '../components/App';
 /* Populated by react-webpack-redux:reducer */
@@ -77,7 +78,8 @@ App.propTypes = {
     getMessages: PropTypes.func.isRequired,
     showComments: PropTypes.func.isRequired,
     setAddingCommentMode: PropTypes.func.isRequired,
-    addComment: PropTypes.func.isRequired
+    addComment: PropTypes.func.isRequired,
+    showCommentsList: PropTypes.func.isRequired
   }),
   screen: PropTypes.shape({}),
   data: PropTypes.shape({}),
@@ -119,7 +121,8 @@ function mapDispatchToProps(dispatch) {
     getMessages,
     showComments,
     setAddingCommentMode,
-    addComment
+    addComment,
+    showCommentsList
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

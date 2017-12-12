@@ -16,7 +16,8 @@ import {
   SET_BG_COLOR,
   SET_BG_IMAGE,
   SHOW_MESSAGES_WINDOW,
-  SHOW_COMMENTS
+  SHOW_COMMENTS,
+  SHOW_COMMENTS_LIST
 } from '../actions/const';
 
 const initialState = {
@@ -35,7 +36,8 @@ const initialState = {
   bgImage: undefined,
   showDesignImage: false,
   showMessagesWindow: false,
-  showComments: false
+  showComments: false,
+  showCommentsList: false
 };
 
 function reducer(state = initialState, action) {
@@ -111,6 +113,10 @@ function reducer(state = initialState, action) {
 
     case SHOW_COMMENTS: {
       return Object.assign({}, state, {showComments: action.show});
+    }
+
+    case SHOW_COMMENTS_LIST: {
+      return Object.assign({}, state, {showCommentsList: action.show});
     }
 
     default: {

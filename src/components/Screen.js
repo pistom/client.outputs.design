@@ -23,7 +23,8 @@ import {
   setBgImage,
   setImageDimensions,
   addComment,
-  setAddingCommentMode
+  setAddingCommentMode,
+  showCommentsList
 } from '../actions/';
 
 class Screen extends React.Component {
@@ -354,7 +355,8 @@ function mapDispatchToProps(dispatch) {
     setBgImage,
     setImageDimensions,
     addComment,
-    setAddingCommentMode
+    setAddingCommentMode,
+    showCommentsList
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;
