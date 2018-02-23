@@ -58,8 +58,8 @@ class AppComponent extends React.Component {
 
   componentDidMount() {
     if (this.state.projectId) {
-      this.props.actions.getProjectData(this.state.projectId);
-      this.props.actions.getMessages(this.state.projectId);
+      this.props.actions.getProjectData(this.state.projectId, undefined, this.props.screen.apiURL);
+      this.props.actions.getMessages(this.state.projectId, undefined, this.props.screen.apiURL);
       let currentPageName = window.location.pathname.split('/')[3] || null;
       currentPageName = currentPageName ? decodeURIComponent(currentPageName) : undefined;
       this.props.actions.setCurrentPageName(currentPageName);
@@ -171,7 +171,6 @@ class AppComponent extends React.Component {
   }
 
   render() {
-
     return (
       <Router>
         { !this.props.data.isLoadingData &&
@@ -217,6 +216,7 @@ class AppComponent extends React.Component {
               error={this.props.data.error}
               getProjectData={this.props.actions.getProjectData}
               getMessages={this.props.actions.getMessages}
+              apiURL={this.props.screen.apiURL}
             />
           )
         }

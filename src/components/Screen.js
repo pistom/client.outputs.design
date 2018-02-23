@@ -144,7 +144,7 @@ class Screen extends React.Component {
     for (let i = 0; i < devicesList.length; i += 1) {
       const device = this.props.data.devices[devicesList[i]];
       const fileName = device.fileName;
-      const imgFullPath = `${apiURL}getImage.php?image=${fileName}`;
+      const imgFullPath = `${this.props.screen.apiURL}/getImage.php?image=${fileName}`;
       this.props.actions.getImage('fileName', imgFullPath, 'devicesList', devicesList[i]);
       this.props.actions.setImageDimensions(devicesList[i], device.dWidth, device.dHeight);
     }
@@ -216,7 +216,7 @@ class Screen extends React.Component {
             .designs[version]
             .fileName;
           if (imagePath && updateImage) {
-            const imgFullPath = `${apiURL}getImage.php?image=${this.props.data.projectId}/${imagePath}`;
+            const imgFullPath = `${this.props.screen.apiURL}/getImage.php?image=${this.props.data.projectId}/${imagePath}`;
             const pageName = this.props.screen.currentPageName;
             const device = this.props.screen.currentDevice;
 

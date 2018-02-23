@@ -1,8 +1,3 @@
-/* Define your initial state here.
- *
- * If you change the type from object to something else, do not forget to update
- * src/container/App.js accordingly.
- */
 import {
   UPDATE_FRAME_DIMENSIONS,
   SET_CURRENT_DEVICE,
@@ -19,8 +14,10 @@ import {
   SHOW_COMMENTS,
   SHOW_COMMENTS_LIST
 } from '../actions/const';
+import LocalHostChecker from '../sources/CheckIfRunOnLocalHost'
 
 const initialState = {
+  apiURL: LocalHostChecker.check() ? "http://api.outputs.local" : "http://api.outputs.cinquiemecrayon.eu",
   frames: {},
   width: undefined,
   height: undefined,

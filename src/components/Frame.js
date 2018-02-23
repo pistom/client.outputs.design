@@ -108,7 +108,7 @@ class Frame extends React.Component {
     };
     if (this.props.screen.bgImage && this.props.project) {
       backgroundImageStyles = {
-        backgroundImage: `url('${apiURL}getImage.php?image=${this.props.project.backgrounds[this.props.screen.bgImage].fileName}')`,
+        backgroundImage: `url('${this.props.screen.apiURL}/getImage.php?image=${this.props.project.backgrounds[this.props.screen.bgImage].fileName}')`,
         backgroundSize: this.props.project.backgrounds[this.props.screen.bgImage].bgSize,
         backgroundPosition: this.props.project.backgrounds[this.props.screen.bgImage].bgPosition
       };
