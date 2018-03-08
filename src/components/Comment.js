@@ -79,7 +79,6 @@ class Comment extends React.Component {
       };
     }
     return style;
-
   }
 
   render() {

@@ -1,8 +1,8 @@
 import React from 'react';
 import cssmodules from 'react-css-modules';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import queryString from 'query-string';
 import styles from './screen.cssmodule.scss';
 import Frame from './Frame';
@@ -46,7 +46,7 @@ class Screen extends React.Component {
     this.props.actions.setBgImage(bgImageUrlParam);
     if (!this.props.screen.currentPageName) {
       this.props.actions.setCurrentPageName(
-        Object.keys(this.props.data.pages)[0]
+          Object.keys(this.props.data.pages)[0]
       );
     } else {
       this.props.actions.setCurrentPageName(decodeURIComponent(this.props.match.params.page));
@@ -54,7 +54,6 @@ class Screen extends React.Component {
     this.props.actions.setCurrentDesignVersion(this.props.match.params.version);
     window.addEventListener('resize', this.updateFrames.bind(this, false));
     this.initialDevice = this.props.match.params.device;
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -123,9 +122,9 @@ class Screen extends React.Component {
     const frameHeight = this.props.screen.frames[firstFrame].frameHeight;
     const frameWidth = this.props.screen.frames[firstFrame].frameWidth;
     const deviceHeight = (this.props.screen.currentDevice) ?
-      this.props.data.devices[this.props.screen.currentDevice].cHeight : null;
+        this.props.data.devices[this.props.screen.currentDevice].cHeight : null;
     const deviceWidth = (this.props.screen.currentDevice) ?
-      this.props.data.devices[this.props.screen.currentDevice].cWidth : null;
+        this.props.data.devices[this.props.screen.currentDevice].cWidth : null;
     const heightDiff = (frameHeight / (deviceHeight + 400));
     const widthDiff = (frameWidth / (deviceWidth + 200));
     let diff = 1;
@@ -157,10 +156,6 @@ class Screen extends React.Component {
     }
     const frameWidth = this.props.screen.frames[this.props.screen.currentDesignVersion].frameWidth;
 
-    /*
-     * Filter all devices who have image width > window width and
-     * breakpoint width <= window width
-     */
     const matchedResults = pageDevicesList.filter((device) => {
       let filteredDevice;
       if (frameWidth < device.imageWidth && frameWidth >= device.breakpointWidth) {
@@ -200,30 +195,30 @@ class Screen extends React.Component {
         frameHeight = frame.offsetHeight;
 
         this.props.actions.updateFrameDimensions(
-          version,
-          frameWidth,
-          frameHeight
+            version,
+            frameWidth,
+            frameHeight
         );
 
         if (
-          this.props.data.pages[this.props.screen.currentPageName]
-            .devices[this.props.screen.currentDevice] &&
-          this.props.data.pages[this.props.screen.currentPageName]
-            .devices[this.props.screen.currentDevice].designs[version]
+            this.props.data.pages[this.props.screen.currentPageName]
+                .devices[this.props.screen.currentDevice] &&
+            this.props.data.pages[this.props.screen.currentPageName]
+                .devices[this.props.screen.currentDevice].designs[version]
         ) {
           const imagePath = this.props.data.pages[this.props.screen.currentPageName]
-            .devices[this.props.screen.currentDevice]
-            .designs[version]
-            .fileName;
+              .devices[this.props.screen.currentDevice]
+              .designs[version]
+              .fileName;
           if (imagePath && updateImage) {
             const imgFullPath = `${this.props.screen.apiURL}/getImage.php?image=${this.props.data.projectId}/${imagePath}`;
             const pageName = this.props.screen.currentPageName;
             const device = this.props.screen.currentDevice;
 
             if (
-              !this.props.images[pageName] ||
-              !this.props.images[pageName][device] ||
-              !this.props.images[pageName][device][version]
+                !this.props.images[pageName] ||
+                !this.props.images[pageName][device] ||
+                !this.props.images[pageName][device][version]
             ) {
               this.props.actions.getImage(version, imgFullPath, pageName, device);
             }
@@ -231,8 +226,8 @@ class Screen extends React.Component {
         }
       }
 
-
       let currentDevice;
+
       if (this.props.screen.deviceMode) {
         currentDevice = this.props.screen.currentDevice || this.initialDevice;
       } else if (this.initialDevice) {
@@ -248,31 +243,25 @@ class Screen extends React.Component {
       }
       this.initialDevice = undefined;
 
-      if (!this.props.screen.deviceMode) {
-        const imageWidth = this.props.data.pages[this.props.screen.currentPageName]
-          .devices[this.props.screen.currentDevice]
-          .designs[this.props.screen.currentDesignVersion]
-          .iWidth;
-        if (imageWidth < this.props.screen.frames.A.frameWidth) {
-          this.props.actions.showDevice(true);
-        } else {
-          this.props.actions.showDevice(false);
-          this.props.actions.setZoom(1, false);
-        }
-      }
-
       if (this.props.screen.showDevice && !this.props.screen.manualZoom) {
         this.props.actions.setZoom(this.setScale(), false);
       }
 
       if (!this.props.screen.deviceMode) {
+        const imageWidth = this.props.data.pages[this.props.screen.currentPageName]
+            .devices[this.props.screen.currentDevice]
+            .designs[this.props.screen.currentDesignVersion]
+            .iWidth;
+        const bgImage = this.props.data.devices[this.props.screen.currentDevice].defaultBgImage;
         if (
-          this.props.data.pages[this.props.screen.currentPageName]
-            .devices[this.props.screen.currentDevice].bWidth > this.props.screen
-            .frames[Object.keys(this.props.screen.frames)[0]]
-            .frameWidth
+            this.props.data.pages[this.props.screen.currentPageName]
+                .devices[this.props.screen.currentDevice].bWidth > this.props.screen
+                .frames[Object.keys(this.props.screen.frames)[0]]
+                .frameWidth ||
+                imageWidth < this.props.screen.frames.A.frameWidth
         ) {
           this.props.actions.showDevice(true);
+          this.props.actions.setBgImage(bgImage);
           this.props.actions.setZoom(this.setScale(), false);
         } else {
           this.props.actions.showDevice(false);
@@ -289,38 +278,38 @@ class Screen extends React.Component {
 
   render() {
     return (
-      <div className="screen-component" styleName="screen-component">
-        { this.props.images.isLoadingImage > 0 ?
-          <span styleName="screen-component__loadingSpinner" /> : null
-        }
+        <div className="screen-component" styleName="screen-component">
+          {this.props.images.isLoadingImage > 0 ?
+              <span styleName="screen-component__loadingSpinner"/> : null
+          }
 
-        <Frame
-          id={this.props.screen.currentDesignVersion}
-          screen={this.props.screen}
-          project={this.props.data}
-          images={this.props.images}
-          actions={this.props.actions}
-          messages={this.props.messages}
-        />
-        { this.props.screen.splitScreen > 0 ?
           <Frame
-            id={'B'}
-            screen={this.props.screen}
-            project={this.props.data}
-            images={this.props.images}
-            actions={this.props.actions}
-            messages={this.props.messages}
-          /> : null }
-        { this.props.screen.splitScreen > 1 ?
-          <Frame
-            id={'C'}
-            screen={this.props.screen}
-            project={this.props.data}
-            images={this.props.images}
-            actions={this.props.actions}
-            messages={this.props.messages}
-          /> : null }
-      </div>
+              id={this.props.screen.currentDesignVersion}
+              screen={this.props.screen}
+              project={this.props.data}
+              images={this.props.images}
+              actions={this.props.actions}
+              messages={this.props.messages}
+          />
+          {this.props.screen.splitScreen > 0 ?
+              <Frame
+                  id={'B'}
+                  screen={this.props.screen}
+                  project={this.props.data}
+                  images={this.props.images}
+                  actions={this.props.actions}
+                  messages={this.props.messages}
+              /> : null}
+          {this.props.screen.splitScreen > 1 ?
+              <Frame
+                  id={'C'}
+                  screen={this.props.screen}
+                  project={this.props.data}
+                  images={this.props.images}
+                  actions={this.props.actions}
+                  messages={this.props.messages}
+              /> : null}
+        </div>
     );
   }
 }
@@ -338,6 +327,7 @@ function mapStateToProps(state) {
   };
   return props;
 }
+
 function mapDispatchToProps(dispatch) {
   const actions = {
     updateFrameDimensions,
@@ -358,7 +348,7 @@ function mapDispatchToProps(dispatch) {
     setAddingCommentMode,
     showCommentsList
   };
-  const actionMap = { actions: bindActionCreators(actions, dispatch) };
+  const actionMap = {actions: bindActionCreators(actions, dispatch)};
   return actionMap;
 }
 
@@ -372,7 +362,7 @@ Screen.defaultProps = {
 };
 Screen.propTypes = {
   actions: PropTypes.objectOf(
-    PropTypes.func
+      PropTypes.func
   ),
   data: PropTypes.shape({
     isLoadingData: PropTypes.bool,
@@ -383,17 +373,17 @@ Screen.propTypes = {
     numberOfVersions: PropTypes.number,
     password: PropTypes.string,
     backgrounds: PropTypes.objectOf(
-      PropTypes.shape({
-        fileName: PropTypes.string,
-        bgSize: PropTypes.string,
-        bgPosition: PropTypes.string
-      })
+        PropTypes.shape({
+          fileName: PropTypes.string,
+          bgSize: PropTypes.string,
+          bgPosition: PropTypes.string
+        })
     ),
     pages: PropTypes.objectOf(
-      PropTypes.shape()
+        PropTypes.shape()
     ),
     devices: PropTypes.objectOf(
-      PropTypes.shape()
+        PropTypes.shape()
     )
   }),
   screen: PropTypes.shape({
@@ -411,10 +401,10 @@ Screen.propTypes = {
     bgImage: PropTypes.string,
     showDesignImage: PropTypes.bool,
     frames: PropTypes.objectOf(
-      PropTypes.shape({
-        frameWidth: PropTypes.number,
-        frameHeight: PropTypes.number
-      })
+        PropTypes.shape({
+          frameWidth: PropTypes.number,
+          frameHeight: PropTypes.number
+        })
     )
   }),
   images: PropTypes.shape({
